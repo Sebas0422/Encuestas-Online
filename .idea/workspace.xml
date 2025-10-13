@@ -5,24 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4bf00601-95ea-406f-8f3b-a04351fea96a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Controllers/AuthenticationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/DTOS/ErrorResponseDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/DTOS/LoginResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/DTOS/LoginUserDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/DTOS/RegisterUserDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Services/AuthenticationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Encuestas-Online.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Services/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Services/JwtService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/config/AplicationConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/config/AplicationConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/config/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/config/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/config/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +103,7 @@
       <updated>1760299509570</updated>
       <workItem from="1760304620328" duration="29000" />
       <workItem from="1760305133362" duration="3985000" />
-      <workItem from="1760312216860" duration="2494000" />
+      <workItem from="1760312216860" duration="4898000" />
     </task>
     <servers />
   </component>
