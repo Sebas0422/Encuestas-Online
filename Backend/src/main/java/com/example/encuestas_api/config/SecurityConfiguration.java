@@ -32,16 +32,29 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        // Nueva sintaxis con Lambdas
         http
-                .csrf().disable() // 🔹 Desactiva CSRF (porque usas JWT, no sesiones)
-                .authorizeHttpRequests()
-                .requestMatchers("/auth/**").permitAll() // Permite libre acceso a /auth/signup y /auth/login
-                .anyRequest().authenticated() //  Cualquier otro endpoint requiere JWT
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //  Sin sesión, todo es con token
-                .and()
-                .authenticationProvider(authenticationProvider) // Usa tu proveedor de autenticación personalizado
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); //  Agrega tu filtro JWT
+                // Desactiva CSRF
+                .csrf(csrf -> csrf.disable())
+
+                // Configura las reglas de autorización
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**").permitAll()  // Permite todo en /auth/
+                        .anyRequest().authenticated()           // Cualquier otra ruta requiere autenticación
+                )
+
+                // Configura la gestión de sesiones
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Sin estado, usamos JWT
+                )
+
+                // Añade tu proveedor de autenticación
+                .authenticationProvider(authenticationProvider)
+
+                // Añade tu filtro JWT antes del filtro de usuario/contraseña
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
