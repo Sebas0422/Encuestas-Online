@@ -23,6 +23,7 @@ public class AuthenticationController {
     private final JwtService jwtService;
     private final AuthenticationService authenticationService;
 
+
     public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
@@ -30,13 +31,13 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
-        //TODO: process POST request
         User registeredUser = authenticationService.signup(registerUserDto);
         return ResponseEntity.ok(registeredUser);
     }
+
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login (@RequestBody LoginUserDto loginUserDto) {
-        //TODO: process POST request
+        // La autenticación sigue ocurriendo aquí
         User authenticadeUser = authenticationService.authenticate(loginUserDto);
 
         String jwtToken = jwtService.generateToken(authenticadeUser);
