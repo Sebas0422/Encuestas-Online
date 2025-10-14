@@ -1,17 +1,28 @@
 <div class="page-container">
   <div class="login-box card shadow-sm border-0">
     <div class="card-body p-4 p-md-5">
-      <h2 class="card-title text-center mb-4">Encuestas NUR</h2>
+      <h2 class="card-title text-center mb-4">Crear una Cuenta</h2>
       <div class="form-content-wrapper">
-        <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm.value)">
+        <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm.value)">
           <div class="form-group mb-3">
             <input type="text"
+                   id="fullName"
+                   name="fullName"
+                   [(ngModel)]="fullName"
+                   class="form-control form-control-lg"
+                   placeholder="Nombre Completo"
+                   required>
+          </div>
+
+          <div class="form-group mb-3">
+            <input type="email"
                    id="email"
                    name="email"
                    [(ngModel)]="email"
                    class="form-control form-control-lg"
-                   placeholder="Ingrese su email"
-                   required>
+                   placeholder="Correo Electrónico"
+                   required
+                   email>
           </div>
           <div class="form-group mb-3">
             <input type="password"
@@ -19,21 +30,16 @@
                    name="password"
                    [(ngModel)]="password"
                    class="form-control form-control-lg"
-                   placeholder="Ingrese su contraseña"
-                   required>
+                   placeholder="Contraseña"
+                   required
+                   minlength="6">
           </div>
+
           <button type="submit"
                   class="btn btn-primary w-100 btn-lg mb-3"
-                  [disabled]="!loginForm.valid">
-            Acceder
+                  [disabled]="!registerForm.valid">
+            Registrarse
           </button>
-
-          <div class="text-center mb-3">
-            <a href="#" class="form-text">¿Olvidó su contraseña?</a>
-          </div>
-          <div class="text-center mb-3">
-            <a href="/register" class="form-text">¿No tiene cuenta?</a>
-          </div>
 
           <div *ngIf="errorMessage" class="alert alert-danger mt-3">
             {{ errorMessage }}
@@ -41,10 +47,12 @@
         </form>
 
         <hr class="my-4">
-        <button type="button" class="btn btn-outline-primary w-100">
-          Entrar como persona invitada
-        </button>
+
+        <div class="text-center">
+          <a href="/login" class="form-text">¿Ya tienes cuenta? Inicia sesión</a>
+        </div>
       </div>
+
     </div>
   </div>
 </div>
