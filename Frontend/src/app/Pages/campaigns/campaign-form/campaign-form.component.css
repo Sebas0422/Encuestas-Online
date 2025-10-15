@@ -1,0 +1,93 @@
+.page-container {
+  min-height: calc(100vh - 160px);
+  background-color: #f0f2f5;
+}
+
+.text-nur-blue {
+  color: #004a99;
+}
+
+.btn-nur-primary {
+  background-color: #004a99;
+  border-color: #004a99;
+  color: white;
+}
+
+.btn-nur-primary:hover {
+  background-color: #003a7a;
+  border-color: #003a7a;
+  color: white;
+}
+
+.btn-nur-primary:disabled {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.campaign-form-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.breadcrumb-item a {
+  text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+  text-decoration: underline;
+}
+
+.form-label {
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.form-control,
+.form-select {
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  padding: 0.75rem 1rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #004a99;
+  box-shadow: 0 0 0 0.2rem rgba(0, 74, 153, 0.15);
+}
+
+.form-control-lg {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.1rem;
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.invalid-feedback {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.alert {
+  border-radius: 8px;
+  border: none;
+}
+
+.btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
