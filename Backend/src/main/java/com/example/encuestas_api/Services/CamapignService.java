@@ -2,15 +2,12 @@ package com.example.encuestas_api.Services;
 
 
 import com.example.encuestas_api.DTOS.CampaignDto;
-import com.example.encuestas_api.DTOS.RegisterUserDto;
 import com.example.encuestas_api.Models.Campaign;
-import com.example.encuestas_api.Models.User;
 import com.example.encuestas_api.Repository.CampaignRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,11 +20,8 @@ public class CamapignService {
         return (List<Campaign>) campaignRepository.findAll();
     }
 
-    public Campaign createCampaign(CampaignDto campaignDto) {
-        if (campaignRepository.findByName(campaignDto.getName()).isPresent()) {
-            throw new IllegalArgumentException("Ya existe una campaña con el nombre: " + campaignDto.getName());
-        }
 
+    public Campaign createCampaign(CampaignDto campaignDto) {
         Campaign campaign = new Campaign()
                 .setName(campaignDto.getName())
                 .setDescription(campaignDto.getDescription())

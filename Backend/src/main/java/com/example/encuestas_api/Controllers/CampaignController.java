@@ -23,7 +23,10 @@ public class CampaignController {
 
     @GetMapping
     public List<Campaign> getAllCampaigns() {
-        return camapignService.findAll();
+        System.out.println("Fetching all campaigns...");
+        List<Campaign> campaigns = camapignService.findAll();
+        System.out.println("Number of campaigns found: " + campaigns.size() + campaigns.toString());
+        return campaigns;
     }
 
     @PostMapping("/create")
@@ -38,6 +41,23 @@ public class CampaignController {
         responseDto.setEndDate(savedCampaign.getEndDate());
 
         return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCampaignById(@PathVariable Integer id) {
+        try {
+            Campaign campaign = campaignRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException("No se encontró la campaña con el ID: " + id));
+            CampaignDto responseDto = new CampaignDto();
+            responseDto.setId(campaign.getId());
+            responseDto.setName(campaign.getName());
+            responseDto.setDescription(campaign.getDescription());
+            responseDto.setStartDate(campaign.getStartDate());
+            responseDto.setEndDate(campaign.getEndDate());
+            return ResponseEntity.ok(responseDto);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/update/{id}")
