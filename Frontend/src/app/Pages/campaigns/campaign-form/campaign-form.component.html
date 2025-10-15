@@ -1,0 +1,152 @@
+<div class="page-container">
+  <div class="container py-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8">
+        <!-- Header -->
+        <div class="mb-4">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a routerLink="/campaigns" class="text-nur-blue">Campañas</a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                {{ isEditMode ? 'Editar Campaña' : 'Nueva Campaña' }}
+              </li>
+            </ol>
+          </nav>
+          <h2 class="text-nur-blue">
+            <i class="bi bi-{{ isEditMode ? 'pencil-square' : 'plus-circle' }} me-2"></i>
+            {{ isEditMode ? 'Editar Campaña' : 'Nueva Campaña' }}
+          </h2>
+        </div>
+
+        <!-- Alert messages -->
+        <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="successMessage">
+          <i class="bi bi-check-circle-fill me-2"></i>
+          {{ successMessage }}
+          <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+        </div>
+
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="errorMessage">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          {{ errorMessage }}
+          <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+        </div>
+
+        <!-- Form Card -->
+        <div class="card campaign-form-card">
+          <div class="card-body p-4">
+            <form (ngSubmit)="onSubmit()" #campaignForm="ngForm">
+              <!-- Campaign Name -->
+              <div class="mb-4">
+                <label for="name" class="form-label fw-semibold">
+                  <i class="bi bi-megaphone me-2 text-nur-blue"></i>
+                  Nombre de la Campaña
+                  <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  id="name"
+                  name="name"
+                  [(ngModel)]="campaign.name"
+                  placeholder="Ej: Campaña de Verano 2026"
+                  required
+                  #name="ngModel"
+                />
+                <div class="invalid-feedback d-block" *ngIf="name.invalid && name.touched">
+                  El nombre de la campaña es obligatorio
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="mb-4">
+                <label for="description" class="form-label fw-semibold">
+                  <i class="bi bi-text-left me-2 text-nur-blue"></i>
+                  Descripción
+                  <span class="text-danger">*</span>
+                </label>
+                <textarea
+                  class="form-control"
+                  id="description"
+                  name="description"
+                  rows="4"
+                  [(ngModel)]="campaign.description"
+                  placeholder="Describe el objetivo y alcance de esta campaña..."
+                  required
+                  #description="ngModel"
+                ></textarea>
+                <div class="invalid-feedback d-block" *ngIf="description.invalid && description.touched">
+                  La descripción es obligatoria
+                </div>
+              </div>
+
+              <!-- Date Range -->
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <label for="startDate" class="form-label fw-semibold">
+                    <i class="bi bi-calendar-check me-2 text-success"></i>
+                    Fecha de Inicio
+                    <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    id="startDate"
+                    name="startDate"
+                    [(ngModel)]="campaign.startDate"
+                    required
+                    #startDate="ngModel"
+                  />
+                  <div class="invalid-feedback d-block" *ngIf="startDate.invalid && startDate.touched">
+                    La fecha de inicio es obligatoria
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <label for="endDate" class="form-label fw-semibold">
+                    <i class="bi bi-calendar-x me-2 text-danger"></i>
+                    Fecha de Fin
+                    <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    id="endDate"
+                    name="endDate"
+                    [(ngModel)]="campaign.endDate"
+                    required
+                    #endDate="ngModel"
+                  />
+                  <div class="invalid-feedback d-block" *ngIf="endDate.invalid && endDate.touched">
+                    La fecha de fin es obligatoria
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="d-flex justify-content-end gap-2 mt-4">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-lg"
+                  (click)="cancel()"
+                  [disabled]="loading">
+                  <i class="bi bi-x-circle me-2"></i>
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-nur-primary btn-lg"
+                  [disabled]="loading || campaignForm.invalid">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                  <i *ngIf="!loading" class="bi bi-{{ isEditMode ? 'check-circle' : 'save' }} me-2"></i>
+                  {{ isEditMode ? 'Actualizar' : 'Guardar' }} Campaña
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.component.html',
   standalone: true,
   styleUrl: './login.component.css',
-  imports:[FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
 })
 
 export class LoginComponent {
@@ -34,15 +34,12 @@ export class LoginComponent {
 
     this.authService.login(formData).subscribe({
       next: (response) => {
-
         console.log('Login exitoso:', response);
 
         this.email = '';
         this.password = '';
 
-        this.authService.saveToken(response.token);
-
-        this.router.navigate(['/']);
+        this.router.navigate(['/campaigns']);
       },
       error: (error) => {
         console.error('Error al iniciar sesión:', error);

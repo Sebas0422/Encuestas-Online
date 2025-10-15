@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
- import { AuthService } from '../../Services/auth.service';
+import { AuthService } from '../../Services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -20,7 +20,7 @@ export class RegisterComponent {
   password: string = '';
 
   constructor(
-     private authService: AuthService,
+    private authService: AuthService,
     private router: Router) {
   }
 
@@ -29,7 +29,6 @@ export class RegisterComponent {
     this.errorMessage = '';
     console.log('Datos de registro:', formData);
 
-    /* Aquí llamarías a tu servicio de registro*/
     this.authService.register(formData).subscribe({
       next: (response) => {
         console.log('Registro exitoso:', response);

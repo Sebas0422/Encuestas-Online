@@ -1,59 +1,137 @@
-# Frontend
+# Frontend - Encuestas Online Universidad NUR
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.15.
+Sistema de encuestas en línea para la Universidad NUR, desarrollado con Angular 19.2.15.
 
-## Development server
+## 🚀 Inicio Rápido
 
-To start a local development server, run:
+### Requisitos Previos
+- Node.js (v18 o superior)
+- npm o yarn
+- Angular CLI (`npm install -g @angular/cli`)
+
+### Instalación
+
+1. Clonar el repositorio
+2. Instalar dependencias:
+```bash
+npm install
+```
+
+3. Configurar variables de entorno:
+   - Revisa `src/environments/environment.development.ts` para desarrollo
+   - Revisa `src/environments/environment.ts` para producción
+   - Ver `src/environments/README.md` para más detalles
+
+## 🛠️ Desarrollo
+
+### Servidor de Desarrollo
+
+Para iniciar un servidor de desarrollo local, ejecuta:
 
 ```bash
+npm start
+# o
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Navega a `http://localhost:4200/`. La aplicación se recargará automáticamente cuando modifiques archivos fuente.
 
-## Code scaffolding
+**Nota**: En desarrollo, la API apunta a `http://localhost:8080` por defecto.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🏗️ Construcción
+
+Para construir el proyecto ejecuta:
+
+```bash
+npm run build
+# o
+ng build
+```
+
+Esto compilará tu proyecto y guardará los artefactos en el directorio `dist/`. Por defecto, la construcción de producción optimiza tu aplicación para rendimiento y velocidad.
+
+### Build de Producción
+```bash
+ng build --configuration production
+```
+
+**⚠️ Importante**: Antes de desplegar a producción, actualiza la `apiUrl` en `src/environments/environment.ts` con tu URL real de backend.
+
+## 🎨 Paleta de Colores
+
+El proyecto usa los colores corporativos de la Universidad NUR:
+
+- **Azul Principal**: `#004a99`
+- **Azul Hover**: `#003a7a`
+- **Fondo**: `#f0f2f5`
+- **Texto**: `#333`
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── app/
+│   ├── Components/       # Componentes reutilizables (Header, Footer)
+│   ├── Pages/           # Páginas (Login, Registro)
+│   ├── Services/        # Servicios (AuthService)
+│   ├── Guards/          # Guards de autenticación
+│   ├── Interceptors/    # HTTP Interceptors
+│   ├── Models/          # Modelos de datos
+│   └── Repositories/    # Repositorios
+├── environments/        # Configuración por ambiente
+└── styles.css          # Estilos globales
+```
+
+## 🔧 Scaffolding de Código
+
+Angular CLI incluye herramientas de scaffolding. Para generar un nuevo componente:
 
 ```bash
 ng generate component component-name
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Para ver la lista completa de esquemas disponibles (`components`, `directives`, `pipes`):
 
 ```bash
 ng generate --help
 ```
 
-## Building
+## 🧪 Tests
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Para ejecutar tests unitarios con [Karma](https://karma-runner.github.io):
 
 ```bash
+npm test
+# o
 ng test
 ```
 
-## Running end-to-end tests
+## 📚 Variables de Entorno
 
-For end-to-end (e2e) testing, run:
+Este proyecto usa archivos de environment de Angular en lugar de `.env` tradicional:
 
-```bash
-ng e2e
-```
+- **Desarrollo**: `src/environments/environment.development.ts`
+- **Producción**: `src/environments/environment.ts`
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Ver `src/environments/README.md` para más información.
 
-## Additional Resources
+## 🔐 Autenticación
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+El proyecto incluye un sistema completo de autenticación con:
+- Login con email y contraseña
+- Registro de usuarios
+- Gestión de tokens JWT
+- Guards de autenticación
+- Interceptores HTTP
+
+## 📦 Dependencias Principales
+
+- Angular 19.2.0
+- Bootstrap 5.3.8
+- Bootstrap Icons 1.13.1
+- RxJS 7.8.0
+
+## 📝 Recursos Adicionales
+
+Para más información sobre Angular CLI, visita la [Documentación Oficial de Angular CLI](https://angular.dev/tools/cli).
+
