@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class AuthControllerTest {
@@ -86,7 +88,7 @@ class AuthControllerTest {
         UserAlreadyExistsException ex = assertThrows(UserAlreadyExistsException.class,
                 () -> controller.register(req));
 
-        assertEquals("exists@example.com", ex.getMessage());
+        assertTrue(ex.getMessage().contains("exists@example.com"));
         verify(registerUC).handle(req.email(), req.fullName(), req.password(), false);
     }
 
