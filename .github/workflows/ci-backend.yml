@@ -1,0 +1,41 @@
+name: CI - Backend Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'Backend/**'
+
+jobs:
+  test-backend:
+    name: Run backend tests (Maven)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21 and cache Maven
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+          cache-dependency-path: Backend/pom.xml
+
+      - name: Make mvnw executable
+        working-directory: Backend
+        run: |
+          if [ -f mvnw ]; then chmod +x mvnw; fi
+
+      - name: Run Maven tests
+        working-directory: Backend
+        run: |
+          ./mvnw -B test
+
+      - name: Upload surefire reports (optional)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: Backend/target/surefire-reports
