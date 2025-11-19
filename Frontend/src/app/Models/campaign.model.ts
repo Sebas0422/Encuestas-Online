@@ -16,8 +16,6 @@ export interface PaginatedCampaigns {
   size: number;
 }
 
-// interfaces/campaign-requests.ts
-
 export interface RenameCampaignRequest {
   name: string;
 }

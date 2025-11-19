@@ -1,0 +1,128 @@
+/* Contenedor principal con fondo gris suave */
+.page-container {
+    min-height: calc(100vh - 60px);
+    /* Ajustado para header */
+    background-color: #f0f2f5;
+    padding-bottom: 2rem;
+}
+
+/* --- COLORES CORPORATIVOS NUR --- */
+.text-nur-blue {
+    color: #004a99 !important;
+}
+
+.bg-nur-blue {
+    background-color: #004a99 !important;
+    color: white;
+}
+
+/* Botón Primario (Azul Sólido) */
+.btn-nur-primary {
+    background-color: #004a99;
+    border-color: #004a99;
+    color: white;
+    transition: all 0.3s;
+}
+
+.btn-nur-primary:hover {
+    background-color: #003a7a;
+    border-color: #003a7a;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 74, 153, 0.2);
+}
+
+/* Botón Borde (Azul Outline) */
+.btn-outline-nur {
+    border-color: #004a99;
+    color: #004a99;
+    background-color: transparent;
+    transition: all 0.3s;
+}
+
+.btn-outline-nur:hover {
+    background-color: #004a99;
+    border-color: #004a99;
+    color: white;
+}
+
+/* --- TARJETAS (CARDS) --- */
+.campaign-card {
+    border: none;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    /* Importante para indicar que es clickeable */
+    height: 100%;
+}
+
+.campaign-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 74, 153, 0.15);
+    transform: translateY(-5px);
+    /* Efecto de elevación */
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: -0.5px;
+}
+
+.card-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+/* --- FECHAS --- */
+.campaign-dates {
+    border-top: 1px solid #f1f3f5;
+    padding-top: 1rem;
+    margin-top: auto;
+    /* Empuja las fechas al fondo si hay espacio */
+}
+
+.date-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.date-item i {
+    font-size: 1.1rem;
+    width: 24px;
+    /* Alineación fija de iconos */
+}
+
+/* --- UTILIDADES --- */
+.spinner-border.text-nur-blue {
+    color: #004a99 !important;
+    width: 3rem;
+    height: 3rem;
+}
+
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.8em;
+    border-radius: 6px;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    opacity: 0.5;
+}
+
+/* Card Footer */
+.card-footer {
+    background-color: white;
+    border-top: 1px solid #f1f3f5;
+    padding: 1rem 1.5rem;
+    border-bottom-left-radius: 12px !important;
+    border-bottom-right-radius: 12px !important;
+}
