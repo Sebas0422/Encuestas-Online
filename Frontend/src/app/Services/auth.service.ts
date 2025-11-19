@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 interface LoginResponse {
-  token: string;
+  accessToken: string;
   expiresIn: number;
 }
 
@@ -27,7 +27,7 @@ export class AuthService {
   login(credentials: any): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
       tap(response => {
-        this.saveToken(response.token, response.expiresIn);
+        this.saveToken(response.accessToken, response.expiresIn);
       })
     );
   }
@@ -38,7 +38,7 @@ export class AuthService {
    * @param expiresIn Tiempo de expiración en milisegundos.
    */
   saveToken(token: string, expiresIn: number): void {
-    const expirationDate = new Date(Date.now() + expiresIn);
+    const expirationDate = new Date(Date.now() + expiresIn * 1000);
 
     document.cookie = `${this.TOKEN_KEY}=${token}; expires=${expirationDate.toUTCString()}; path=/; SameSite=Strict`;
     document.cookie = `${this.EXPIRES_KEY}=${expirationDate.getTime()}; expires=${expirationDate.toUTCString()}; path=/; SameSite=Strict`;

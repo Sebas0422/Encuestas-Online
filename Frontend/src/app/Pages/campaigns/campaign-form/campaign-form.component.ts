@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { CampaignService } from '../../../Services/campaign.service';
 import { Campaign } from '../../../Models/campaign.model';
+import { forkJoin, Observable } from 'rxjs'; 
 
 @Component({
   selector: 'app-campaign-form',
@@ -13,12 +14,16 @@ import { Campaign } from '../../../Models/campaign.model';
   styleUrls: ['./campaign-form.component.css']
 })
 export class CampaignFormComponent implements OnInit {
+
   campaign: Campaign = {
     name: '',
     description: '',
     startDate: '',
     endDate: ''
   };
+
+  // Nuevo: Para comparar qué cambió realmente
+  originalCampaign: Campaign | null = null;
 
   isEditMode: boolean = false;
   campaignId: number | null = null;
@@ -45,11 +50,17 @@ export class CampaignFormComponent implements OnInit {
     this.loading = true;
     this.campaignService.getCampaignById(id).subscribe({
       next: (data: Campaign) => {
+        // Formateamos fechas para el input (datetime-local)
         this.campaign = {
           ...data,
           startDate: this.formatDateForInput(data.startDate),
           endDate: this.formatDateForInput(data.endDate)
         };
+
+        // GUARDA UNA COPIA: Clonamos el objeto para tener la referencia original
+        // Esto es crucial para saber qué campos editó el usuario
+        this.originalCampaign = JSON.parse(JSON.stringify(this.campaign));
+
         this.loading = false;
       },
       error: (error: any) => {
@@ -61,6 +72,7 @@ export class CampaignFormComponent implements OnInit {
   }
 
   formatDateForInput(dateString: string): string {
+    if (!dateString) return '';
     const date = new Date(dateString);
     return date.toISOString().slice(0, 16);
   }
@@ -78,48 +90,72 @@ export class CampaignFormComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
-    const campaignData: Campaign = {
-      ...this.campaign,
-      startDate: this.formatDateForAPI(this.campaign.startDate),
-      endDate: this.formatDateForAPI(this.campaign.endDate)
-    };
+    if (!this.isEditMode) {
+      const campaignData: Campaign = {
+        ...this.campaign,
+        startDate: this.formatDateForAPI(this.campaign.startDate),
+        endDate: this.formatDateForAPI(this.campaign.endDate)
+      };
 
-    console.log('📤 Enviando campaña:', campaignData);
-    console.log('🔑 Token en localStorage:', localStorage.getItem('auth_token') ? 'Existe ✅' : 'NO EXISTE ❌');
-
-    if (this.isEditMode && this.campaignId) {
-      this.campaignService.updateCampaign(this.campaignId, campaignData).subscribe({
-        next: () => {
-          this.successMessage = 'Campaña actualizada exitosamente';
-          this.loading = false;
-          setTimeout(() => this.router.navigate(['/campaigns']), 1500);
-        },
-        error: (error: any) => {
-          console.error('❌ Error completo:', error);
-          console.error('Status:', error.status);
-          console.error('Message:', error.message);
-          console.error('Error body:', error.error);
-          this.errorMessage = `Error al actualizar: ${error.status} - ${error.error?.message || error.message}`;
-          this.loading = false;
-        }
-      });
-    } else {
       this.campaignService.createCampaign(campaignData).subscribe({
-        next: () => {
-          this.successMessage = 'Campaña creada exitosamente';
-          this.loading = false;
-          setTimeout(() => this.router.navigate(['/campaigns']), 1500);
-        },
-        error: (error: any) => {
-          console.error('❌ Error completo:', error);
-          console.error('Status:', error.status);
-          console.error('Message:', error.message);
-          console.error('Error body:', error.error);
-          this.errorMessage = `Error al crear: ${error.status} - ${error.error?.message || error.message}`;
-          this.loading = false;
-        }
+        next: () => this.handleSuccess('Campaña creada exitosamente'),
+        error: (err) => this.handleError(err)
       });
+
+    } else {
+      this.handleUpdate();
     }
+  }
+
+  handleUpdate(): void {
+    if (!this.campaignId || !this.originalCampaign) return;
+
+    const requests: Observable<any>[] = [];
+
+    if (this.campaign.name !== this.originalCampaign.name) {
+      requests.push(
+        this.campaignService.renameCampaign(this.campaignId, this.campaign.name)
+      );
+    }
+
+    if (this.campaign.description !== this.originalCampaign.description) {
+      requests.push(
+        this.campaignService.changeCampaignDescription(this.campaignId, this.campaign.description)
+      );
+    }
+    if (this.campaign.startDate !== this.originalCampaign.startDate ||
+      this.campaign.endDate !== this.originalCampaign.endDate) {
+
+      const startISO = this.formatDateForAPI(this.campaign.startDate);
+      const endISO = this.formatDateForAPI(this.campaign.endDate);
+
+      requests.push(
+        this.campaignService.rescheduleCampaign(this.campaignId, startISO, endISO)
+      );
+    }
+    if (requests.length === 0) {
+      this.successMessage = 'No se detectaron cambios';
+      this.loading = false;
+      setTimeout(() => this.router.navigate(['/campaigns']), 1000);
+      return;
+    }
+
+    forkJoin(requests).subscribe({
+      next: () => this.handleSuccess('Campaña actualizada exitosamente'),
+      error: (err) => this.handleError(err)
+    });
+  }
+
+  handleSuccess(msg: string): void {
+    this.successMessage = msg;
+    this.loading = false;
+    setTimeout(() => this.router.navigate(['/campaigns']), 1500);
+  }
+
+  handleError(error: any): void {
+    console.error('❌ Error:', error);
+    this.errorMessage = `Error: ${error.status} - ${error.error?.message || error.message}`;
+    this.loading = false;
   }
 
   validateForm(): boolean {

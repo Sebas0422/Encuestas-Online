@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Campaign } from '../Models/campaign.model';
+import {
+  Campaign, PaginatedCampaigns,
+  RenameCampaignRequest,
+  ChangeDescriptionRequest,
+  RescheduleCampaignRequest,
+  ChangeStatusRequest } from '../Models/campaign.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +16,8 @@ export class CampaignRepository {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<Campaign[]> {
-    return this.http.get<Campaign[]>(this.apiUrl);
+  getAll(): Observable<PaginatedCampaigns> {
+    return this.http.get<PaginatedCampaigns>(this.apiUrl);
   }
 
   getById(id: number): Observable<Campaign> {
@@ -20,18 +25,33 @@ export class CampaignRepository {
   }
 
   create(campaign: Campaign): Observable<Campaign> {
-    return this.http.post<Campaign>(`${this.apiUrl}/create`, JSON.stringify(campaign), {
+    return this.http.post<Campaign>(`${this.apiUrl}`, JSON.stringify(campaign), {
       headers: { 'Content-Type': 'application/json' }
     });
   }
 
-  update(id: number, campaign: Campaign): Observable<Campaign> {
-    return this.http.put<Campaign>(`${this.apiUrl}/update/${id}`, JSON.stringify(campaign), {
-      headers: { 'Content-Type': 'application/json' }
-    });
+  // --- MÉTODOS DE ACTUALIZACIÓN ESPECÍFICOS (PATCH) ---
+  rename(id: number, name: string): Observable<Campaign> {
+    const payload: RenameCampaignRequest = { name };
+    return this.http.patch<Campaign>(`${this.apiUrl}/${id}/name`, payload);
+  }
+
+  changeDescription(id: number, description: string): Observable<Campaign> {
+    const payload: ChangeDescriptionRequest = { description };
+    return this.http.patch<Campaign>(`${this.apiUrl}/${id}/description`, payload);
+  }
+
+  reschedule(id: number, startDate: string, endDate: string): Observable<Campaign> {
+    const payload: RescheduleCampaignRequest = { startDate, endDate };
+    return this.http.patch<Campaign>(`${this.apiUrl}/${id}/schedule`, payload);
+  }
+
+  changeStatus(id: number, status: string): Observable<Campaign> {
+    const payload: ChangeStatusRequest = { status };
+    return this.http.patch<Campaign>(`${this.apiUrl}/${id}/status`, payload);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
