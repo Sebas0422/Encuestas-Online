@@ -1,0 +1,130 @@
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h4 class="mb-0 text-nur-blue">
+                    {{isEditMode ? 'Editar Formulario':'Nuevo Formulario'}}
+                    </h4>
+                </div>
+
+                <div class="card-body">
+                    <!-- Mensaje de Error -->
+                    <div *ngIf="errorMessage" class="alert alert-danger">
+                        {{ errorMessage }}
+                    </div>
+
+                    <form (ngSubmit)="onSubmit()" #form="ngForm">
+
+                        <!-- SECCIÓN 1: INFORMACIÓN BÁSICA -->
+                        <h6 class="text-muted mb-3 text-uppercase small fw-bold">Información General</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-12">
+                                <label class="form-label">Título del Formulario <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" [(ngModel)]="formData.title" name="title"
+                                    required placeholder="Ej: Encuesta de Satisfacción">
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Descripción</label>
+                                <textarea class="form-control" [(ngModel)]="formData.description" name="description"
+                                    rows="3" placeholder="Describe el propósito de este formulario..."></textarea>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Color Principal (Tema)</label>
+                                <input type="color" class="form-control form-control-color w-100"
+                                    [(ngModel)]="formData.themePrimary" name="themePrimary" title="Elige un color">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Modo de Acceso</label>
+                                <select class="form-select" [(ngModel)]="formData.accessMode" name="accessMode">
+                                    <option value="PUBLIC">Público</option>
+                                    <option value="PRIVATE">Privado (Requiere Login)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <hr class="my-4 opacity-25">
+
+                        <!-- SECCIÓN 2: DISPONIBILIDAD -->
+                        <h6 class="text-muted mb-3 text-uppercase small fw-bold">Vigencia</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Fecha Apertura</label>
+                                <input type="datetime-local" class="form-control" [(ngModel)]="formData.openAt"
+                                    name="openAt" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Fecha Cierre</label>
+                                <input type="datetime-local" class="form-control" [(ngModel)]="formData.closeAt"
+                                    name="closeAt" required>
+                            </div>
+                        </div>
+
+                        <hr class="my-4 opacity-25">
+
+                        <!-- SECCIÓN 3: CONFIGURACIÓN -->
+                        <h6 class="text-muted mb-3 text-uppercase small fw-bold">Configuración Avanzada</h6>
+                        <div class="row g-3">
+
+                            <!-- Switches / Checkboxes -->
+                            <div class="col-md-6">
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="anonymous"
+                                        [(ngModel)]="formData.anonymousMode" name="anonymousMode">
+                                    <label class="form-check-label" for="anonymous">Respuestas Anónimas</label>
+                                </div>
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="editSubmit"
+                                        [(ngModel)]="formData.allowEditBeforeSubmit" name="allowEditBeforeSubmit">
+                                    <label class="form-check-label" for="editSubmit">Permitir editar antes de
+                                        enviar</label>
+                                </div>
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="autoSave"
+                                        [(ngModel)]="formData.autoSave" name="autoSave">
+                                    <label class="form-check-label" for="autoSave">Guardado Automático</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="progressBar"
+                                        [(ngModel)]="formData.progressBar" name="progressBar">
+                                    <label class="form-check-label" for="progressBar">Mostrar Barra de Progreso</label>
+                                </div>
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="paginated"
+                                        [(ngModel)]="formData.paginated" name="paginated">
+                                    <label class="form-check-label" for="paginated">Paginado (Una pregunta por
+                                        vez)</label>
+                                </div>
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="shuffle"
+                                        [(ngModel)]="formData.shuffleQuestions" name="shuffleQuestions">
+                                    <label class="form-check-label" for="shuffle">Aleatorizar Preguntas</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BOTONES -->
+                        <div class="d-flex justify-content-end gap-2 mt-5">
+                            <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-primary" [disabled]="loading || !form.valid">
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status"
+                                    aria-hidden="true"></span>
+                                {{ loading ? 'Guardando...' : (isEditMode ? 'Actualizar Formulario':'Crear Formulario') }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

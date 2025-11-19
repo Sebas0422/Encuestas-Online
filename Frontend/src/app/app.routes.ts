@@ -4,6 +4,8 @@ import { RegisterComponent } from "./Pages/registro/registro.component"
 import { CampaignListComponent } from './Pages/campaigns/campaign-list/campaign-list.component';
 import { CampaignFormComponent } from './Pages/campaigns/campaign-form/campaign-form.component';
 import { authGuard } from './Guards/auth.guard';
+import { FormsListComponent } from './Pages/forms/forms-list/forms-list.component';
+import { FormFormComponent } from './Pages/forms/form-form/form-form.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -22,6 +24,21 @@ export const routes: Routes = [
   {
     path: 'campaigns/edit/:id',
     component: CampaignFormComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'campaigns/:id/forms',
+    component: FormsListComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'forms/create',
+    component: FormFormComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'forms/edit/:id',
+    component: FormFormComponent,
     canActivate: [authGuard]
   }
 ];
