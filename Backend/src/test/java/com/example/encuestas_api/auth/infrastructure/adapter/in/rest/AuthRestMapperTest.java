@@ -9,6 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AuthRestMapperTest {
 
+    // ======================================================
+    // CASO NORMAL
+    // ======================================================
     @Test
     @DisplayName("Debería mapear correctamente un AuthResult completo a AuthResponse")
     void shouldMapAuthResultToAuthResponse() {
@@ -34,6 +37,9 @@ class AuthRestMapperTest {
         assertTrue(response.systemAdmin());
     }
 
+    // ======================================================
+    // CAMPOS NULOS
+    // ======================================================
     @Test
     @DisplayName("Debería manejar valores nulos sin lanzar excepciones")
     void shouldHandleNullValuesGracefully() {
@@ -50,13 +56,22 @@ class AuthRestMapperTest {
         assertFalse(response.systemAdmin());
     }
 
+    // ======================================================
+    // CONSISTENCIA DE DATOS
+    // ======================================================
     @Test
     @DisplayName("Debería mantener consistencia de datos entre AuthResult y AuthResponse")
     void shouldPreserveDataConsistency() {
         AuthResult result = new AuthResult(
-                "JWT", "super-token", 9999L, 99L,
-                "admin@domain.com", "Admin User", false
+                "JWT",
+                "super-token",
+                9999L,
+                99L,
+                "admin@domain.com",
+                "Admin User",
+                false
         );
+
         AuthResponse response = AuthRestMapper.toResponse(result);
 
         assertAll(
@@ -68,5 +83,33 @@ class AuthRestMapperTest {
                 () -> assertEquals(result.fullName(), response.fullName()),
                 () -> assertEquals(result.systemAdmin(), response.systemAdmin())
         );
+    }
+
+    // ======================================================
+    // CASO EXTRA: VALORES LÍMITE
+    // ======================================================
+    @Test
+    @DisplayName("Debería mapear correctamente AuthResult con valores límite")
+    void shouldHandleEdgeCaseValues() {
+        AuthResult result = new AuthResult(
+                "",                   // tokenType vacío
+                "",                   // token vacío
+                Long.MAX_VALUE,       // tiempo máximo
+                Long.MIN_VALUE,       // userId negativo
+                "",                   // email vacío
+                "",                   // nombre vacío
+                false                 // systemAdmin falso
+        );
+
+        AuthResponse response = AuthRestMapper.toResponse(result);
+
+        assertNotNull(response);
+        assertEquals("", response.tokenType());
+        assertEquals("", response.accessToken());
+        assertEquals(Long.MAX_VALUE, response.expiresIn());
+        assertEquals(Long.MIN_VALUE, response.userId());
+        assertEquals("", response.email());
+        assertEquals("", response.fullName());
+        assertFalse(response.systemAdmin());
     }
 }

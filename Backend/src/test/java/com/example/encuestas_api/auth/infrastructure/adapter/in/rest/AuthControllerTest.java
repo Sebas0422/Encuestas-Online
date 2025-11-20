@@ -10,7 +10,6 @@ import com.example.encuestas_api.users.domain.exception.UserAlreadyExistsExcepti
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 
@@ -48,7 +47,7 @@ class AuthControllerTest {
 
         ResponseEntity<AuthResponse> response = controller.register(req);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
         assertEquals("token123", response.getBody().accessToken());
         assertEquals("Bearer", response.getBody().tokenType());
@@ -66,7 +65,7 @@ class AuthControllerTest {
 
         ResponseEntity<AuthResponse> response = controller.login(req);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
         assertEquals("tokenXYZ", response.getBody().accessToken());
         assertEquals("user@example.com", response.getBody().email());
@@ -83,7 +82,7 @@ class AuthControllerTest {
         RegisterRequest req = new RegisterRequest("exists@example.com", "Existing User", "pass123", false);
 
         when(registerUC.handle(anyString(), anyString(), anyString(), anyBoolean()))
-                .thenThrow(new UserAlreadyExistsException("exists@example.com"));
+                .thenThrow(new UserAlreadyExistsException("El usuario con correo exists@example.com ya existe"));
 
         UserAlreadyExistsException ex = assertThrows(UserAlreadyExistsException.class,
                 () -> controller.register(req));

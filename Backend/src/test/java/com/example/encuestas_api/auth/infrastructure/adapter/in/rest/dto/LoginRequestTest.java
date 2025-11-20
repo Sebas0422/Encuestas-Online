@@ -22,25 +22,46 @@ class LoginRequestTest {
         validator = factory.getValidator();
     }
 
+    // ======================================================
+    // CASO CORRECTO
+    // ======================================================
     @Test
     @DisplayName("Debe aceptar un LoginRequest válido")
     void shouldPassValidationWithValidFields() {
         LoginRequest req = new LoginRequest("user@example.com", "password123");
         Set<ConstraintViolation<LoginRequest>> violations = validator.validate(req);
         assertTrue(violations.isEmpty());
+        assertEquals("user@example.com", req.email());
+        assertEquals("password123", req.password());
     }
 
+    // ======================================================
+    // EMAIL VACÍO O NULO
+    // ======================================================
     @Test
-    @DisplayName("Debe fallar si el email o password son vacíos o nulos")
-    void shouldFailIfFieldsAreEmptyOrNull() {
+    @DisplayName("Debe fallar si el email está vacío o es nulo")
+    void shouldFailIfEmailIsEmptyOrNull() {
         LoginRequest emptyEmail = new LoginRequest("", "pass");
-        LoginRequest nullEmail = new LoginRequest(null, "pass");
-        LoginRequest emptyPass = new LoginRequest("user@example.com", "");
-        LoginRequest nullPass = new LoginRequest("user@example.com", null);
+        Set<ConstraintViolation<LoginRequest>> v1 = validator.validate(emptyEmail);
+        assertFalse(v1.isEmpty());
 
-        assertFalse(validator.validate(emptyEmail).isEmpty());
-        assertFalse(validator.validate(nullEmail).isEmpty());
-        assertFalse(validator.validate(emptyPass).isEmpty());
-        assertFalse(validator.validate(nullPass).isEmpty());
+        LoginRequest nullEmail = new LoginRequest(null, "pass");
+        Set<ConstraintViolation<LoginRequest>> v2 = validator.validate(nullEmail);
+        assertFalse(v2.isEmpty());
+    }
+
+    // ======================================================
+    // PASSWORD VACÍA O NULA
+    // ======================================================
+    @Test
+    @DisplayName("Debe fallar si la contraseña está vacía o es nula")
+    void shouldFailIfPasswordIsEmptyOrNull() {
+        LoginRequest emptyPass = new LoginRequest("user@example.com", "");
+        Set<ConstraintViolation<LoginRequest>> v1 = validator.validate(emptyPass);
+        assertFalse(v1.isEmpty());
+
+        LoginRequest nullPass = new LoginRequest("user@example.com", null);
+        Set<ConstraintViolation<LoginRequest>> v2 = validator.validate(nullPass);
+        assertFalse(v2.isEmpty());
     }
 }
