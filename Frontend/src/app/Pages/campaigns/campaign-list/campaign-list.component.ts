@@ -49,6 +49,11 @@ export class CampaignListComponent implements OnInit {
     this.router.navigate(['/campaigns/edit', id]);
   }
 
+  navigateToForms(campaignId: number): void {
+    console.log('Navegando a formularios de la campaña:', campaignId);
+    this.router.navigate(['/campaigns', campaignId, 'forms']);
+  }
+
   deleteCampaign(id: number, name: string): void {
     if (confirm(`¿Está seguro de eliminar la campaña "${name}"?`)) {
       this.campaignService.deleteCampaign(id).subscribe({

@@ -21,7 +21,7 @@
         <!-- Opciones cuando SÍ está autenticado -->
         <ng-container *ngIf="authService.isAuthenticated()">
           <li class="nav-item"><a class="nav-link" routerLink="/campaigns" routerLinkActive="active">Campañas</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Encuestas</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" routerLinkActive="active">Encuestas</a></li>
           <li class="nav-item">
             <button class="btn btn-outline-danger btn-sm ms-2" (click)="logout()">
               <i class="bi bi-box-arrow-right me-1"></i>
