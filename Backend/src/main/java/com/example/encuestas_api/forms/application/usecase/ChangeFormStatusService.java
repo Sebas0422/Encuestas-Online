@@ -19,7 +19,7 @@ public class ChangeFormStatusService implements ChangeFormStatusUseCase {
 
     private final LoadFormPort loadPort;
     private final SaveFormPort savePort;
-    private final CountQuestionsByFormPort countQuestions; // opcional
+    private final CountQuestionsByFormPort countQuestions;
     private final Clock clock;
 
     public ChangeFormStatusService(LoadFormPort loadPort,
