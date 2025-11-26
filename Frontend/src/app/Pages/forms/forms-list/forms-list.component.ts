@@ -3,7 +3,9 @@ import { Form } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { FormService } from '../../../Services/form.service';
+import { PermissionService } from '../../../Services/permission.service';
 import { Forms } from '../../../Models/form.model';
+import { MemberRole } from '../../../Models/member.model';
 
 
 @Component({
@@ -16,11 +18,12 @@ export class FormsListComponent implements OnInit {
   forms: Forms[] = [];
   loading: boolean = false;
   errorMessage: string = '';
-
   currentCampaignId: number | null = null;
+  userRole: MemberRole | null = null;
 
   constructor(
     private formService: FormService,
+    private permissionService: PermissionService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -29,11 +32,25 @@ export class FormsListComponent implements OnInit {
     const idParam = this.route.snapshot.paramMap.get('id');
 
     if (idParam) {
-      this.currentCampaignId = +idParam; 
+      this.currentCampaignId = +idParam;
+      this.loadPermissions();
       this.loadForms(this.currentCampaignId);
     } else {
       this.errorMessage = 'No se ha especificado una campaña válida.';
     }
+  }
+
+  loadPermissions(): void {
+    if (!this.currentCampaignId) return;
+
+    this.permissionService.getUserRoleInCampaign(this.currentCampaignId).subscribe({
+      next: (role) => {
+        this.userRole = role;
+      },
+      error: () => {
+        this.userRole = null;
+      }
+    });
   }
 
 
@@ -57,7 +74,7 @@ export class FormsListComponent implements OnInit {
   navigateToCreate(): void {
     if (this.currentCampaignId) {
       this.router.navigate(['/forms/create'], {
-        queryParams: { campaignId: this.currentCampaignId } 
+        queryParams: { campaignId: this.currentCampaignId }
       });
     } else {
       console.error('No tengo un campaignId para enviar');
@@ -74,6 +91,11 @@ export class FormsListComponent implements OnInit {
   }
 
   deleteForm(id: number, name: string): void {
+    if (!this.canDeleteForms()) {
+      this.errorMessage = 'No tienes permisos para eliminar formularios';
+      return;
+    }
+
     if (confirm(`¿Está seguro de eliminar el Formulario "${name}"?`)) {
       this.formService.deleteForm(id).subscribe({
         next: () => {
@@ -85,5 +107,21 @@ export class FormsListComponent implements OnInit {
         }
       });
     }
+  }
+
+  navigateToQuestionBuilder(formId: number): void {
+    this.router.navigate(['/forms', formId, 'questions']);
+  }
+
+  navigateToPreview(formId: number): void {
+    this.router.navigate(['/forms', formId, 'preview']);
+  }
+
+  canManageForms(): boolean {
+    return this.permissionService.canManageForms(this.userRole);
+  }
+
+  canDeleteForms(): boolean {
+    return this.permissionService.canDeleteForms(this.userRole);
   }
 }

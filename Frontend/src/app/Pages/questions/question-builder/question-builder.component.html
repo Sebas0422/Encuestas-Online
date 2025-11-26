@@ -1,0 +1,432 @@
+<div class="question-builder-container">
+  <!-- HEADER -->
+  <div class="builder-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">
+          <i class="bi bi-arrow-left"></i> Volver
+        </button>
+        <h2 class="d-inline ms-3">
+          <i class="bi bi-pencil-square"></i> Constructor de Preguntas
+        </h2>
+        <p class="text-muted mb-0" *ngIf="form">{{ form.title }}</p>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-success" [routerLink]="['/forms', formId, 'preview']">
+          <i class="bi bi-eye"></i> Vista Previa
+        </button>
+        <button *ngIf="canManageQuestions()" class="btn btn-primary" (click)="createSection()">
+          <i class="bi bi-plus-circle"></i> Nueva Sección
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALERTS -->
+  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="bi bi-check-circle"></i> {{ successMessage }}
+    <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="bi bi-exclamation-triangle"></i> {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+  </div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="row">
+    <!-- SIDEBAR: PALETA DE TIPOS DE PREGUNTA -->
+    <div class="col-md-3">
+      <div *ngIf="canManageQuestions()" class="card question-types-palette">
+        <div class="card-header">
+          <h5><i class="bi bi-ui-radios-grid"></i> Tipos de Pregunta</h5>
+        </div>
+        <div class="card-body">
+          <div class="question-type-btn" (click)="openNewQuestionModal(QuestionType.CHOICE)">
+            <i class="bi bi-ui-radios"></i>
+            <span>Opción Múltiple</span>
+          </div>
+          <div class="question-type-btn" (click)="openNewQuestionModal(QuestionType.TRUE_FALSE)">
+            <i class="bi bi-toggle-on"></i>
+            <span>Verdadero/Falso</span>
+          </div>
+          <div class="question-type-btn" (click)="openNewQuestionModal(QuestionType.TEXT)">
+            <i class="bi bi-text-paragraph"></i>
+            <span>Texto</span>
+          </div>
+          <div class="question-type-btn" (click)="openNewQuestionModal(QuestionType.MATCHING)">
+            <i class="bi bi-arrow-left-right"></i>
+            <span>Relacionar</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIONES -->
+      <div class="card mt-3">
+        <div class="card-header">
+          <h6><i class="bi bi-list-nested"></i> Secciones</h6>
+        </div>
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-action" 
+                [class.active]="selectedSectionId === null"
+                (click)="filterBySection(null)"
+                style="cursor: pointer;">
+              <i class="bi bi-collection"></i> Todas las preguntas
+            </li>
+            <li *ngFor="let section of sections"
+                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                [class.active]="selectedSectionId === section.id"
+                (click)="filterBySection(section.id!)"
+                style="cursor: pointer;">
+              <span><i class="bi bi-folder"></i> {{ section.title }}</span>
+              <button *ngIf="canDeleteQuestions()" class="btn btn-sm btn-outline-danger" 
+                      (click)="deleteSection(section); $event.stopPropagation()">
+                <i class="bi bi-trash"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN AREA: LISTA DE PREGUNTAS -->
+    <div class="col-md-9">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5><i class="bi bi-question-circle"></i> Preguntas</h5>
+          <span class="badge bg-secondary">{{ questions.length }} preguntas</span>
+        </div>
+        <div class="card-body">
+          <!-- LOADING -->
+          <div *ngIf="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-3">Cargando preguntas...</p>
+          </div>
+
+          <!-- EMPTY STATE -->
+          <div *ngIf="!loading && questions.length === 0" class="text-center py-5">
+            <i class="bi bi-inbox" style="font-size: 4rem; color: #ccc;"></i>
+            <h4 class="mt-3 text-muted">No hay preguntas</h4>
+            <p>Selecciona un tipo de pregunta de la barra lateral para empezar.</p>
+          </div>
+
+          <!-- QUESTIONS LIST -->
+          <div *ngIf="!loading && questions.length > 0" class="questions-list">
+            <div *ngFor="let question of questions; let i = index" 
+                 class="question-item card mb-3">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div class="flex-grow-1">
+                    <div class="d-flex align-items-center mb-2">
+                      <span class="badge bg-primary me-2">{{ i + 1 }}</span>
+                      <i class="{{ getQuestionTypeIcon(question.type) }} me-2"></i>
+                      <span class="badge bg-info me-2">{{ getQuestionTypeLabel(question.type) }}</span>
+                      <span *ngIf="question.required" class="badge bg-danger">Obligatoria</span>
+                    </div>
+                    <h6 class="mb-2">{{ question.prompt }}</h6>
+                    <p *ngIf="question.helpText" class="text-muted small mb-2">
+                      <i class="bi bi-info-circle"></i> {{ question.helpText }}
+                    </p>
+
+                    <!-- PREVIEW DE OPCIONES -->
+                    <div *ngIf="question.type === QuestionType.CHOICE || question.type === QuestionType.TRUE_FALSE"
+                         class="options-preview">
+                      <div *ngFor="let option of question.options" class="option-preview">
+                        <i class="bi" 
+                           [class.bi-check-circle-fill]="option.correct"
+                           [class.bi-circle]="!option.correct"></i>
+                        {{ option.label }}
+                      </div>
+                    </div>
+
+                    <!-- PREVIEW DE TEXT -->
+                    <div *ngIf="question.type === QuestionType.TEXT" class="text-muted small">
+                      <i class="bi bi-textarea-t"></i> 
+                      {{ question.textMode === 'SHORT' ? 'Texto corto' : 'Texto largo' }}
+                      <span *ngIf="question.minLength || question.maxLength">
+                        ({{ question.minLength || 0 }}-{{ question.maxLength || '∞' }} caracteres)
+                      </span>
+                    </div>
+
+                    <!-- PREVIEW DE MATCHING -->
+                    <div *ngIf="question.type === QuestionType.MATCHING" class="text-muted small">
+                      <i class="bi bi-arrow-left-right"></i> 
+                      {{ question.left?.length || 0 }} pares de relación
+                    </div>
+                  </div>
+
+                  <!-- ACTIONS -->
+                  <div class="btn-group-vertical ms-3">
+                    <button *ngIf="canManageQuestions()" class="btn btn-sm btn-outline-primary" (click)="openEditQuestion(question)">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button *ngIf="canDeleteQuestions()" class="btn btn-sm btn-outline-danger" (click)="deleteQuestion(question)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: NUEVA PREGUNTA -->
+<div class="modal fade" [class.show]="showNewQuestionModal" [style.display]="showNewQuestionModal ? 'block' : 'none'">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content" *ngIf="selectedQuestionType">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="{{ getQuestionTypeIcon(selectedQuestionType) }}"></i>
+          Nueva Pregunta: {{ getQuestionTypeLabel(selectedQuestionType) }}
+        </h5>
+        <button type="button" class="btn-close" (click)="closeNewQuestionModal()"></button>
+      </div>
+      <div class="modal-body">
+        <!-- CAMPOS COMUNES -->
+        <div class="mb-3">
+          <label class="form-label">Pregunta *</label>
+          <textarea class="form-control" rows="2" 
+                    [(ngModel)]="questionFormData.prompt"
+                    placeholder="Escribe tu pregunta aquí..."></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Texto de ayuda (opcional)</label>
+          <input type="text" class="form-control" 
+                 [(ngModel)]="questionFormData.helpText"
+                 placeholder="Instrucciones adicionales para el usuario">
+        </div>
+
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" 
+                 [(ngModel)]="questionFormData.required"
+                 id="requiredCheck">
+          <label class="form-check-label" for="requiredCheck">
+            Respuesta obligatoria
+          </label>
+        </div>
+
+        <div class="form-check mb-3" *ngIf="selectedQuestionType !== QuestionType.TEXT">
+          <input class="form-check-input" type="checkbox" 
+                 [(ngModel)]="questionFormData.shuffleOptions"
+                 id="shuffleCheck">
+          <label class="form-check-label" for="shuffleCheck">
+            Barajar opciones
+          </label>
+        </div>
+
+        <hr>
+
+        <!-- CHOICE SPECIFIC -->
+        <div *ngIf="selectedQuestionType === QuestionType.CHOICE">
+          <div class="mb-3">
+            <label class="form-label">Modo de selección</label>
+            <select class="form-select" [(ngModel)]="questionFormData.selectionMode">
+              <option [value]="SelectionMode.SINGLE">Selección única (radio)</option>
+              <option [value]="SelectionMode.MULTI">Selección múltiple (checkbox)</option>
+            </select>
+          </div>
+
+          <div *ngIf="questionFormData.selectionMode === SelectionMode.MULTI" class="row mb-3">
+            <div class="col-6">
+              <label class="form-label">Mínimo selecciones</label>
+              <input type="number" class="form-control" 
+                     [(ngModel)]="questionFormData.minSelections"
+                     min="0">
+            </div>
+            <div class="col-6">
+              <label class="form-label">Máximo selecciones</label>
+              <input type="number" class="form-control" 
+                     [(ngModel)]="questionFormData.maxSelections"
+                     min="1">
+            </div>
+          </div>
+
+          <label class="form-label">Opciones</label>
+          <div *ngFor="let option of questionFormData.options; let i = index" class="input-group mb-2">
+            <input type="text" class="form-control" 
+                   [(ngModel)]="option.label"
+                   [placeholder]="'Opción ' + (i + 1)">
+            <div class="input-group-text">
+              <input class="form-check-input mt-0" type="checkbox" 
+                     [(ngModel)]="option.correct"
+                     title="Marcar como correcta">
+            </div>
+            <button class="btn btn-outline-danger" 
+                    (click)="removeOption(i)"
+                    [disabled]="questionFormData.options!.length <= 2">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+          <button class="btn btn-sm btn-outline-primary" (click)="addOption()">
+            <i class="bi bi-plus-circle"></i> Agregar opción
+          </button>
+        </div>
+
+        <!-- TRUE/FALSE SPECIFIC -->
+        <div *ngIf="selectedQuestionType === QuestionType.TRUE_FALSE">
+          <div class="mb-3">
+            <label class="form-label">Etiqueta para "Verdadero"</label>
+            <input type="text" class="form-control" 
+                   [(ngModel)]="questionFormData.trueLabel"
+                   placeholder="Verdadero">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Etiqueta para "Falso"</label>
+            <input type="text" class="form-control" 
+                   [(ngModel)]="questionFormData.falseLabel"
+                   placeholder="Falso">
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" 
+                   [(ngModel)]="questionFormData.trueIsCorrect"
+                   id="trueIsCorrectCheck">
+            <label class="form-check-label" for="trueIsCorrectCheck">
+              La respuesta correcta es "Verdadero"
+            </label>
+          </div>
+        </div>
+
+        <!-- TEXT SPECIFIC -->
+        <div *ngIf="selectedQuestionType === QuestionType.TEXT">
+          <div class="mb-3">
+            <label class="form-label">Tipo de texto</label>
+            <select class="form-select" [(ngModel)]="questionFormData.textMode">
+              <option [value]="TextMode.SHORT">Texto corto (una línea)</option>
+              <option [value]="TextMode.LONG">Texto largo (área de texto)</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Placeholder</label>
+            <input type="text" class="form-control" 
+                   [(ngModel)]="questionFormData.placeholder"
+                   placeholder="Texto de ejemplo...">
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <label class="form-label">Longitud mínima</label>
+              <input type="number" class="form-control" 
+                     [(ngModel)]="questionFormData.minLength"
+                     min="0">
+            </div>
+            <div class="col-6">
+              <label class="form-label">Longitud máxima</label>
+              <input type="number" class="form-control" 
+                     [(ngModel)]="questionFormData.maxLength"
+                     min="1">
+            </div>
+          </div>
+        </div>
+
+        <!-- MATCHING SPECIFIC -->
+        <div *ngIf="selectedQuestionType === QuestionType.MATCHING">
+          <label class="form-label">Pares de relación</label>
+          <div *ngFor="let pair of questionFormData.keyPairs; let i = index" class="row mb-2">
+            <div class="col-5">
+              <input type="text" class="form-control" 
+                     [(ngModel)]="questionFormData.leftTexts![i]"
+                     placeholder="Concepto izquierdo">
+            </div>
+            <div class="col-1 text-center pt-2">
+              <i class="bi bi-arrow-right"></i>
+            </div>
+            <div class="col-5">
+              <input type="text" class="form-control" 
+                     [(ngModel)]="questionFormData.rightTexts![i]"
+                     placeholder="Respuesta derecha">
+            </div>
+            <div class="col-1">
+              <button class="btn btn-outline-danger" 
+                      (click)="removeMatchingPair(i)"
+                      [disabled]="questionFormData.leftTexts!.length <= 1">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+          <button class="btn btn-sm btn-outline-primary" (click)="addMatchingPair()">
+            <i class="bi bi-plus-circle"></i> Agregar par
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeNewQuestionModal()">
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-primary" (click)="saveNewQuestion()" [disabled]="loading">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+          Crear Pregunta
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="showNewQuestionModal" *ngIf="showNewQuestionModal"></div>
+
+<!-- MODAL: EDITAR PREGUNTA (Similar structure, reutiliza el form) -->
+<div class="modal fade" [class.show]="showEditModal" [style.display]="showEditModal ? 'block' : 'none'">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content" *ngIf="editingQuestion">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="bi bi-pencil"></i> Editar Pregunta
+        </h5>
+        <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Reutiliza el mismo formulario que en crear -->
+        <div class="mb-3">
+          <label class="form-label">Pregunta *</label>
+          <textarea class="form-control" rows="2" 
+                    [(ngModel)]="questionFormData.prompt"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Texto de ayuda</label>
+          <input type="text" class="form-control" [(ngModel)]="questionFormData.helpText">
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" 
+                 [(ngModel)]="questionFormData.required" id="editRequiredCheck">
+          <label class="form-check-label" for="editRequiredCheck">Respuesta obligatoria</label>
+        </div>
+        <div class="form-check mb-3" *ngIf="questionFormData.type !== QuestionType.TEXT">
+          <input class="form-check-input" type="checkbox" 
+                 [(ngModel)]="questionFormData.shuffleOptions" id="editShuffleCheck">
+          <label class="form-check-label" for="editShuffleCheck">Barajar opciones</label>
+        </div>
+        <hr>
+        <!-- Campos específicos por tipo (igual que en crear) -->
+        <div *ngIf="questionFormData.type === QuestionType.CHOICE">
+          <label class="form-label">Opciones</label>
+          <div *ngFor="let option of questionFormData.options; let i = index" class="input-group mb-2">
+            <input type="text" class="form-control" [(ngModel)]="option.label">
+            <div class="input-group-text">
+              <input class="form-check-input mt-0" type="checkbox" [(ngModel)]="option.correct">
+            </div>
+            <button class="btn btn-outline-danger" (click)="removeOption(i)"
+                    [disabled]="questionFormData.options!.length <= 2">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+          <button class="btn btn-sm btn-outline-primary" (click)="addOption()">
+            <i class="bi bi-plus-circle"></i> Agregar opción
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeEditModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="saveEditQuestion()" [disabled]="loading">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+          Guardar Cambios
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="showEditModal" *ngIf="showEditModal"></div>

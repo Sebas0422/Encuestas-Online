@@ -1,0 +1,217 @@
+<div class="preview-container" [class.dark-mode]="getThemeMode() === 'dark'">
+  <!-- Header con botón de volver -->
+  <div class="preview-header">
+    <button class="btn btn-sm btn-outline-secondary" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i> Volver al Editor
+    </button>
+    <span class="badge bg-warning text-dark ms-2">
+      <i class="bi bi-eye"></i> Vista Previa
+    </span>
+  </div>
+
+  <!-- Loading -->
+  <div class="text-center py-5" *ngIf="loading">
+    <div class="spinner-border" role="status" [style.color]="getPrimaryColor()">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="mt-3">Cargando formulario...</p>
+  </div>
+
+  <!-- Error -->
+  <div class="alert alert-danger mx-auto" style="max-width: 800px;" *ngIf="errorMessage && !loading">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    {{ errorMessage }}
+  </div>
+
+  <!-- Form Preview -->
+  <div class="form-preview" *ngIf="form && !loading">
+    <!-- Cover Image -->
+    <div class="form-cover" *ngIf="form.coverUrl" [style.background-image]="'url(' + form.coverUrl + ')'">
+    </div>
+
+    <!-- Form Header -->
+    <div class="form-header" [style.background-color]="getPrimaryColor()">
+      <div class="container">
+        <h1 class="form-title">{{ form.title }}</h1>
+        <p class="form-description" *ngIf="form.description">{{ form.description }}</p>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container" *ngIf="form.progressBar && form.paginated">
+      <div class="container">
+        <div class="progress">
+          <div 
+            class="progress-bar" 
+            role="progressbar" 
+            [style.width]="getProgress() + '%'"
+            [style.background-color]="getPrimaryColor()">
+            {{ getProgress() }}%
+          </div>
+        </div>
+        <small class="text-muted">Pregunta {{ currentPage + 1 }} de {{ questions.length }}</small>
+      </div>
+    </div>
+
+    <!-- Questions -->
+    <div class="form-body container">
+      <div class="questions-container">
+        <!-- Iterar sobre preguntas visibles -->
+        <div class="question-card" *ngFor="let question of questionsPerPage; let i = index">
+          <div class="question-header">
+            <span class="question-number" [style.color]="getPrimaryColor()">
+              {{ questions.indexOf(question) + 1 }}
+            </span>
+            <div class="question-text">
+              <h5>
+                {{ question.prompt }}
+                <span class="badge bg-danger ms-2" *ngIf="question.required">*</span>
+              </h5>
+              <small class="text-muted" *ngIf="question.helpText">{{ question.helpText }}</small>
+            </div>
+          </div>
+
+          <div class="question-content">
+            <!-- CHOICE (Opción Múltiple) -->
+            <div *ngIf="question.type === QuestionType.CHOICE">
+              <div class="form-check" *ngFor="let option of question.options; let optIdx = index">
+                <input 
+                  class="form-check-input" 
+                  [type]="question.selectionMode === 'SINGLE' ? 'radio' : 'checkbox'"
+                  [id]="'q' + question.id + '_opt' + optIdx"
+                  [name]="'question_' + question.id"
+                  [checked]="isOptionSelected(question.id, optIdx, getSelectionMode(question.selectionMode))"
+                  (change)="handleChoiceAnswer(question.id, optIdx, getSelectionMode(question.selectionMode))"
+                  [style.accent-color]="getPrimaryColor()">
+                <label class="form-check-label" [for]="'q' + question.id + '_opt' + optIdx">
+                  {{ option.label }}
+                </label>
+              </div>
+            </div>
+
+            <!-- TRUE/FALSE -->
+            <div *ngIf="question.type === QuestionType.TRUE_FALSE">
+              <div class="btn-group w-100" role="group">
+                <button 
+                  type="button" 
+                  class="btn btn-outline-secondary"
+                  [class.active]="getTrueFalseAnswer(question.id) === true"
+                  [style.border-color]="getTrueFalseAnswer(question.id) === true ? getPrimaryColor() : ''"
+                  [style.background-color]="getTrueFalseAnswer(question.id) === true ? getPrimaryColor() : ''"
+                  [style.color]="getTrueFalseAnswer(question.id) === true ? 'white' : ''"
+                  (click)="handleTrueFalseAnswer(question.id, true)">
+                  <i class="bi bi-check-circle me-2"></i>
+                  {{ getTrueLabel(question) }}
+                </button>
+                <button 
+                  type="button" 
+                  class="btn btn-outline-secondary"
+                  [class.active]="getTrueFalseAnswer(question.id) === false"
+                  [style.border-color]="getTrueFalseAnswer(question.id) === false ? getPrimaryColor() : ''"
+                  [style.background-color]="getTrueFalseAnswer(question.id) === false ? getPrimaryColor() : ''"
+                  [style.color]="getTrueFalseAnswer(question.id) === false ? 'white' : ''"
+                  (click)="handleTrueFalseAnswer(question.id, false)">
+                  <i class="bi bi-x-circle me-2"></i>
+                  {{ getFalseLabel(question) }}
+                </button>
+              </div>
+            </div>
+
+            <!-- TEXT -->
+            <div *ngIf="question.type === QuestionType.TEXT">
+              <textarea 
+                *ngIf="question.textMode === 'LONG'"
+                class="form-control" 
+                rows="5"
+                [placeholder]="question.placeholder || 'Escribe tu respuesta aquí...'"
+                [value]="getTextAnswer(question.id)"
+                (input)="handleTextAnswer(question.id, $any($event.target).value)"
+                [attr.maxlength]="question.maxLength"
+                [attr.minlength]="question.minLength">
+              </textarea>
+              <input 
+                *ngIf="question.textMode === 'SHORT'"
+                type="text"
+                class="form-control" 
+                [placeholder]="question.placeholder || 'Escribe tu respuesta aquí...'"
+                [value]="getTextAnswer(question.id)"
+                (input)="handleTextAnswer(question.id, $any($event.target).value)"
+                [attr.maxlength]="question.maxLength"
+                [attr.minlength]="question.minLength">
+              <small class="text-muted" *ngIf="question.maxLength">
+                Máximo {{ question.maxLength }} caracteres
+              </small>
+            </div>
+
+            <!-- MATCHING -->
+            <div *ngIf="question.type === QuestionType.MATCHING">
+              <div class="alert alert-info">
+                <i class="bi bi-info-circle me-2"></i>
+                Relaciona los elementos de ambas columnas
+              </div>
+              <div class="matching-container">
+                <div class="row" *ngFor="let leftItem of question.left; let idx = index">
+                  <div class="col-6">
+                    <div class="matching-item">{{ leftItem }}</div>
+                  </div>
+                  <div class="col-6">
+                    <select class="form-select" [style.border-color]="getPrimaryColor()">
+                      <option value="">Selecciona una opción...</option>
+                      <option *ngFor="let rightItem of question.right" [value]="rightItem">
+                        {{ rightItem }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navegación de páginas -->
+        <div class="pagination-controls" *ngIf="form.paginated && questions.length > 1">
+          <button 
+            class="btn btn-outline-secondary"
+            [disabled]="currentPage === 0"
+            (click)="previousPage()">
+            <i class="bi bi-chevron-left"></i> Anterior
+          </button>
+          <span class="mx-3">{{ currentPage + 1 }} / {{ questions.length }}</span>
+          <button 
+            class="btn btn-outline-secondary"
+            [disabled]="currentPage === questions.length - 1"
+            (click)="nextPage()">
+            Siguiente <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="submit-container" *ngIf="!form.paginated || currentPage === questions.length - 1">
+          <button 
+            class="btn btn-lg btn-primary"
+            [style.background-color]="getPrimaryColor()"
+            [style.border-color]="getPrimaryColor()"
+            [disabled]="!canSubmit()"
+            (click)="submitPreview()">
+            <i class="bi bi-send-fill me-2"></i>
+            Enviar Respuestas
+          </button>
+          <p class="text-muted mt-2" *ngIf="!canSubmit()">
+            <i class="bi bi-exclamation-circle me-1"></i>
+            Por favor completa todas las preguntas requeridas (*)
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Footer -->
+    <div class="form-footer">
+      <div class="container text-center">
+        <small class="text-muted">
+          <i class="bi bi-info-circle me-1"></i>
+          Esta es una vista previa del formulario
+        </small>
+      </div>
+    </div>
+  </div>
+</div>

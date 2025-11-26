@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Forms , PaginatedForms } from '../Models/form.model';
+import { Forms, PaginatedForms } from '../Models/form.model';
 import { FormRepository } from '../Repositories/form.repository';
 
 @Injectable({
@@ -14,10 +14,10 @@ export class FormService {
         return this.repository.getAll(campaignId!).pipe(
             map((response: PaginatedForms) => response.items)
         );
-    } 
+    }
 
-    createForm(form: Forms): Observable<Forms> {
-        return this.repository.create(form);
+    createForm(campaignId: number, form: Forms): Observable<Forms> {
+        return this.repository.create(campaignId, form);
     }
 
     getFormById(id: number): Observable<Forms> {

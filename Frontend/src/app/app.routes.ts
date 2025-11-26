@@ -3,9 +3,12 @@ import { LoginComponent } from "./Pages/Login/login.component";
 import { RegisterComponent } from "./Pages/registro/registro.component"
 import { CampaignListComponent } from './Pages/campaigns/campaign-list/campaign-list.component';
 import { CampaignFormComponent } from './Pages/campaigns/campaign-form/campaign-form.component';
+import { CampaignMembersComponent } from './Pages/campaigns/campaign-members/campaign-members.component';
 import { authGuard } from './Guards/auth.guard';
 import { FormsListComponent } from './Pages/forms/forms-list/forms-list.component';
 import { FormFormComponent } from './Pages/forms/form-form/form-form.component';
+import { FormPreviewComponent } from './Pages/forms/form-preview/form-preview.component';
+import { QuestionBuilderComponent } from './Pages/questions/question-builder/question-builder.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -27,6 +30,11 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'campaigns/:id/members',
+    component: CampaignMembersComponent,
+    canActivate: [authGuard]
+  },
+  {
     path: 'campaigns/:id/forms',
     component: FormsListComponent,
     canActivate: [authGuard]
@@ -39,6 +47,16 @@ export const routes: Routes = [
   {
     path: 'forms/edit/:id',
     component: FormFormComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'forms/:formId/questions',
+    component: QuestionBuilderComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'forms/:formId/preview',
+    component: FormPreviewComponent,
     canActivate: [authGuard]
   }
 ];

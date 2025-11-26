@@ -8,7 +8,7 @@
                         <h2 class="text-nur-blue mb-1">Gestión de Formularios</h2>
                         <p class="text-muted mb-0">Administra todas las formularios de encuestas</p>
                     </div>
-                    <button class="btn btn-nur-primary btn-lg" (click)="navigateToCreate()">
+                    <button *ngIf="canManageForms()" class="btn btn-nur-primary btn-lg" (click)="navigateToCreate()">
                         <i class="bi bi-plus-circle me-2"></i>
                         Nuevo Formulario
                     </button>
@@ -31,11 +31,19 @@
 
             <div class="card-footer bg-transparent border-top">
                 <div class="d-flex justify-content-end gap-2">
-                    <button class="btn btn-outline-nur btn-sm" (click)="navigateToEdit(form.id!)">
+                    <button class="btn btn-info btn-sm" (click)="navigateToPreview(form.id!)">
+                        <i class="bi bi-eye me-1"></i>
+                        Vista Previa
+                    </button>
+                    <button class="btn btn-success btn-sm" (click)="navigateToQuestionBuilder(form.id!)">
+                        <i class="bi bi-question-circle me-1"></i>
+                        Preguntas
+                    </button>
+                    <button *ngIf="canManageForms()" class="btn btn-outline-nur btn-sm" (click)="navigateToEdit(form.id!)">
                         <i class="bi bi-pencil me-1"></i>
                         Editar
                     </button>
-                    <button class="btn btn-outline-danger btn-sm" (click)="deleteForm(form.id!, form.title)">
+                    <button *ngIf="canDeleteForms()" class="btn btn-outline-danger btn-sm" (click)="deleteForm(form.id!, form.title)">
                         <i class="bi bi-trash me-1"></i>
                         Eliminar
                     </button>
@@ -52,7 +60,7 @@
             <i class="bi bi-inbox display-1 text-muted mb-3"></i>
             <h4 class="text-muted">No hay formularios registradas</h4>
             <p class="text-muted">Crea tu primera formulario para comenzar</p>
-            <button class="btn btn-nur-primary mt-3" (click)="navigateToCreate()">
+            <button *ngIf="canManageForms()" class="btn btn-nur-primary mt-3" (click)="navigateToCreate()">
                 <i class="bi bi-plus-circle me-2"></i>
                 Crear Primera Formulario
             </button>
