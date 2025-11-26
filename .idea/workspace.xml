@@ -4,103 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4bf00601-95ea-406f-8f3b-a04351fea96a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/dto/FormListQuery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/dto/SectionListQuery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/AddSectionUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/ChangeFormDescriptionUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/ChangeFormStatusUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/ChangeThemeUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/CreateFormUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/DeleteFormUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/DeleteSectionUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/GetFormUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/ListFormsUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/ListSectionsUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/MoveSectionUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/RenameFormUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/RenameSectionUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/RescheduleFormUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/SetAccessModeUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/SetAllowEditBeforeSubmitUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/SetAnonymousModeUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/SetAutoSaveUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/SetPresentationOptionsUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/in/SetResponseLimitPolicyUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/out/CheckCampaignExistsPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/out/ComputeNextSectionPositionPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/out/CountQuestionsByFormPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/out/DeleteFormPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/out/DeleteSectionPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/out/ExistsFormByTitleInCampaignPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/out/LoadFormPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/out/LoadSectionPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/out/ReorderSectionsPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/out/SaveFormPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/out/SaveSectionPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/out/SearchFormsPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/port/out/SearchSectionsPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/AddSectionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/ChangeFormDescriptionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/ChangeFormStatusService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/ChangeThemeService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/CreateFormService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/DeleteFormService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/DeleteSectionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/GetFormService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/ListFormsService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/ListSectionsService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/MoveSectionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/RenameFormService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/RenameSectionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/RescheduleFormService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/SetAccessModeService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/SetAllowEditBeforeSubmitService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/SetAnonymousModeService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/SetAutoSaveService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/SetPresentationOptionsService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/application/usecase/SetResponseLimitPolicyService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/domain/exception/FormAlreadyExistsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/domain/exception/FormNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/domain/exception/InvalidAvailabilityWindowException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/domain/exception/InvalidFormStatusTransitionException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/domain/model/AccessMode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/domain/model/Form.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/domain/model/FormStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/domain/model/Section.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/domain/model/Theme.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/domain/valueobject/AvailabilityWindow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/domain/valueobject/FormTitle.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/domain/valueobject/PresentationOptions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/domain/valueobject/ResponseLimitPolicy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/FormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/SectionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/dto/AddSectionRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/dto/ChangeStatusRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/dto/CreateFormRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/dto/FormResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/dto/RescheduleRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/dto/SectionResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/dto/SetAccessModeRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/dto/SetLimitPolicyRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/dto/SetPresentationRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/dto/ToggleFlagRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/dto/UpdateDescriptionRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/dto/UpdateThemeRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/dto/UpdateTitleRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/in/rest/mapper/FormRestMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/out/jpa/CheckCampaignExistsAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/out/jpa/CountQuestionsNoopAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/out/jpa/FormRepositoryAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/out/jpa/SectionRepositoryAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/out/jpa/entity/FormEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/out/jpa/entity/SectionEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/out/jpa/mapper/FormJpaMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/out/jpa/mapper/SectionJpaMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/out/jpa/repository/FormJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/out/jpa/repository/FormSpecifications.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/forms/infrastructure/adapter/out/jpa/repository/SectionJpaRepository.java" afterDir="false" />
+    <list default="true" id="4bf00601-95ea-406f-8f3b-a04351fea96a" name="Changes" comment="super commit">
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/dto/ExportCampaignReportQuery.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/dto/ExportFormReportQuery.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/dto/ExportFormat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/dto/ExportedFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/port/in/ExportCampaignReportUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/port/in/ExportFormReportUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/port/out/CampaignReportPdfExporterPort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/port/out/CampaignReportXlsxExporterPort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/port/out/FormReportPdfExporterPort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/port/out/FormReportXlsxExporterPort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/usecase/ExportCampaignReportService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/usecase/ExportFormReportService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/infrastructure/adapter/out/pdf/CampaignReportPdfExporterAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/infrastructure/adapter/out/pdf/FormReportPdfExporterAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/infrastructure/adapter/out/xlsx/CampaignReportXlsxExporterAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/infrastructure/adapter/out/xlsx/FormReportXlsxExporterAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/infrastructure/adapter/in/rest/ReportsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/infrastructure/adapter/in/rest/ReportsController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +42,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="SURV-7-backend-creacion-y-gestion-de-formularios" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -150,48 +73,52 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.EncuestasApiApplication.executor&quot;: &quot;Run&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;SURV-5-backend-estructura-de-proyectos-y-campanas&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Gustavo/Documents/tallerV_backend/Backend/src/main/java/com/example/encuestas_api&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\ERNESTO\\AppData\\Roaming\\JetBrains\\IntelliJIdea2025.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.EncuestasApiApplication.executor": "Run",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "SURV-5-backend-estructura-de-proyectos-y-campanas",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Gustavo/Documents/tallerV_backend/Backend/src/main/java/com/example/encuestas_api/reports/infrastructure/adapter/out/xlsx",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Users\\ERNESTO\\AppData\\Roaming\\JetBrains\\IntelliJIdea2025.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.example.encuestas_api.Services" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Gustavo\Documents\tallerV_backend\Backend\src\main\java\com\example\encuestas_api" />
+      <recent name="C:\Users\Gustavo\Documents\tallerV_backend\Backend\src\main\java\com\example\encuestas_api\reports\infrastructure\adapter\out\xlsx" />
+      <recent name="C:\Users\Gustavo\Documents\tallerV_backend\Backend\src\main\java\com\example\encuestas_api\reports\infrastructure\adapter\out\pdf" />
+      <recent name="C:\Users\Gustavo\Documents\tallerV_backend\Backend\src\main\java\com\example\encuestas_api\reports\application\usecase" />
+      <recent name="C:\Users\Gustavo\Documents\tallerV_backend\Backend\src\main\java\com\example\encuestas_api\reports\application\port\out" />
+      <recent name="C:\Users\Gustavo\Documents\tallerV_backend\Backend\src\main\java\com\example\encuestas_api\reports\application\port\in" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\ERNESTO\OneDrive\Documentos\GitLab\Encuestas-Online\Frontend\src\app" />
@@ -265,7 +192,17 @@
       <workItem from="1762455607956" duration="563000" />
       <workItem from="1762456179492" duration="709000" />
       <workItem from="1762633188236" duration="897000" />
+      <workItem from="1764137606378" duration="1095000" />
     </task>
+    <task id="LOCAL-00001" summary="super commit">
+      <option name="closed" value="true" />
+      <created>1764101201216</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1764101201216</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -282,7 +219,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="SURV-7-backend-creacion-y-gestion-de-formularios" />
                       </list>
                     </value>
                   </entry>
@@ -293,6 +230,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="super commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="super commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
