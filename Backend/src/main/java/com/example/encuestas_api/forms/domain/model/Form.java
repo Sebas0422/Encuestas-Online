@@ -19,6 +19,7 @@ public final class Form {
     private final AccessMode accessMode;
     private final AvailabilityWindow window;
     private final ResponseLimitPolicy limitPolicy;
+    private final String publicCode;
     private final boolean anonymousMode;
     private final boolean allowEditBeforeSubmit;
     private final boolean autoSave;
@@ -27,7 +28,7 @@ public final class Form {
     private final Instant createdAt;
     private final Instant updatedAt;
 
-    private Form(Long id, Long campaignId, FormTitle title, String description, String coverUrl,
+    private Form(Long id, Long campaignId, FormTitle title, String description, String coverUrl, String publicCode,
                  Theme theme, AccessMode accessMode, AvailabilityWindow window,
                  ResponseLimitPolicy limitPolicy, boolean anonymousMode, boolean allowEditBeforeSubmit,
                  boolean autoSave, PresentationOptions presentation, FormStatus status,
@@ -47,6 +48,7 @@ public final class Form {
         this.title = title;
         this.description = description == null ? null : description.trim();
         this.coverUrl = coverUrl;
+        this.publicCode = publicCode;
         this.theme = theme;
         this.accessMode = accessMode;
         this.window = window;
@@ -65,7 +67,7 @@ public final class Form {
                                  ResponseLimitPolicy limitPolicy, boolean anonymousMode,
                                  boolean allowEditBeforeSubmit, boolean autoSave,
                                  PresentationOptions presentation, Instant now) {
-        return new Form(null, campaignId, title, description, coverUrl,
+        return new Form(null, campaignId, title, description, coverUrl, null,
                 theme == null ? Theme.defaultLight() : theme,
                 mode == null ? AccessMode.PUBLIC : mode,
                 window, limitPolicy, anonymousMode, allowEditBeforeSubmit, autoSave,
@@ -74,52 +76,57 @@ public final class Form {
 
     public static Form rehydrate(Long id, Long campaignId, FormTitle title, String description, String coverUrl,
                                  Theme theme, AccessMode mode, AvailabilityWindow window,
-                                 ResponseLimitPolicy limitPolicy, boolean anonymousMode,
+                                 String publicCode, ResponseLimitPolicy limitPolicy, boolean anonymousMode,
                                  boolean allowEditBeforeSubmit, boolean autoSave,
                                  PresentationOptions presentation, FormStatus status,
                                  Instant createdAt, Instant updatedAt) {
-        return new Form(id, campaignId, title, description, coverUrl, theme, mode, window, limitPolicy,
+        return new Form(id, campaignId, title, description, coverUrl, publicCode, theme, mode, window, limitPolicy,
                 anonymousMode, allowEditBeforeSubmit, autoSave, presentation, status, createdAt, updatedAt);
     }
 
-    public Form rename(FormTitle newTitle, Instant now) {
-        return new Form(id, campaignId, newTitle, description, coverUrl, theme, accessMode, window,
+    public Form rename(FormTitle newTitle, Instant now){
+        return new Form(id, campaignId, newTitle, description, coverUrl, publicCode, theme, accessMode, window,
+                limitPolicy, anonymousMode, allowEditBeforeSubmit, autoSave, presentation, status, createdAt, now);
+    }
+
+    public Form setPublicCode(String code, Instant now) {
+        return new Form(id, campaignId, title, description, coverUrl, code, theme, accessMode, window,
                 limitPolicy, anonymousMode, allowEditBeforeSubmit, autoSave, presentation, status, createdAt, now);
     }
     public Form changeDescription(String desc, Instant now) {
-        return new Form(id, campaignId, title, desc, coverUrl, theme, accessMode, window,
+        return new Form(id, campaignId, title, desc, coverUrl, publicCode, theme, accessMode, window,
                 limitPolicy, anonymousMode, allowEditBeforeSubmit, autoSave, presentation, status, createdAt, now);
     }
     public Form changeTheme(Theme t, Instant now) {
-        return new Form(id, campaignId, title, description, coverUrl, t, accessMode, window,
+        return new Form(id, campaignId, title, description, coverUrl, publicCode, t, accessMode, window,
                 limitPolicy, anonymousMode, allowEditBeforeSubmit, autoSave, presentation, status, createdAt, now);
     }
     public Form setAccessMode(AccessMode m, Instant now) {
-        return new Form(id, campaignId, title, description, coverUrl, theme, m, window,
+        return new Form(id, campaignId, title, description, coverUrl, publicCode, theme, m, window,
                 limitPolicy, anonymousMode, allowEditBeforeSubmit, autoSave, presentation, status, createdAt, now);
     }
     public Form reschedule(AvailabilityWindow w, Instant now) {
-        return new Form(id, campaignId, title, description, coverUrl, theme, accessMode, w,
+        return new Form(id, campaignId, title, description, coverUrl, publicCode, theme, accessMode, w,
                 limitPolicy, anonymousMode, allowEditBeforeSubmit, autoSave, presentation, status, createdAt, now);
     }
     public Form setLimitPolicy(ResponseLimitPolicy p, Instant now) {
-        return new Form(id, campaignId, title, description, coverUrl, theme, accessMode, window,
+        return new Form(id, campaignId, title, description, coverUrl, publicCode, theme, accessMode, window,
                 p, anonymousMode, allowEditBeforeSubmit, autoSave, presentation, status, createdAt, now);
     }
     public Form setPresentation(PresentationOptions p, Instant now) {
-        return new Form(id, campaignId, title, description, coverUrl, theme, accessMode, window,
+        return new Form(id, campaignId, title, description, coverUrl, publicCode, theme, accessMode, window,
                 limitPolicy, anonymousMode, allowEditBeforeSubmit, autoSave, p, status, createdAt, now);
     }
     public Form setAnonymous(boolean anonymous, Instant now) {
-        return new Form(id, campaignId, title, description, coverUrl, theme, accessMode, window,
+        return new Form(id, campaignId, title, description, coverUrl, publicCode, theme, accessMode, window,
                 limitPolicy, anonymous, allowEditBeforeSubmit, autoSave, presentation, status, createdAt, now);
     }
     public Form setAllowEditBeforeSubmit(boolean allow, Instant now) {
-        return new Form(id, campaignId, title, description, coverUrl, theme, accessMode, window,
+        return new Form(id, campaignId, title, description, coverUrl, publicCode, theme, accessMode, window,
                 limitPolicy, anonymousMode, allow, autoSave, presentation, status, createdAt, now);
     }
     public Form setAutoSave(boolean enabled, Instant now) {
-        return new Form(id, campaignId, title, description, coverUrl, theme, accessMode, window,
+        return new Form(id, campaignId, title, description, coverUrl, publicCode, theme, accessMode, window,
                 limitPolicy, anonymousMode, allowEditBeforeSubmit, enabled, presentation, status, createdAt, now);
     }
 
@@ -128,7 +135,7 @@ public final class Form {
         if (!isAllowed(this.status, target)) {
             throw new InvalidFormStatusTransitionException(this.status, target);
         }
-        return new Form(id, campaignId, title, description, coverUrl, theme, accessMode, window,
+        return new Form(id, campaignId, title, description, coverUrl, publicCode, theme, accessMode, window,
                 limitPolicy, anonymousMode, allowEditBeforeSubmit, autoSave, presentation, target, createdAt, now);
     }
 
@@ -157,6 +164,7 @@ public final class Form {
     public FormStatus getStatus(){ return status; }
     public Instant getCreatedAt(){ return createdAt; }
     public Instant getUpdatedAt(){ return updatedAt; }
+    public String getPublicCode(){ return publicCode; }
 
     @Override public boolean equals(Object o){
         if (this == o) return true;

@@ -22,7 +22,7 @@ public final class FormJpaMapper {
         var presentation = PresentationOptions.of(e.isShuffleQuestions(), e.isShuffleOptions(), e.isProgressBar(), e.isPaginated());
         return Form.rehydrate(
                 e.getId(), e.getCampaignId(), FormTitle.of(e.getTitle()), e.getDescription(), e.getCoverUrl(),
-                theme, e.getAccessMode(), window, limit, e.isAnonymousMode(), e.isAllowEditBeforeSubmit(),
+                 theme, e.getAccessMode(), window, e.getPublicCode(),limit, e.isAnonymousMode(), e.isAllowEditBeforeSubmit(),
                 e.isAutoSave(), presentation, e.getStatus(), e.getCreatedAt(), e.getUpdatedAt()
         );
     }
@@ -39,6 +39,7 @@ public final class FormJpaMapper {
         e.setAccessMode(d.getAccessMode());
         e.setOpenAt(d.getWindow() == null ? null : d.getWindow().openAt());
         e.setCloseAt(d.getWindow() == null ? null : d.getWindow().closeAt());
+        e.setPublicCode(d.getPublicCode());
 
         var lm = d.getLimitPolicy().mode();
         switch (lm) {

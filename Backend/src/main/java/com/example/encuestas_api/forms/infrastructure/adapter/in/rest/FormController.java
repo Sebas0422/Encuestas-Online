@@ -33,17 +33,20 @@ public class FormController {
     private final ChangeFormStatusUseCase statusUC;
     private final DeleteFormUseCase deleteUC;
     private final ListFormsUseCase listUC;
+    private final GeneratePublicLinkUseCase publicLinkUC;
 
     public FormController(CreateFormUseCase createUC, GetFormUseCase getUC, RenameFormUseCase renameUC,
                           ChangeFormDescriptionUseCase descUC, ChangeThemeUseCase themeUC, SetAccessModeUseCase accessUC,
                           RescheduleFormUseCase scheduleUC, SetResponseLimitPolicyUseCase limitUC,
                           SetPresentationOptionsUseCase presentationUC, SetAnonymousModeUseCase anonymousUC,
                           SetAllowEditBeforeSubmitUseCase allowEditUC, SetAutoSaveUseCase autoSaveUC,
-                          ChangeFormStatusUseCase statusUC, DeleteFormUseCase deleteUC, ListFormsUseCase listUC) {
+                          ChangeFormStatusUseCase statusUC, DeleteFormUseCase deleteUC, ListFormsUseCase listUC,
+                          GeneratePublicLinkUseCase publicLinkUC) {
         this.createUC = createUC; this.getUC = getUC; this.renameUC = renameUC; this.descUC = descUC;
         this.themeUC = themeUC; this.accessUC = accessUC; this.scheduleUC = scheduleUC; this.limitUC = limitUC;
         this.presentationUC = presentationUC; this.anonymousUC = anonymousUC; this.allowEditUC = allowEditUC;
         this.autoSaveUC = autoSaveUC; this.statusUC = statusUC; this.deleteUC = deleteUC; this.listUC = listUC;
+        this.publicLinkUC = publicLinkUC;
     }
 
     @PostMapping("/api/campaigns/{campaignId}/forms")
@@ -170,4 +173,13 @@ public class FormController {
         );
         return ResponseEntity.ok(mapped);
     }
+
+    @PostMapping("/api/forms/{id}/public-link")
+    public ResponseEntity<PublicLinkResponse> generatePublicLink(@PathVariable Long id,
+                                                                @RequestParam(defaultValue = "false") boolean force) {
+       String code = publicLinkUC.handle(id, force);
+       String base = System.getenv().getOrDefault("PUBLIC_BASE_URL", "http://localhost:8080");
+       return ResponseEntity.ok(new PublicLinkResponse(code, base + "/api/public/forms/" + code));
+    }
+
 }
