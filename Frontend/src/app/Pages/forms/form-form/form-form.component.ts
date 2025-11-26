@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
-import { forkJoin, Observable } from 'rxjs'; 
+import { forkJoin, Observable } from 'rxjs';
 
 import { FormService } from '../../../Services/form.service';
+import { PermissionService } from '../../../Services/permission.service';
 import { Forms } from '../../../Models/form.model';
+import { MemberRole } from '../../../Models/member.model';
 
 @Component({
   selector: 'app-form-form',
@@ -18,7 +20,7 @@ export class FormFormComponent implements OnInit {
 
   // Inicializamos con valores por defecto según tu JSON
   formData: Forms = {
-    campaignId: 0, 
+    campaignId: 0,
     title: '',
     description: '',
     coverUrl: 'https://placehold.co/600x200', // Placeholder por defecto
@@ -38,18 +40,20 @@ export class FormFormComponent implements OnInit {
     paginated: true,
   };
 
-  originalData: Forms | null = null; 
+  originalData: Forms | null = null;
 
-  isEditMode: boolean = false; 
-  formId: number | null = null; 
+  isEditMode: boolean = false;
+  formId: number | null = null;
+  userRole: MemberRole | null = null;
 
   loading: boolean = false;
   errorMessage: string = '';
-  successMessage: string = ''; 
+  successMessage: string = '';
 
 
   constructor(
     private formService: FormService,
+    private permissionService: PermissionService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -63,15 +67,31 @@ export class FormFormComponent implements OnInit {
       this.formId = +idParam;
       this.loadFormData(this.formId);
     } else {
-  
+
       this.isEditMode = false;
 
       this.route.queryParams.subscribe(params => {
         if (params['campaignId']) {
           this.formData.campaignId = +params['campaignId'];
+          this.loadPermissions(this.formData.campaignId);
         }
       });
     }
+  }
+
+  loadPermissions(campaignId: number): void {
+    this.permissionService.getUserRoleInCampaign(campaignId).subscribe({
+      next: (role) => {
+        this.userRole = role;
+        if (!this.permissionService.canManageForms(role)) {
+          this.errorMessage = 'No tienes permisos para gestionar formularios';
+          setTimeout(() => this.goBack(), 2000);
+        }
+      },
+      error: () => {
+        this.userRole = null;
+      }
+    });
   }
 
   loadFormData(id: number): void {
@@ -85,6 +105,7 @@ export class FormFormComponent implements OnInit {
 
 
         this.originalData = JSON.parse(JSON.stringify(this.formData));
+        this.loadPermissions(this.formData.campaignId);
         this.loading = false;
       },
       error: (err) => {
@@ -97,6 +118,11 @@ export class FormFormComponent implements OnInit {
 
   onSubmit(): void {
     if (!this.isValid()) return;
+
+    if (!this.permissionService.canManageForms(this.userRole)) {
+      this.errorMessage = 'No tienes permisos para gestionar formularios';
+      return;
+    }
 
     this.loading = true;
     this.errorMessage = '';
@@ -117,7 +143,7 @@ export class FormFormComponent implements OnInit {
       closeAt: new Date(this.formData.closeAt).toISOString()
     };
 
-    this.formService.createForm(payload).subscribe({
+    this.formService.createForm(this.formData.campaignId, payload).subscribe({
       next: (response) => {
         this.successMessage = 'Formulario creado con éxito';
         this.goBack();

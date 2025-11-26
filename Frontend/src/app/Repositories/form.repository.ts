@@ -20,21 +20,17 @@ export class FormRepository {
     }
 
     getAll(campaignId: number): Observable<PaginatedForms> {
-        let params = new HttpParams();
+        const url = `http://localhost:8080/api/campaigns/${campaignId}/forms`;
+        let params = new HttpParams()
+            .append('page', '0')
+            .append('size', '20');
 
-        if (campaignId) {
-            params = params.append('campaignId', campaignId.toString());
-        }
-
-        params = params.append('page', '0');
-        params = params.append('size', '20');
-
-        return this.http.get<PaginatedForms>(this.apiURL, { params });
-
+        return this.http.get<PaginatedForms>(url, { params });
     }
 
-    create(form: Forms): Observable<Forms> {
-        return this.http.post<Forms>(this.apiURL, form);
+    create(campaignId: number, form: Forms): Observable<Forms> {
+        const url = `http://localhost:8080/api/campaigns/${campaignId}/forms`;
+        return this.http.post<Forms>(url, form);
     }
 
     getById(id: number): Observable<Forms> {
