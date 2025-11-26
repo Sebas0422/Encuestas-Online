@@ -5,175 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4bf00601-95ea-406f-8f3b-a04351fea96a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/application/dto/AuthResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/application/port/in/LoginUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/application/port/in/RegisterUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/application/port/out/LoadCredentialPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/application/port/out/PasswordHasherPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/application/port/out/SaveCredentialPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/application/port/out/TokenEncoderPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/application/usecase/LoginService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/application/usecase/RegisterService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/domain/model/Credential.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/infrastructure/adapter/in/rest/AuthController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/infrastructure/adapter/in/rest/AuthRestMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/infrastructure/adapter/in/rest/dto/AuthResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/infrastructure/adapter/in/rest/dto/LoginRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/infrastructure/adapter/in/rest/dto/RegisterRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/infrastructure/adapter/out/crypto/BCryptPasswordHasherAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/infrastructure/adapter/out/jpa/CredentialEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/infrastructure/adapter/out/jpa/CredentialJpaMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/infrastructure/adapter/out/jpa/CredentialJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/infrastructure/adapter/out/jpa/CredentialRepositoryAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/infrastructure/adapter/out/jwt/JwtTokenEncoderAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/infrastructure/config/AuthConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/auth/infrastructure/config/JwtProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/dto/CampaignListQuery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/dto/MemberListQuery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/in/AddCampaignMemberUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/in/ChangeCampaignDescriptionUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/in/ChangeCampaignStatusUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/in/ChangeMemberRoleUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/in/CreateCampaignUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/in/DeleteCampaignUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/in/GetCampaignUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/in/ListCampaignMembersUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/in/ListCampaignsUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/in/RemoveCampaignMemberUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/in/RenameCampaignUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/in/RescheduleCampaignUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/out/CheckUserExistsPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/out/DeleteCampaignMemberPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/out/DeleteCampaignPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/out/ExistsCampaignByNamePort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/out/LoadCampaignMemberPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/out/LoadCampaignPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/out/SaveCampaignMemberPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/out/SaveCampaignPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/out/SearchCampaignMembersPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/port/out/SearchCampaignsPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/usecase/AddCampaignMemberService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/usecase/ChangeCampaignDescriptionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/usecase/ChangeCampaignStatusService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/usecase/ChangeMemberRoleService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/usecase/CreateCampaignService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/usecase/DeleteCampaignService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/usecase/GetCampaignService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/usecase/ListCampaignMembersService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/usecase/ListCampaignsService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/usecase/RemoveCampaignMemberService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/usecase/RenameCampaignService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/application/usecase/RescheduleCampaignService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/domain/exception/CampaignAlreadyExistsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/domain/exception/CampaignMemberAlreadyExistsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/domain/exception/CampaignMemberNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/domain/exception/CampaignNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/domain/exception/InvalidCampaignDatesException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/domain/exception/InvalidCampaignStatusTransitionException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/domain/model/Campaign.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/domain/model/CampaignMember.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/domain/model/CampaignMemberRole.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/domain/model/CampaignStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/domain/valueobject/CampaignName.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/in/rest/CampaignController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/in/rest/CampaignMemberController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/in/rest/dto/AddMemberRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/in/rest/dto/CampaignMemberResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/in/rest/dto/CampaignResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/in/rest/dto/ChangeDescriptionRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/in/rest/dto/ChangeMemberRoleRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/in/rest/dto/ChangeStatusRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/in/rest/dto/CreateCampaignRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/in/rest/dto/RenameCampaignRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/in/rest/dto/RescheduleCampaignRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/in/rest/mapper/CampaignRestMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/out/jpa/CampaignMemberRepositoryAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/out/jpa/CampaignRepositoryAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/out/jpa/CheckUserExistsAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/out/jpa/entity/CampaignEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/out/jpa/entity/CampaignMemberEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/out/jpa/mapper/CampaignJpaMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/out/jpa/mapper/CampaignMemberJpaMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/out/jpa/repository/CampaignJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/out/jpa/repository/CampaignMemberJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/campaigns/infrastructure/adapter/out/jpa/repository/CampaignSpecifications.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/dto/PagedResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/exception/ErrorResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/exception/OwnershipException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/exception/ResourceNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/validation/EmailPatternValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/validation/FutureDate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/validation/FutureDateValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/validation/MinWords.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/validation/MinWordsValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/validation/NoWhitespace.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/validation/NoWhitespaceValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/validation/StrongPassword.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/validation/StrongPasswordValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/validation/UsernameValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/validation/ValidEmail.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/common/validation/ValidUsername.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/config/TimeConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/dto/ListUsersQuery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/port/in/ChangeUserStatusUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/port/in/CreateUserUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/port/in/DeleteUserUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/port/in/GetUserByEmailUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/port/in/GetUserByIdUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/port/in/ListUsersUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/port/in/RenameUserUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/port/in/SetSystemAdminUseCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/port/out/UserRepositoryPort.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/usecase/ChangeUserStatusService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/usecase/CreateUserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/usecase/DeleteUserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/usecase/GetUserByEmailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/usecase/GetUserByIdService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/usecase/ListUsersService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/usecase/RenameUserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/application/usecase/SetSystemAdminService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/domain/exception/UserAlreadyExistsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/domain/exception/UserNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/domain/model/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/domain/model/UserStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/domain/valueobject/Email.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/domain/valueobject/FullName.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/infrastructure/adapter/in/rest/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/infrastructure/adapter/in/rest/dto/ChangeStatusRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/infrastructure/adapter/in/rest/dto/CreateUserRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/infrastructure/adapter/in/rest/dto/RenameUserRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/infrastructure/adapter/in/rest/dto/SetSystemAdminRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/infrastructure/adapter/in/rest/dto/UserResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/infrastructure/adapter/in/rest/mapper/UserRestMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/infrastructure/adapter/out/jpa/UserRepositoryAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/infrastructure/adapter/out/jpa/entity/UserEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/infrastructure/adapter/out/jpa/mapper/UserJpaMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/infrastructure/adapter/out/jpa/repository/UserJpaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/users/infrastructure/adapter/out/jpa/repository/UserSpecifications.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7d35fd91-8b68-438f-8fb3-d553742c1d79.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d0ea9a31-4ca3-4d0c-a488-d655280579cc.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Controllers/AuthenticationController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Controllers/CampaignController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/DTOS/CampaignDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/DTOS/LoginResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/DTOS/LoginUserDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/DTOS/RegisterUserDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Models/Campaign.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Models/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Repository/CampaignRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Repository/UserRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Services/AuthenticationService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Services/CamapignService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/Services/JwtService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/config/AplicationConfiguration.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/config/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/config/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/config/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/test/java/com/example/encuestas_api/auth/infrastructure/adapter/in/rest/dto/RegisterRequestTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/test/java/com/example/encuestas_api/auth/infrastructure/adapter/in/rest/dto/RegisterRequestTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,23 +32,43 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Ernesto2001PO&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "history": [
+    {
+      "state": "OPEN",
+      "author": "Alvarez-Dylan"
+    }
+  ],
+  "lastFilter": {
+    "state": "OPEN",
+    "author": "Alvarez-Dylan"
   }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Sebas0422/Encuestas-Online.git&quot;,
-    &quot;accountId&quot;: &quot;a910d9f5-c07c-45fc-9b0e-65da579ab0bf&quot;
+}]]></component>
+  <component name="GitHubPullRequestState"><![CDATA[{
+  "prStates": [
+    {
+      "id": {
+        "id": "PR_kwDOP-LK6s6y5ACd",
+        "number": 9
+      },
+      "lastSeen": 1764186454581
+    }
+  ]
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Sebas0422/Encuestas-Online",
+    "accountId": "ecd58536-c01d-4672-a3d6-9d10e0e5bef7"
   }
-}</component>
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Frontend/src/app/Pages/registro/registro.component.html" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -225,6 +80,14 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "JUnit.AuthControllerTest.executor": "Run",
+    "JUnit.AuthResponseTest.executor": "Run",
+    "JUnit.EncuestasApiApplicationTests.executor": "Run",
+    "JUnit.LoginRequestTest.executor": "Run",
+    "JUnit.RegisterRequestTest.executor": "Run",
+    "JUnit.RegisterRequestTest.shouldAllowNullSystemAdmin.executor": "Run",
+    "JUnit.dto in encuestas-api.executor": "Run",
+    "JUnit.rest in encuestas-api.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -237,18 +100,18 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.EncuestasApiApplication.executor": "Run",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "SURV-5-backend-estructura-de-proyectos-y-campanas",
+    "git-widget-placeholder": "#12 on tests/auth-files",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Gustavo/Documents/tallerV_backend/Backend/src/main/java/com/example/encuestas_api",
+    "last_opened_file_path": "C:/Users/Usuario/Desktop/Tareas/Taller V/Encuestas-Online",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "ts.external.directory.path": "C:\\Users\\ERNESTO\\AppData\\Roaming\\JetBrains\\IntelliJIdea2025.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
@@ -273,33 +136,78 @@
       <recent name="C:\Users\ERNESTO\OneDrive\Documentos\GitLab\Encuestas-Online\Frontend\src\app\Components" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="EncuestasApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.rest in encuestas-api">
+    <configuration name="LoginRequestTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="encuestas-api" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.encuestas_api.EncuestasApiApplication" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.encuestas_api.*" />
+          <option name="PATTERN" value="com.example.encuestas_api.auth.infrastructure.adapter.in.rest.dto.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="com.example.encuestas_api.auth.infrastructure.adapter.in.rest.dto" />
+      <option name="MAIN_CLASS_NAME" value="com.example.encuestas_api.auth.infrastructure.adapter.in.rest.dto.LoginRequestTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RegisterRequestTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="encuestas-api" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.encuestas_api.auth.infrastructure.adapter.in.rest.dto.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.encuestas_api.auth.infrastructure.adapter.in.rest.dto" />
+      <option name="MAIN_CLASS_NAME" value="com.example.encuestas_api.auth.infrastructure.adapter.in.rest.dto.RegisterRequestTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RegisterRequestTest.shouldAllowNullSystemAdmin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="encuestas-api" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.encuestas_api.auth.infrastructure.adapter.in.rest.dto.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.encuestas_api.auth.infrastructure.adapter.in.rest.dto" />
+      <option name="MAIN_CLASS_NAME" value="com.example.encuestas_api.auth.infrastructure.adapter.in.rest.dto.RegisterRequestTest" />
+      <option name="METHOD_NAME" value="shouldAllowNullSystemAdmin" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="dto in encuestas-api" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="encuestas-api" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/Backend/src/test/java/com/example/encuestas_api/auth/infrastructure/adapter/in/rest/dto" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="rest in encuestas-api" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="encuestas-api" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/Backend/src/test/java/com/example/encuestas_api/auth/infrastructure/adapter/in/rest" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.EncuestasApiApplication" />
+        <item itemvalue="JUnit.rest in encuestas-api" />
+        <item itemvalue="JUnit.dto in encuestas-api" />
+        <item itemvalue="JUnit.RegisterRequestTest" />
+        <item itemvalue="JUnit.LoginRequestTest" />
+        <item itemvalue="JUnit.RegisterRequestTest.shouldAllowNullSystemAdmin" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
-        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.26830.84" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="StructureViewState">
@@ -350,7 +258,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="tests/auth-files" />
                       </list>
                     </value>
                   </entry>
