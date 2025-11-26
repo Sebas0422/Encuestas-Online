@@ -8,7 +8,10 @@ import com.example.encuestas_api.campaigns.infrastructure.adapter.out.jpa.mapper
 import com.example.encuestas_api.campaigns.infrastructure.adapter.out.jpa.repository.CampaignJpaRepository;
 import com.example.encuestas_api.campaigns.infrastructure.adapter.out.jpa.repository.CampaignSpecifications;
 import com.example.encuestas_api.common.dto.PagedResult;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -36,17 +39,25 @@ public class CampaignRepositoryAdapter implements
     @Override public void deleteById(Long id) { jpa.deleteById(id); }
 
     @Override
-    public PagedResult<Campaign> search(CampaignListQuery q) {
+    public PagedResult<Campaign> search(CampaignListQuery q, Long userId) {
+
         Specification<CampaignEntity> spec = Specification
                 .where(CampaignSpecifications.searchTerm(q.search()))
                 .and(CampaignSpecifications.statusEquals(q.status()))
                 .and(CampaignSpecifications.startFrom(q.startFrom()))
-                .and(CampaignSpecifications.endTo(q.endTo()));
+                .and(CampaignSpecifications.endTo(q.endTo()))
+                .and(CampaignSpecifications.belongsToUser(userId));
 
         Pageable pageable = PageRequest.of(q.page(), q.size(), Sort.by(Sort.Direction.DESC, "id"));
+
         Page<CampaignEntity> page = jpa.findAll(spec, pageable);
 
-        var items = page.getContent().stream().map(CampaignJpaMapper::toDomain).toList();
-        return new PagedResult<>(items, page.getTotalElements(), page.getNumber(), page.getSize());
+        return new PagedResult<>(
+                page.getContent().stream().map(CampaignJpaMapper::toDomain).toList(),
+                page.getTotalElements(),
+                page.getNumber(),
+                page.getSize()
+        );
     }
+
 }

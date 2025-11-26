@@ -1,6 +1,7 @@
 package com.example.encuestas_api.responses.infrastructure.adapter.out.jpa.entity;
 
 import jakarta.persistence.*;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 

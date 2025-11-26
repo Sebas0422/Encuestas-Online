@@ -2,8 +2,8 @@ package com.example.encuestas_api.forms.infrastructure.adapter.in.rest.dto;
 
 import com.example.encuestas_api.common.validation.MinWords;
 import com.example.encuestas_api.common.validation.NoWhitespace;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.Instant;

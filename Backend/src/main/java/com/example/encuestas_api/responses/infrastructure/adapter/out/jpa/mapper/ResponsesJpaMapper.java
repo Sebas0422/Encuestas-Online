@@ -115,7 +115,7 @@ public final class ResponsesJpaMapper {
         }
         if (ae instanceof MatchingAnswerEntity me) {
             var pairs = me.getPairs().stream()
-                    .map(p -> new MatchingPair(p.getLeftId(), p.getRightId()))
+                    .map(p -> new com.example.encuestas_api.responses.domain.model.MatchingPair(p.getLeftId(), p.getRightId()))
                     .collect(Collectors.toList());
             return new MatchingAnswer(me.getQuestionId(), me.getQuestionVersion(), pairs);
         }

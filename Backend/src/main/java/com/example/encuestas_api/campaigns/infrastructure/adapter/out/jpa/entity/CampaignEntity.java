@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "campaigns", uniqueConstraints = {
@@ -36,6 +37,10 @@ public class CampaignEntity {
 
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
+
+    @OneToMany(mappedBy = "campaign")
+    private List<CampaignMemberEntity> members;
+
 
     @PrePersist
     void prePersist() {
