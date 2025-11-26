@@ -7,6 +7,8 @@ import com.example.encuestas_api.forms.application.port.out.SaveFormPort;
 import com.example.encuestas_api.forms.domain.exception.FormNotFoundException;
 import com.example.encuestas_api.forms.domain.model.Form;
 import com.example.encuestas_api.forms.domain.model.FormStatus;
+import com.example.encuestas_api.notifications.application.port.in.OnFormStatusChangedUseCase;
+import com.example.encuestas_api.notifications.domain.event.FormStatusChangedEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,15 +23,18 @@ public class ChangeFormStatusService implements ChangeFormStatusUseCase {
     private final SaveFormPort savePort;
     private final CountQuestionsByFormPort countQuestions;
     private final Clock clock;
+    private final OnFormStatusChangedUseCase onFormStatusChanged;
 
     public ChangeFormStatusService(LoadFormPort loadPort,
                                    SaveFormPort savePort,
                                    CountQuestionsByFormPort countQuestions,
-                                   Clock clock) {
+                                   Clock clock,
+                                   OnFormStatusChangedUseCase onFormStatusChanged) {
         this.loadPort = loadPort;
         this.savePort = savePort;
         this.countQuestions = countQuestions;
         this.clock = clock;
+        this.onFormStatusChanged = onFormStatusChanged;
     }
 
     @Override
@@ -42,6 +47,14 @@ public class ChangeFormStatusService implements ChangeFormStatusUseCase {
         }
 
         var updated = form.changeStatus(target, Instant.now(clock));
-        return savePort.save(updated);
+        var saved = savePort.save(updated);
+
+        onFormStatusChanged.handle(new FormStatusChangedEvent(
+                saved.getId(),
+                form.getStatus(),
+                saved.getStatus(),
+                Instant.now(clock)
+        ));
+        return saved;
     }
 }

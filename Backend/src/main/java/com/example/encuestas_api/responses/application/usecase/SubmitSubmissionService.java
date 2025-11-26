@@ -1,5 +1,9 @@
 package com.example.encuestas_api.responses.application.usecase;
 
+import com.example.encuestas_api.notifications.application.port.in.OnResponseLimitReachedUseCase;
+import com.example.encuestas_api.notifications.application.port.in.OnSubmissionSubmittedUseCase;
+import com.example.encuestas_api.notifications.domain.event.ResponseLimitReachedEvent;
+import com.example.encuestas_api.notifications.domain.event.SubmissionSubmittedEvent;
 import com.example.encuestas_api.responses.application.dto.SubmitSubmissionCommand;
 import com.example.encuestas_api.responses.application.exception.ResponsePolicyViolationException;
 import com.example.encuestas_api.responses.application.exception.SubmissionValidationException;
@@ -23,17 +27,23 @@ public class SubmitSubmissionService implements SubmitSubmissionUseCase {
     private final BuildQuestionSnapshotsPort snapshotsPort;
     private final LoadFormPoliciesPort policiesPort;
     private final CountSubmittedByFormPort countPort;
+    private final OnSubmissionSubmittedUseCase onSubmitted;
+    private final OnResponseLimitReachedUseCase onResponseLimitReached;
 
     public SubmitSubmissionService(FindSubmissionPort findPort,
                                    SaveSubmissionPort savePort,
                                    BuildQuestionSnapshotsPort snapshotsPort,
                                    LoadFormPoliciesPort policiesPort,
-                                   CountSubmittedByFormPort countPort) {
+                                   CountSubmittedByFormPort countPort,
+                                   OnSubmissionSubmittedUseCase onSubmitted,
+                                   OnResponseLimitReachedUseCase onResponseLimitReached) {
         this.findPort = findPort;
         this.savePort = savePort;
         this.snapshotsPort = snapshotsPort;
         this.policiesPort = policiesPort;
         this.countPort = countPort;
+        this.onSubmitted = onSubmitted;
+        this.onResponseLimitReached = onResponseLimitReached;
     }
 
     @Override
@@ -58,12 +68,18 @@ public class SubmitSubmissionService implements SubmitSubmissionUseCase {
         if (!errors.isEmpty()) throw new SubmissionValidationException(errors);
 
         if (p.limitMode() == LoadFormPoliciesPort.ResponseLimitMode.LIMITED_N) {
-            long count = countPort.countSubmittedByForm(s.getFormId());
-            if (p.limitedN() != null && count >= p.limitedN())
-                throw new ResponsePolicyViolationException("Se alcanzó el límite de respuestas permitidas");
+            onResponseLimitReached.handle(new ResponseLimitReachedEvent(s.getFormId(), p.limitedN(), Instant.now()));
+            throw new ResponsePolicyViolationException("Se alcanzó el límite de respuestas permitidas");
         }
 
         s.markSubmitted();
-        return savePort.save(s);
+        Submission saved = savePort.save(s);
+        onSubmitted.handle(new SubmissionSubmittedEvent(
+                saved.getId(),
+                saved.getFormId(),
+                saved.getRespondent().toString(),
+                Instant.now()
+        ));
+        return saved;
     }
 }

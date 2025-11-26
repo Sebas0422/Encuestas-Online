@@ -1,15 +1,10 @@
 package com.example.encuestas_api.reports.infrastructure.adapter.in.rest;
 
-import com.example.encuestas_api.reports.application.dto.CampaignReportQuery;
-import com.example.encuestas_api.reports.application.dto.FormReportQuery;
-import com.example.encuestas_api.reports.application.dto.ExportedFile;
-import com.example.encuestas_api.reports.application.dto.ExportFormat;
-import com.example.encuestas_api.reports.application.dto.ExportFormReportQuery;
-import com.example.encuestas_api.reports.application.dto.ExportCampaignReportQuery;
+import com.example.encuestas_api.reports.application.dto.*;
+import com.example.encuestas_api.reports.application.port.in.ExportCampaignReportUseCase;
+import com.example.encuestas_api.reports.application.port.in.ExportFormReportUseCase;
 import com.example.encuestas_api.reports.application.port.in.GenerateCampaignReportUseCase;
 import com.example.encuestas_api.reports.application.port.in.GenerateFormReportUseCase;
-import com.example.encuestas_api.reports.application.port.in.ExportFormReportUseCase;
-import com.example.encuestas_api.reports.application.port.in.ExportCampaignReportUseCase;
 import com.example.encuestas_api.reports.infrastructure.adapter.in.rest.dto.CampaignReportResponse;
 import com.example.encuestas_api.reports.infrastructure.adapter.in.rest.dto.FormReportResponse;
 import com.example.encuestas_api.reports.infrastructure.adapter.in.rest.mapper.ReportsRestMapper;

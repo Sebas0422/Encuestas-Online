@@ -1,6 +1,8 @@
 package com.example.encuestas_api.responses.infrastructure.adapter.out.jpa.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "submission_true_false_answers")

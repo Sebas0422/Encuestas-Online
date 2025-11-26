@@ -1,8 +1,8 @@
 package com.example.encuestas_api.reports.infrastructure.adapter.in.rest.mapper;
 
 import com.example.encuestas_api.reports.domain.model.*;
-import com.example.encuestas_api.reports.infrastructure.adapter.in.rest.dto.FormReportResponse;
 import com.example.encuestas_api.reports.infrastructure.adapter.in.rest.dto.CampaignReportResponse;
+import com.example.encuestas_api.reports.infrastructure.adapter.in.rest.dto.FormReportResponse;
 
 import java.util.List;
 

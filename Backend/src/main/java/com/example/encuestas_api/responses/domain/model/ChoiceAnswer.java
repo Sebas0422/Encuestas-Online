@@ -1,6 +1,9 @@
 package com.example.encuestas_api.responses.domain.model;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class ChoiceAnswer extends SubmissionAnswer {
 
