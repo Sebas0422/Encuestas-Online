@@ -8,9 +8,7 @@
             <h2 class="text-nur-blue mb-1">Gestión de Campañas</h2>
             <p class="text-muted mb-0">Administra todas las campañas de encuestas</p>
           </div>
-          <button 
-            class="btn btn-nur-primary btn-lg"
-            (click)="navigateToCreate()">
+          <button class="btn btn-nur-primary btn-lg" (click)="navigateToCreate()">
             <i class="bi bi-plus-circle me-2"></i>
             Nueva Campaña
           </button>
@@ -43,14 +41,17 @@
     <div class="row" *ngIf="!loading && campaigns.length > 0">
       <div class="col-12 col-md-6 col-lg-4 mb-4" *ngFor="let campaign of campaigns">
         <div class="card campaign-card h-100">
-          <div class="card-body">
+          <div class="card-body" (click)="navigateToForms(campaign.id!)" 
+          style="cursor: pointer; transition: 0.3s;"
+          onmouseover="this.style.backgroundColor='#f8f9fa'" 
+          onmouseout="this.style.backgroundColor='white'">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <h5 class="card-title text-nur-blue mb-0">{{ campaign.name }}</h5>
               <span class="badge bg-nur-blue">Activa</span>
             </div>
-            
+
             <p class="card-text text-muted">{{ campaign.description }}</p>
-            
+
             <div class="campaign-dates mt-3">
               <div class="date-item mb-2">
                 <i class="bi bi-calendar-check text-success me-2"></i>
@@ -64,18 +65,18 @@
               </div>
             </div>
           </div>
-          
+
           <div class="card-footer bg-transparent border-top">
             <div class="d-flex justify-content-end gap-2">
-              <button 
-                class="btn btn-outline-nur btn-sm"
-                (click)="navigateToEdit(campaign.id!)">
+              <button class="btn btn-outline-primary btn-sm" (click)="navigateToMembers(campaign.id!)" *ngIf="canEdit(campaign.id)">
+                <i class="bi bi-people me-1"></i>
+                Miembros
+              </button>
+              <button class="btn btn-outline-nur btn-sm" (click)="navigateToEdit(campaign.id!)" *ngIf="canEdit(campaign.id)">
                 <i class="bi bi-pencil me-1"></i>
                 Editar
               </button>
-              <button 
-                class="btn btn-outline-danger btn-sm"
-                (click)="deleteCampaign(campaign.id!, campaign.name)">
+              <button class="btn btn-outline-danger btn-sm" (click)="deleteCampaign(campaign.id!, campaign.name)" *ngIf="canDelete(campaign.id)">
                 <i class="bi bi-trash me-1"></i>
                 Eliminar
               </button>
@@ -92,9 +93,7 @@
           <i class="bi bi-inbox display-1 text-muted mb-3"></i>
           <h4 class="text-muted">No hay campañas registradas</h4>
           <p class="text-muted">Crea tu primera campaña para comenzar</p>
-          <button 
-            class="btn btn-nur-primary mt-3"
-            (click)="navigateToCreate()">
+          <button class="btn btn-nur-primary mt-3" (click)="navigateToCreate()">
             <i class="bi bi-plus-circle me-2"></i>
             Crear Primera Campaña
           </button>

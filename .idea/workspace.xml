@@ -4,11 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4bf00601-95ea-406f-8f3b-a04351fea96a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="4bf00601-95ea-406f-8f3b-a04351fea96a" name="Changes" comment="super commit">
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/dto/ExportCampaignReportQuery.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/dto/ExportFormReportQuery.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/dto/ExportFormat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/dto/ExportedFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/port/in/ExportCampaignReportUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/port/in/ExportFormReportUseCase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/port/out/CampaignReportPdfExporterPort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/port/out/CampaignReportXlsxExporterPort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/port/out/FormReportPdfExporterPort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/port/out/FormReportXlsxExporterPort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/usecase/ExportCampaignReportService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/application/usecase/ExportFormReportService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/infrastructure/adapter/out/pdf/CampaignReportPdfExporterAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/infrastructure/adapter/out/pdf/FormReportPdfExporterAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/infrastructure/adapter/out/xlsx/CampaignReportXlsxExporterAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/infrastructure/adapter/out/xlsx/FormReportXlsxExporterAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/test/java/com/example/encuestas_api/auth/infrastructure/adapter/in/rest/dto/RegisterRequestTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/test/java/com/example/encuestas_api/auth/infrastructure/adapter/in/rest/dto/RegisterRequestTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/infrastructure/adapter/in/rest/ReportsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/example/encuestas_api/reports/infrastructure/adapter/in/rest/ReportsController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +42,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="SURV-7-backend-creacion-y-gestion-de-formularios" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -103,7 +118,7 @@
     "git-widget-placeholder": "#12 on tests/auth-files",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Usuario/Desktop/Tareas/Taller V/Encuestas-Online",
+    "last_opened_file_path": "C:/Users/Gustavo/Documents/tallerV_backend/Backend/src/main/java/com/example/encuestas_api/reports/infrastructure/adapter/out/xlsx",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -127,7 +142,11 @@
       <recent name="com.example.encuestas_api.Services" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Gustavo\Documents\tallerV_backend\Backend\src\main\java\com\example\encuestas_api" />
+      <recent name="C:\Users\Gustavo\Documents\tallerV_backend\Backend\src\main\java\com\example\encuestas_api\reports\infrastructure\adapter\out\xlsx" />
+      <recent name="C:\Users\Gustavo\Documents\tallerV_backend\Backend\src\main\java\com\example\encuestas_api\reports\infrastructure\adapter\out\pdf" />
+      <recent name="C:\Users\Gustavo\Documents\tallerV_backend\Backend\src\main\java\com\example\encuestas_api\reports\application\usecase" />
+      <recent name="C:\Users\Gustavo\Documents\tallerV_backend\Backend\src\main\java\com\example\encuestas_api\reports\application\port\out" />
+      <recent name="C:\Users\Gustavo\Documents\tallerV_backend\Backend\src\main\java\com\example\encuestas_api\reports\application\port\in" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\ERNESTO\OneDrive\Documentos\GitLab\Encuestas-Online\Frontend\src\app" />
@@ -206,6 +225,11 @@
         <item itemvalue="JUnit.RegisterRequestTest" />
         <item itemvalue="JUnit.LoginRequestTest" />
         <item itemvalue="JUnit.RegisterRequestTest.shouldAllowNullSystemAdmin" />
+        <item itemvalue="Spring Boot.EncuestasApiApplication" />
+        <item itemvalue="Spring Boot.EncuestasApiApplication" />
+        <item itemvalue="Spring Boot.EncuestasApiApplication" />
+        <item itemvalue="Spring Boot.EncuestasApiApplication" />
+        <item itemvalue="Spring Boot.EncuestasApiApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -241,7 +265,18 @@
       <workItem from="1762395602804" duration="1401000" />
       <workItem from="1762455607956" duration="563000" />
       <workItem from="1762456179492" duration="709000" />
+      <workItem from="1762633188236" duration="897000" />
+      <workItem from="1764137606378" duration="1095000" />
     </task>
+    <task id="LOCAL-00001" summary="super commit">
+      <option name="closed" value="true" />
+      <created>1764101201216</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1764101201216</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -258,7 +293,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="tests/auth-files" />
+                        <option value="SURV-7-backend-creacion-y-gestion-de-formularios" />
                       </list>
                     </value>
                   </entry>
@@ -269,6 +304,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="super commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="super commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
