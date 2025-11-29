@@ -5,6 +5,7 @@ import {
     PaginatedForms, Forms, UpdateTitleRequest, UpdateDescriptionRequest, RescheduleRequest,
     ToggleFlagRequest, SetPresentationRequest, UpdateThemeRequest
 } from "../Models/form.model";
+import { PublishResponse } from "../Models/Publish.model";
 
 
 
@@ -35,6 +36,23 @@ export class FormRepository {
 
     getById(id: number): Observable<Forms> {
         return this.http.get<Forms>(`${this.apiURL}/${id}`);
+    }
+
+    // Public endpoint: obtiene un formulario por token público
+    getPublicForm(token: string): Observable<Forms> {
+        const url = `http://localhost:8080/api/public/forms/${token}`;
+        return this.http.get<Forms>(url);
+    }
+
+    publish(id: number, force: boolean = false): Observable<PublishResponse> {
+        const url = `${this.apiURL}/${id}/public-link`;
+      
+        if (force) {
+            const params = new HttpParams().set('force', 'false');
+            return this.http.post<PublishResponse>(url, {}, { params });
+        }
+
+        return this.http.post<PublishResponse>(url, {});
     }
 
     // --- MÉTODOS GRANULARES (PATCH) ---
