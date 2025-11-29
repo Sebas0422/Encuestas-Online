@@ -44,6 +44,34 @@ export class FormPreviewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const token = this.route.snapshot.paramMap.get('token');
+    if (token) {
+      this.loading = true;
+      this.formService.getPublicForm(token).subscribe({
+        next: (form) => {
+          this.form = form;
+          this.questionService.getQuestionsByForm(form.id!).subscribe({
+            next: (questions) => {
+              this.questions = questions.sort((a, b) => a.position - b.position);
+              this.updatePagination();
+              this.loading = false;
+            },
+            error: (err) => {
+              console.error('Error al cargar preguntas públicas:', err);
+              this.errorMessage = 'Error al cargar las preguntas del formulario público';
+              this.loading = false;
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Error al cargar formulario público:', err);
+          this.errorMessage = 'Formulario público no encontrado o vencido';
+          this.loading = false;
+        }
+      });
+      return;
+    }
+
     const id = this.route.snapshot.paramMap.get('formId');
     if (id) {
       this.formId = +id;
@@ -169,6 +197,10 @@ export class FormPreviewComponent implements OnInit {
   }
 
   goBack(): void {
+    if (!this.formId) {
+      window.history.back();
+      return;
+    }
     if (this.form?.campaignId) {
       this.router.navigate(['/forms', this.formId, 'questions']);
     } else {

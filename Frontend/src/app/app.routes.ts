@@ -59,4 +59,9 @@ export const routes: Routes = [
     component: FormPreviewComponent,
     canActivate: [authGuard]
   }
+  ,
+  {
+    path: 'public/forms/:token',
+    component: FormPreviewComponent
+  }
 ];

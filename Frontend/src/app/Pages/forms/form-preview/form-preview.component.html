@@ -2,10 +2,10 @@
   <!-- Header con botón de volver -->
   <div class="preview-header">
     <button class="btn btn-sm btn-outline-secondary" (click)="goBack()">
-      <i class="bi bi-arrow-left"></i> Volver al Editor
+      <i class="bi bi-arrow-left"></i> {{ formId ? 'Volver al Editor' : 'Volver' }}
     </button>
     <span class="badge bg-warning text-dark ms-2">
-      <i class="bi bi-eye"></i> Vista Previa
+      <i class="bi bi-eye"></i> {{ formId ? 'Vista Previa' : 'Formulario Público' }}
     </span>
   </div>
 
@@ -209,7 +209,7 @@
       <div class="container text-center">
         <small class="text-muted">
           <i class="bi bi-info-circle me-1"></i>
-          Esta es una vista previa del formulario
+          {{ formId ? 'Esta es una vista previa del formulario' : 'Completa el formulario y envía tus respuestas' }}
         </small>
       </div>
     </div>

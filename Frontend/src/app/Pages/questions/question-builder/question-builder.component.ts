@@ -6,6 +6,7 @@ import { QuestionService } from '../../../Services/question.service';
 import { SectionService } from '../../../Services/section.service';
 import { FormService } from '../../../Services/form.service';
 import { PermissionService } from '../../../Services/permission.service';
+import { finalize } from 'rxjs/operators';
 import {
   QuestionResponse,
   QuestionType,
@@ -16,6 +17,7 @@ import {
 import { SectionResponse } from '../../../Models/section.model';
 import { Forms } from '../../../Models/form.model';
 import { MemberRole } from '../../../Models/member.model';
+import { PublishResponse } from '../../../Models/Publish.model';
 
 @Component({
   selector: 'app-question-builder',
@@ -57,6 +59,13 @@ export class QuestionBuilderComponent implements OnInit {
   QuestionType = QuestionType;
   SelectionMode = SelectionMode;
   TextMode = TextMode;
+
+  // Publish
+  showPublishModal = false;
+  formPublishedLink: string = '';
+  
+
+
 
   constructor(
     private route: ActivatedRoute,
@@ -106,6 +115,8 @@ export class QuestionBuilderComponent implements OnInit {
       }
     });
   }
+
+
 
   loadSections(): void {
     this.sectionService.getSectionsByForm(this.formId).subscribe({
@@ -158,6 +169,54 @@ export class QuestionBuilderComponent implements OnInit {
         }
       });
     }
+  }
+
+  public openModalPublish(): void {
+    if (!this.canManageQuestions()) {
+      this.errorMessage = 'No tienes permisos para publicar el formulario';
+      return;
+    }
+    this.showPublishModal = true;
+    
+  }
+
+  public publishForm(): void {
+    if (!this.form) {
+      this.errorMessage = 'Formulario no cargado';
+      return;
+    }
+
+    this.loading = true;
+    this.formService.publishForm(this.formId, false).pipe(
+  
+    ).subscribe({
+      
+      next: (response: PublishResponse) => {
+        const url = `${window.location.origin}/public/forms/${response.code}`;
+        this.formPublishedLink = url;
+        this.showSuccess('Formulario publicado exitosamente');
+        this.loading = false;
+        this.loadFormData();
+      },
+
+      error: (err) => {
+        this.errorMessage = 'Error al publicar el formulario';
+        console.error(err);
+      }
+    });
+  }
+  
+
+  closeModalPublish(): void {
+    this.showPublishModal = false;
+  }
+
+  copyToClipboard(text: string): void {
+    navigator.clipboard.writeText(text).then(() => {
+      this.showSuccess('Enlace copiado al portapapeles');
+    }).catch(() => {
+      this.errorMessage = 'Error al copiar el enlace';
+    });
   }
 
   deleteSection(section: SectionResponse): void {
@@ -359,6 +418,10 @@ export class QuestionBuilderComponent implements OnInit {
         this.loading = false;
         console.error(err);
       });
+  }
+
+  formReady(): void {
+    this.openNewQuestionModal(QuestionType.CHOICE);
   }
 
   // ============================================

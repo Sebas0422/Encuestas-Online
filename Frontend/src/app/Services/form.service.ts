@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Forms, PaginatedForms } from '../Models/form.model';
 import { FormRepository } from '../Repositories/form.repository';
-
+import { PublishResponse } from '../Models/Publish.model';
 @Injectable({
     providedIn: 'root'
 })
@@ -18,6 +18,14 @@ export class FormService {
 
     createForm(campaignId: number, form: Forms): Observable<Forms> {
         return this.repository.create(campaignId, form);
+    }
+    
+    publishForm(id: number, force: boolean = false): Observable<PublishResponse> {
+        return this.repository.publish(id, force);
+    }
+
+    getPublicForm(token: string): Observable<Forms> {
+        return this.repository.getPublicForm(token);
     }
 
     getFormById(id: number): Observable<Forms> {
