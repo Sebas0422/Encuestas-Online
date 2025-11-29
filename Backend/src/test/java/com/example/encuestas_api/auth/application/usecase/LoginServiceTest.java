@@ -8,13 +8,12 @@ import com.example.encuestas_api.users.application.port.out.UserRepositoryPort;
 import com.example.encuestas_api.users.domain.exception.UserNotFoundException;
 import com.example.encuestas_api.users.domain.model.User;
 import com.example.encuestas_api.users.domain.valueobject.Email;
+import com.example.encuestas_api.users.domain.valueobject.FullName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.security.authentication.BadCredentialsException;
 
 import java.util.Optional;
-import java.util.UUID;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,7 +41,7 @@ class LoginServiceTest {
         // given
         String email = "user@example.com";
         String password = "password123";
-        UUID userId = UUID.randomUUID();
+        Long userId = 1L;
         User user = mock(User.class);
 
         when(userRepo.findByEmail(Email.of(email))).thenReturn(Optional.of(user));
@@ -51,7 +50,7 @@ class LoginServiceTest {
         when(hasher.matches(password, "hashedPass")).thenReturn(true);
         when(user.isSystemAdmin()).thenReturn(false);
         when(user.getEmail()).thenReturn(Email.of(email));
-        when(user.getFullName()).thenReturn(() -> "Test User");
+        when(user.getFullName()).thenReturn(FullName.of("Test User"));
         when(tokenEncoder.generateAccessToken(email, List.of("USER"), userId)).thenReturn("fakeToken");
         when(tokenEncoder.accessTokenExpiresInSeconds()).thenReturn(3600L);
 
@@ -60,9 +59,9 @@ class LoginServiceTest {
 
         // then
         assertNotNull(result);
-        assertEquals("Bearer", result.getTokenType());
-        assertEquals("fakeToken", result.getAccessToken());
-        assertEquals(email, result.getEmail());
+        assertEquals("Bearer", result.tokenType());
+        assertEquals("fakeToken", result.accessToken());
+        assertEquals(email, result.email());
     }
 
     @Test
@@ -76,7 +75,7 @@ class LoginServiceTest {
     @Test
     void shouldThrowWhenPasswordDoesNotMatch() {
         String email = "user@example.com";
-        UUID userId = UUID.randomUUID();
+        Long userId = 1L;
         User user = mock(User.class);
 
         when(userRepo.findByEmail(any())).thenReturn(Optional.of(user));
@@ -91,7 +90,7 @@ class LoginServiceTest {
     @Test
     void shouldThrowWhenCredentialNotFound() {
         String email = "user@example.com";
-        UUID userId = UUID.randomUUID();
+        Long userId = 1L;
         User user = mock(User.class);
 
         when(userRepo.findByEmail(any())).thenReturn(Optional.of(user));

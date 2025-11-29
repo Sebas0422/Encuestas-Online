@@ -2,8 +2,8 @@ package com.example.encuestas_api.responses.infrastructure.adapter.in.rest.mappe
 
 import com.example.encuestas_api.responses.application.dto.*;
 import com.example.encuestas_api.responses.domain.model.Submission;
-import com.example.encuestas_api.responses.infrastructure.adapter.in.rest.dto.StartSubmissionRequest;
 import com.example.encuestas_api.responses.infrastructure.adapter.in.rest.dto.*;
+import com.example.encuestas_api.responses.infrastructure.adapter.in.rest.dto.StartSubmissionRequest;
 
 public final class ResponsesRestMapper {
     private ResponsesRestMapper() {}

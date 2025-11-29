@@ -1,6 +1,7 @@
 package com.example.encuestas_api.auth.infrastructure.adapter.out.jpa;
 
 import jakarta.persistence.*;
+
 import java.time.Instant;
 
 @Entity

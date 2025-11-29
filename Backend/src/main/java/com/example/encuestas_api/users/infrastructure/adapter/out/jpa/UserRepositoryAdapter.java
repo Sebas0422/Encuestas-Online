@@ -9,7 +9,10 @@ import com.example.encuestas_api.users.infrastructure.adapter.out.jpa.entity.Use
 import com.example.encuestas_api.users.infrastructure.adapter.out.jpa.mapper.UserJpaMapper;
 import com.example.encuestas_api.users.infrastructure.adapter.out.jpa.repository.UserJpaRepository;
 import com.example.encuestas_api.users.infrastructure.adapter.out.jpa.repository.UserSpecifications;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 

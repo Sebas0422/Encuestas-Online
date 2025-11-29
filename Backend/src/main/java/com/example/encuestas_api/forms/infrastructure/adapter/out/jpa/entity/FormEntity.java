@@ -82,6 +82,10 @@ public class FormEntity {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
+    @Column(name = "public_code", length = 64)
+    private String publicCode;
+
+
     @PrePersist
     void prePersist() {
         var now = Instant.now();
@@ -143,4 +147,6 @@ public class FormEntity {
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
+    public String getPublicCode() { return publicCode; }
+    public void setPublicCode(String publicCode) { this.publicCode = publicCode; }
 }

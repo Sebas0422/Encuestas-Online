@@ -4,6 +4,8 @@ import com.example.encuestas_api.campaigns.domain.model.CampaignMemberRole;
 import com.example.encuestas_api.campaigns.domain.model.CampaignStatus;
 import com.example.encuestas_api.campaigns.infrastructure.adapter.out.jpa.entity.CampaignEntity;
 import com.example.encuestas_api.campaigns.infrastructure.adapter.out.jpa.entity.CampaignMemberEntity;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -44,4 +46,12 @@ public final class CampaignSpecifications {
         if (role == null) return null;
         return (root, q, cb) -> cb.equal(root.get("role"), role);
     }
+
+    public static Specification<CampaignEntity> belongsToUser(Long userId) {
+        return (root, query, cb) -> {
+            Join<Object, Object> members = root.join("members", JoinType.INNER);
+            return cb.equal(members.get("userId"), userId);
+        };
+    }
+
 }

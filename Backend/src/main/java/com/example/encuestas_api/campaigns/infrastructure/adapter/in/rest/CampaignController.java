@@ -6,8 +6,10 @@ import com.example.encuestas_api.campaigns.domain.model.CampaignStatus;
 import com.example.encuestas_api.campaigns.infrastructure.adapter.in.rest.dto.*;
 import com.example.encuestas_api.campaigns.infrastructure.adapter.in.rest.mapper.CampaignRestMapper;
 import com.example.encuestas_api.common.dto.PagedResult;
+import com.example.encuestas_api.config.JwtAuthenticationFilter;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -39,8 +41,12 @@ public class CampaignController {
     }
 
     @PostMapping
-    public ResponseEntity<CampaignResponse> create(@Valid @RequestBody CreateCampaignRequest req) {
-        var c = createUC.handle(req.name(), req.description(), req.startDate(), req.endDate());
+    public ResponseEntity<CampaignResponse> create(@Valid @RequestBody CreateCampaignRequest req, Authentication auth) {
+        JwtAuthenticationFilter.AuthDetails details =
+                (JwtAuthenticationFilter.AuthDetails) auth.getDetails();
+
+        Long userId = Long.valueOf(details.uid());
+        var c = createUC.handle(req.name(), req.description(), req.startDate(), req.endDate(), userId);
         return ResponseEntity.ok(CampaignRestMapper.toResponse(c));
     }
 
@@ -87,9 +93,14 @@ public class CampaignController {
             @RequestParam(required = false) LocalDate startFrom,
             @RequestParam(required = false) LocalDate endTo,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
+            @RequestParam(defaultValue = "20") int size,
+            Authentication auth) {
 
-        var result = listUC.handle(new CampaignListQuery(search, status, startFrom, endTo, page, size));
+        JwtAuthenticationFilter.AuthDetails details =
+                (JwtAuthenticationFilter.AuthDetails) auth.getDetails();
+
+        Long userId = Long.valueOf(details.uid());
+        var result = listUC.handle(new CampaignListQuery(search, status, startFrom, endTo, page, size), userId);
         var mapped = new PagedResult<>(
                 result.items().stream().map(CampaignRestMapper::toResponse).toList(),
                 result.total(), result.page(), result.size()

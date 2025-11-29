@@ -17,7 +17,7 @@ public class ListCampaignsService implements ListCampaignsUseCase {
     public ListCampaignsService(SearchCampaignsPort searchPort) { this.searchPort = searchPort; }
 
     @Override
-    public PagedResult<Campaign> handle(CampaignListQuery query) {
-        return searchPort.search(query);
+    public PagedResult<Campaign> handle(CampaignListQuery query, Long userId) {
+        return searchPort.search(query, userId);
     }
 }

@@ -5,5 +5,5 @@ import com.example.encuestas_api.campaigns.domain.model.Campaign;
 import com.example.encuestas_api.common.dto.PagedResult;
 
 public interface SearchCampaignsPort {
-    PagedResult<Campaign> search(CampaignListQuery query);
+    PagedResult<Campaign> search(CampaignListQuery query, Long userId);
 }

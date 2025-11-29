@@ -1,12 +1,11 @@
 package com.example.encuestas_api.forms.infrastructure.adapter.out.jpa;
 
 import com.example.encuestas_api.forms.application.port.out.CountQuestionsByFormPort;
+import com.example.encuestas_api.questions.infrastructure.adapter.out.jpa.entity.QuestionEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.example.encuestas_api.questions.infrastructure.adapter.out.jpa.entity.QuestionEntity;
 
 @Component
 @Transactional(readOnly = true)
