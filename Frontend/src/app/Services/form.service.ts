@@ -24,7 +24,7 @@ export class FormService {
         return this.repository.publish(id, force);
     }
 
-    getPublicForm(token: string): Observable<Forms> {
+    getPublicForm(token: string,): Observable<Forms> {
         return this.repository.getPublicForm(token);
     }
 
@@ -68,5 +68,8 @@ export class FormService {
     deleteForm(id: number): Observable<void> {
         return this.repository.delete(id);
     }
+
+    // RESPONSE
+
 
 }

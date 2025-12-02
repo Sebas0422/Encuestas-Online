@@ -34,6 +34,19 @@
       <div class="container">
         <h1 class="form-title">{{ form.title }}</h1>
         <p class="form-description" *ngIf="form.description">{{ form.description }}</p>
+        <!-- Estado del formulario -->
+        <div class="alert mt-3" [ngClass]="{
+            'alert-warning': formStatus === 'not-started',
+            'alert-danger': formStatus === 'closed',
+            'alert-success': formStatus === 'open'
+          }">
+          <i class="bi me-2" [ngClass]="{
+              'bi-hourglass-start': formStatus === 'not-started',
+              'bi-lock': formStatus === 'closed',
+              'bi-check-circle': formStatus === 'open'
+            }"></i>
+          {{ getFormStatusMessage() }}
+        </div>
       </div>
     </div>
 
@@ -41,10 +54,7 @@
     <div class="progress-container" *ngIf="form.progressBar && form.paginated">
       <div class="container">
         <div class="progress">
-          <div 
-            class="progress-bar" 
-            role="progressbar" 
-            [style.width]="getProgress() + '%'"
+          <div class="progress-bar" role="progressbar" [style.width]="getProgress() + '%'"
             [style.background-color]="getPrimaryColor()">
             {{ getProgress() }}%
           </div>
@@ -75,14 +85,11 @@
             <!-- CHOICE (Opción Múltiple) -->
             <div *ngIf="question.type === QuestionType.CHOICE">
               <div class="form-check" *ngFor="let option of question.options; let optIdx = index">
-                <input 
-                  class="form-check-input" 
-                  [type]="question.selectionMode === 'SINGLE' ? 'radio' : 'checkbox'"
-                  [id]="'q' + question.id + '_opt' + optIdx"
-                  [name]="'question_' + question.id"
+                <input class="form-check-input" [type]="question.selectionMode === 'SINGLE' ? 'radio' : 'checkbox'"
+                  [id]="'q' + question.id + '_opt' + optIdx" [name]="'question_' + question.id"
                   [checked]="isOptionSelected(question.id, optIdx, getSelectionMode(question.selectionMode))"
                   (change)="handleChoiceAnswer(question.id, optIdx, getSelectionMode(question.selectionMode))"
-                  [style.accent-color]="getPrimaryColor()">
+                  [style.accent-color]="getPrimaryColor()" value="">
                 <label class="form-check-label" [for]="'q' + question.id + '_opt' + optIdx">
                   {{ option.label }}
                 </label>
@@ -92,9 +99,7 @@
             <!-- TRUE/FALSE -->
             <div *ngIf="question.type === QuestionType.TRUE_FALSE">
               <div class="btn-group w-100" role="group">
-                <button 
-                  type="button" 
-                  class="btn btn-outline-secondary"
+                <button type="button" class="btn btn-outline-secondary"
                   [class.active]="getTrueFalseAnswer(question.id) === true"
                   [style.border-color]="getTrueFalseAnswer(question.id) === true ? getPrimaryColor() : ''"
                   [style.background-color]="getTrueFalseAnswer(question.id) === true ? getPrimaryColor() : ''"
@@ -103,9 +108,7 @@
                   <i class="bi bi-check-circle me-2"></i>
                   {{ getTrueLabel(question) }}
                 </button>
-                <button 
-                  type="button" 
-                  class="btn btn-outline-secondary"
+                <button type="button" class="btn btn-outline-secondary"
                   [class.active]="getTrueFalseAnswer(question.id) === false"
                   [style.border-color]="getTrueFalseAnswer(question.id) === false ? getPrimaryColor() : ''"
                   [style.background-color]="getTrueFalseAnswer(question.id) === false ? getPrimaryColor() : ''"
@@ -119,25 +122,15 @@
 
             <!-- TEXT -->
             <div *ngIf="question.type === QuestionType.TEXT">
-              <textarea 
-                *ngIf="question.textMode === 'LONG'"
-                class="form-control" 
-                rows="5"
+              <textarea *ngIf="question.textMode === 'LONG'" class="form-control" rows="5"
                 [placeholder]="question.placeholder || 'Escribe tu respuesta aquí...'"
-                [value]="getTextAnswer(question.id)"
-                (input)="handleTextAnswer(question.id, $any($event.target).value)"
-                [attr.maxlength]="question.maxLength"
-                [attr.minlength]="question.minLength">
+                [value]="getTextAnswer(question.id)" (input)="handleTextAnswer(question.id, $any($event.target).value)"
+                [attr.maxlength]="question.maxLength" [attr.minlength]="question.minLength">
               </textarea>
-              <input 
-                *ngIf="question.textMode === 'SHORT'"
-                type="text"
-                class="form-control" 
+              <input *ngIf="question.textMode === 'SHORT'" type="text" class="form-control"
                 [placeholder]="question.placeholder || 'Escribe tu respuesta aquí...'"
-                [value]="getTextAnswer(question.id)"
-                (input)="handleTextAnswer(question.id, $any($event.target).value)"
-                [attr.maxlength]="question.maxLength"
-                [attr.minlength]="question.minLength">
+                [value]="getTextAnswer(question.id)" (input)="handleTextAnswer(question.id, $any($event.target).value)"
+                [attr.maxlength]="question.maxLength" [attr.minlength]="question.minLength">
               <small class="text-muted" *ngIf="question.maxLength">
                 Máximo {{ question.maxLength }} caracteres
               </small>
@@ -170,16 +163,11 @@
 
         <!-- Navegación de páginas -->
         <div class="pagination-controls" *ngIf="form.paginated && questions.length > 1">
-          <button 
-            class="btn btn-outline-secondary"
-            [disabled]="currentPage === 0"
-            (click)="previousPage()">
+          <button class="btn btn-outline-secondary" [disabled]="currentPage === 0" (click)="previousPage()">
             <i class="bi bi-chevron-left"></i> Anterior
           </button>
           <span class="mx-3">{{ currentPage + 1 }} / {{ questions.length }}</span>
-          <button 
-            class="btn btn-outline-secondary"
-            [disabled]="currentPage === questions.length - 1"
+          <button class="btn btn-outline-secondary" [disabled]="currentPage === questions.length - 1"
             (click)="nextPage()">
             Siguiente <i class="bi bi-chevron-right"></i>
           </button>
@@ -187,11 +175,8 @@
 
         <!-- Submit Button -->
         <div class="submit-container" *ngIf="!form.paginated || currentPage === questions.length - 1">
-          <button 
-            class="btn btn-lg btn-primary"
-            [style.background-color]="getPrimaryColor()"
-            [style.border-color]="getPrimaryColor()"
-            [disabled]="!canSubmit()"
+          <button class="btn btn-lg btn-primary" [style.background-color]="getPrimaryColor()"
+            [style.border-color]="getPrimaryColor()" [disabled]="!canSubmit() || !isFormOpen()"
             (click)="submitPreview()">
             <i class="bi bi-send-fill me-2"></i>
             Enviar Respuestas
@@ -200,18 +185,45 @@
             <i class="bi bi-exclamation-circle me-1"></i>
             Por favor completa todas las preguntas requeridas (*)
           </p>
+          <p class="text-danger mt-2" *ngIf="!isFormOpen() && canSubmit()">
+            <i class="bi bi-lock me-1"></i>
+            {{ getFormStatusMessage() }}
+          </p>
         </div>
-      </div>
-    </div>
-
-    <!-- Form Footer -->
-    <div class="form-footer">
-      <div class="container text-center">
-        <small class="text-muted">
-          <i class="bi bi-info-circle me-1"></i>
-          {{ formId ? 'Esta es una vista previa del formulario' : 'Completa el formulario y envía tus respuestas' }}
-        </small>
+        <p class="text-muted mt-2" *ngIf="!canSubmit()">
+          <i class="bi bi-exclamation-circle me-1"></i>
+          Por favor completa todas las preguntas requeridas (*)
+        </p>
       </div>
     </div>
   </div>
+
+  <!-- Form Footer -->
+  <div class="form-footer">
+    <div class="container text-center">
+      <small class="text-muted">
+        <i class="bi bi-info-circle me-1"></i>
+        {{ formId ? 'Esta es una vista previa del formulario' : 'Completa el formulario y envía tus respuestas' }}
+      </small>
+    </div>
+  </div>
 </div>
+<div>
+
+
+  <div id="successModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+    <div class="modal-backdrop" (click)="hideModal()"></div>
+    <div class="modal-content">
+      <div class="modal-body">
+        <i class="bi bi-check-circle-fill success-icon" [style.color]="getPrimaryColor()"></i>
+        <h3 id="successTitle">¡Respuestas Enviadas!</h3>
+        <p class="muted">Gracias por completar el formulario.</p>
+        <div class="mt-4">
+          <button class="btn btn-primary btn-lg" [style.background-color]="getPrimaryColor()"
+            [style.border-color]="getPrimaryColor()" (click)="goBack()">
+            Volver
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

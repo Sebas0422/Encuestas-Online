@@ -8,6 +8,11 @@ import { SectionService } from '../../../Services/section.service';
 import { Forms } from '../../../Models/form.model';
 import { QuestionResponse, QuestionType, SelectionMode } from '../../../Models/question.model';
 import { SectionResponse } from '../../../Models/section.model';
+import { SubmissionService } from "../../../Services/submission.service";
+import { ResponsesService } from '../../../Services/responses.service';
+import { firstValueFrom } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-form-preview',
@@ -23,6 +28,12 @@ export class FormPreviewComponent implements OnInit {
   questions: QuestionResponse[] = [];
   loading = false;
   errorMessage = '';
+  successMessage = '';
+
+  // Para vista pública: guardar el token
+  publicToken: string | null = null;
+
+  trueFalseAnswer: Map<number, boolean> = new Map();
 
   // Respuestas del usuario (simuladas)
   userAnswers: Map<number, any> = new Map();
@@ -35,33 +46,38 @@ export class FormPreviewComponent implements OnInit {
   QuestionType = QuestionType;
   SelectionMode = SelectionMode;
 
+  userId: number | null = localStorage.getItem('user_id') ? +localStorage.getItem('user_id')! : null;
+
+  // Estado del formulario
+  formStatus: 'not-started' | 'open' | 'closed' = 'open';
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private formService: FormService,
     private questionService: QuestionService,
-    private sectionService: SectionService
+    private sectionService: SectionService,
+    private submissionService: SubmissionService,
+    private responsesService: ResponsesService
   ) { }
 
   ngOnInit(): void {
     const token = this.route.snapshot.paramMap.get('token');
+
     if (token) {
+      // Vista pública: cargar por token
+      this.publicToken = token;
       this.loading = true;
       this.formService.getPublicForm(token).subscribe({
         next: (form) => {
           this.form = form;
-          this.questionService.getQuestionsByForm(form.id!).subscribe({
-            next: (questions) => {
-              this.questions = questions.sort((a, b) => a.position - b.position);
-              this.updatePagination();
-              this.loading = false;
-            },
-            error: (err) => {
-              console.error('Error al cargar preguntas públicas:', err);
-              this.errorMessage = 'Error al cargar las preguntas del formulario público';
-              this.loading = false;
-            }
-          });
+          if (form.id) {
+            this.formId = form.id;
+          }
+          this.checkFormStatus();
+          this.loadQuestions();
+          this.updatePagination();
+          this.loading = false;
         },
         error: (err) => {
           console.error('Error al cargar formulario público:', err);
@@ -87,6 +103,7 @@ export class FormPreviewComponent implements OnInit {
     this.formService.getFormById(this.formId).subscribe({
       next: (form) => {
         this.form = form;
+        this.checkFormStatus();
         this.loading = false;
       },
       error: (err) => {
@@ -192,9 +209,125 @@ export class FormPreviewComponent implements OnInit {
     });
   }
 
-  submitPreview(): void {
-    alert('Esta es una vista previa. En el formulario real, las respuestas se enviarían al servidor.');
+  async submitPreview(): Promise<void> {
+    if (!this.form?.id) {
+      alert('ID de formulario no encontrado.');
+      return;
+    }
+    if (!this.isFormOpen()) {
+      alert('El formulario está cerrado.');
+      return;
+    }
+
+    const responsesPayload = Array.from(this.userAnswers.entries()).map(([questionId, value]) => {
+      return {
+        questionId: Number(questionId),
+        value: value
+      };
+    });
+
+    const r = {
+      responses: responsesPayload
+    };
+    
+    const formId = this.form.id;
+    if (!this.formId) {
+      alert('ID de formulario no encontrado.');
+      return;
+    }
+
+    // Simulando el email del usuario 
+    const email = localStorage.getItem('user_email');
+
+    if (!this.userId) {
+      alert('Debes iniciar sesión para enviar respuestas.');
+      return;
+    }
+
+    try {
+      const created = await firstValueFrom(this.submissionService.startSubmissionUser(this.formId, {
+        formId: formId,
+        respondentType: 'USER',
+        userId: this.userId,
+        email: email || undefined,
+        code: null,
+        sourceIp: '127.0.0.1',
+        responses: r.responses
+      }));
+
+      const submissionId = created?.id || created?.submissionId;
+      if (!submissionId) {
+        console.error('No submission id returned by server', created);
+        alert('No se pudo crear la sumisión en el servidor');
+        return;
+      }
+
+      // Guardar cada respuesta individualmente
+      for (const q of this.questions) {
+        const answer = this.userAnswers.get(q.id);
+        if (answer === undefined || answer === null) continue;
+
+        // Enviar según el tipo de pregunta
+        if (q.type === QuestionType.TRUE_FALSE) {
+          await firstValueFrom(this.responsesService.saveResponseTrueFalseAnswer(submissionId, q.id, !!answer));
+        } else if (q.type === QuestionType.CHOICE) {
+          const optionIds: number[] = [];
+          if (Array.isArray(answer)) {
+            for (const idx of answer) {
+              const opt = q.options?.[idx];
+              if (opt && opt.id) optionIds.push(opt.id);
+            }
+          } else {
+            const opt = q.options?.[answer];
+            if (opt && opt.id) optionIds.push(opt.id);
+          }
+          if (optionIds.length > 0) {
+            await firstValueFrom(this.responsesService.saveResponseChoiceAnswer(submissionId, q.id, optionIds));
+          }
+        } else {
+          const text = String(answer || '');
+          await firstValueFrom(this.responsesService.saveResponseTextAnswer(submissionId, q.id, text));
+        }
+      }
+      alert('Respuestas enviadas correctamente');
+      this.showModal('successModal');
+
+    } catch (err) {
+      console.error('Error al enviar respuestas:', err);
+      alert('Error al enviar respuestas');
+    }
   }
+
+  showModal(modalId: string): void {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.style.display = 'block';
+      try {
+        document.body.classList.add('modal-open');
+
+      } catch (e) {
+        console.error(e);
+
+      }
+    }
+  }
+
+  hideModal(modalId?: string): void {
+    const id = modalId || 'successModal';
+    const modal = document.getElementById(id);
+    if (modal) {
+      modal.style.display = 'none';
+      try {
+        document.body.classList.remove('modal-open');
+
+      } catch (e) {
+        console.error(e);
+
+      }
+    }
+  }
+
+
 
   goBack(): void {
     if (!this.formId) {
@@ -207,6 +340,8 @@ export class FormPreviewComponent implements OnInit {
       this.router.navigate(['/campaigns']);
     }
   }
+
+
 
   // Estilos dinámicos según el tema
   getPrimaryColor(): string {
@@ -223,7 +358,7 @@ export class FormPreviewComponent implements OnInit {
     return SelectionMode.SINGLE;
   }
 
-  // Helper para obtener labels de true/false
+
   getTrueLabel(question: QuestionResponse): string {
     if (question.type === QuestionType.TRUE_FALSE && question.options && question.options.length > 0) {
       return question.options[0]?.label || 'Verdadero';
@@ -236,5 +371,40 @@ export class FormPreviewComponent implements OnInit {
       return question.options[1]?.label || 'Falso';
     }
     return 'Falso';
+  }
+
+  // Validar estado del formulario (abierto, cerrado, no iniciado)
+  checkFormStatus(): void {
+    if (!this.form) return;
+
+    const now = new Date();
+    const openAt = this.form.openAt ? new Date(this.form.openAt) : null;
+    const closeAt = this.form.closeAt ? new Date(this.form.closeAt) : null;
+
+    if (openAt && now < openAt) {
+      this.formStatus = 'not-started';
+    } else if (closeAt && now > closeAt) {
+      this.formStatus = 'closed';
+    } else {
+      this.formStatus = 'open';
+    }
+  }
+
+  isFormOpen(): boolean {
+    return this.formStatus === 'open';
+  }
+
+  getFormStatusMessage(): string {
+    const now = new Date();
+    const closeAt = this.form?.closeAt ? new Date(this.form.closeAt) : null;
+    const openAt = this.form?.openAt ? new Date(this.form.openAt) : null;
+
+    if (this.formStatus === 'not-started') {
+      return `El formulario se abrirá el ${openAt?.toLocaleString()}`;
+    }
+    if (this.formStatus === 'closed') {
+      return `El formulario cerró el ${closeAt?.toLocaleString()}`;
+    }
+    return 'El formulario está abierto';
   }
 }

@@ -205,7 +205,10 @@ export class QuestionBuilderComponent implements OnInit {
       }
     });
   }
-  
+
+  loadResponses(): void {
+    // Implement the logic to load responses here
+  }
 
   closeModalPublish(): void {
     this.showPublishModal = false;
