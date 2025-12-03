@@ -2,8 +2,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChildren, 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import Chart from 'chart.js/auto';
-import { ChartConfiguration, ChartType } from 'chart.js';
+import { ChartConfiguration, ChartType, Chart } from 'chart.js';
 import { forkJoin } from 'rxjs';
 import { FormService } from '../../../Services/form.service';
 import { QuestionService } from '../../../Services/question.service';
@@ -11,7 +10,7 @@ import { ResponsesService } from '../../../Services/responses.service';
 import { Forms } from '../../../Models/form.model';
 import { QuestionResponse, QuestionType } from '../../../Models/question.model';
 
-type ChartTypeOption = 'bar' | 'pie' | 'doughnut' | 'table';
+type ChartTypeOption = 'pie' | 'doughnut' | 'table';
 
 interface QuestionStats {
   question: QuestionResponse;
@@ -36,7 +35,6 @@ export class ResponsesListComponent implements OnInit {
   errorMessage = '';
 
   questionStats: QuestionStats[] = [];
-  selectedChartType: ChartTypeOption = 'bar';
 
   QuestionType = QuestionType;
   @ViewChildren('chartCanvas') chartCanvases!: QueryList<ElementRef<HTMLCanvasElement>>;
@@ -324,7 +322,7 @@ export class ResponsesListComponent implements OnInit {
   }
 
   getDefaultChartType(question: QuestionResponse): ChartTypeOption {
-    if (question.type === QuestionType.CHOICE) return 'bar';
+    if (question.type === QuestionType.CHOICE) return 'pie';
     if (question.type === QuestionType.TRUE_FALSE) return 'pie';
     if (question.type === QuestionType.TEXT) return 'table';
     return 'table';
@@ -376,7 +374,6 @@ export class ResponsesListComponent implements OnInit {
   }
 
   private renderCharts(): void {
-    // destroy existing charts
     this.charts.forEach(c => c.destroy());
     this.charts = [];
 
@@ -400,7 +397,8 @@ export class ResponsesListComponent implements OnInit {
       const config: ChartConfiguration = {
         type: qStat.chartType as ChartType,
         data: data,
-        options: this.chartOptions
+        options: this.chartOptions,
+      
       } as ChartConfiguration;
 
       const chart = new Chart(ctx, config as any);

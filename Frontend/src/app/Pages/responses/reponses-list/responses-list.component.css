@@ -211,7 +211,6 @@
     background-color: #f9fafb;
 }
 
-/* Empty State */
 .empty-state {
     text-align: center;
     padding: 60px 20px;
@@ -238,8 +237,26 @@
     color: #9ca3af;
     margin: 0;
 }
+.chart-container {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fafafa;
+    border-radius: 8px;
+}
 
-/* Responsive */
+.chart-container canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+@media (min-width: 1600px) {
+    .chart-container {
+        max-width: 900px;
+    }
+}
+
 @media (max-width: 768px) {
     .responses-header {
         padding: 20px;
@@ -260,5 +277,6 @@
 
     .chart-container {
         height: 300px;
+        width: 100%;
     }
 }

@@ -69,10 +69,7 @@
   background-color: #3d3d3d;
 }
 
-.progress-bar {
-  border-radius: 10px;
-  transition: width 0.3s ease;
-}
+
 
 .form-body {
   padding: 0 20px;
