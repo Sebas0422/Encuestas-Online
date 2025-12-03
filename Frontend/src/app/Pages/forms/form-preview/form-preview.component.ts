@@ -44,7 +44,7 @@ export class FormPreviewComponent implements OnInit {
 
   // Preguntas agrupadas por sección
   questionsBySectionId: Map<number | null, QuestionResponse[]> = new Map();
-  sectionOrder: (number | null)[] = []; 
+  sectionOrder: (number | null)[] = [];
 
   // Enums para el template
   QuestionType = QuestionType;
@@ -78,6 +78,18 @@ export class FormPreviewComponent implements OnInit {
             this.formId = form.id;
           }
           this.checkFormStatus();
+
+          // Verificar si el formulario requiere autenticación
+          console.log({ form })
+          if (!form.anonymousMode && !this.userId) {
+            // Guardar la URL actual para regresar después del login
+            const returnUrl = `/public/forms/${token}`;
+            localStorage.setItem('returnUrl', returnUrl);
+            alert('Este formulario requiere que inicies sesión.');
+            this.router.navigate(['/login']);
+            return;
+          }
+
           this.loadSectionsAndQuestions();
           this.loading = false;
         },
@@ -93,46 +105,24 @@ export class FormPreviewComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('formId');
     if (id) {
       this.formId = +id;
-      this.loadFormData();
-      this.loadAllQuestions();
+      this.loading = true;
+      this.formService.getFormById(this.formId).subscribe({
+        next: (form) => {
+          this.form = form;
+          this.checkFormStatus();
+          // Usar el mismo método para cargar secciones y preguntas
+          this.loadSectionsAndQuestions();
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Error al cargar formulario:', err);
+          this.errorMessage = 'Error al cargar el formulario';
+          this.loading = false;
+        }
+      });
     } else {
       this.errorMessage = 'ID de formulario no encontrado';
     }
-  }
-
-  loadFormData(): void {
-    this.loading = true;
-    this.formService.getFormById(this.formId).subscribe({
-      next: (form) => {
-        this.form = form;
-        this.checkFormStatus();
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error al cargar formulario:', err);
-        this.errorMessage = 'Error al cargar el formulario';
-        this.loading = false;
-      }
-    });
-  }
-
-  loadAllQuestions(): void {
-    this.loading = true;
-    this.questionService.getQuestionsByForm(this.formId).subscribe({
-      next: (questions) => {
-        this.questions = questions.sort((a, b) => a.position - b.position);
-        this.updatePagination();
-      },
-      error: (err) => {
-        console.error('Error al cargar preguntas:', err);
-        this.errorMessage = 'Error al cargar las preguntas';
-      }
-    });
-  }
-
-  updatePagination(): void {
-    // Método legacy - mantener por compatibilidad
-    this.questionsPerPage = this.questions;
   }
 
   loadSectionsAndQuestions(): void {
@@ -205,12 +195,17 @@ export class FormPreviewComponent implements OnInit {
       this.questionsBySectionId.get(sectionId!)!.push(q);
     });
 
+    // Agregar preguntas sin sección primero (si existen)
     if (this.questionsBySectionId.has(null)) {
       this.sectionOrder.push(null);
     }
+
+    // Agregar TODAS las secciones en orden, aunque no tengan preguntas
     this.sections.forEach(section => {
-      if (this.questionsBySectionId.has(section.id)) {
-        this.sectionOrder.push(section.id);
+      this.sectionOrder.push(section.id);
+      // Asegurar que la sección existe en el Map, aunque esté vacía
+      if (!this.questionsBySectionId.has(section.id)) {
+        this.questionsBySectionId.set(section.id, []);
       }
     });
 
@@ -344,24 +339,34 @@ export class FormPreviewComponent implements OnInit {
       return;
     }
 
-    // Simulando el email del usuario 
+    // Determinar el tipo de respondente según el modo del formulario y si hay usuario autenticado
     const email = localStorage.getItem('user_email');
+    const isAnonymousForm = this.form.anonymousMode === true;
+    const hasUser = !!this.userId;
 
-    if (!this.userId) {
+    // Si no hay usuario y el formulario NO permite anónimos, requerir login
+    if (!hasUser && !isAnonymousForm) {
       alert('Debes iniciar sesión para enviar respuestas.');
       return;
     }
 
     try {
-      const created = await firstValueFrom(this.submissionService.startSubmissionUser(this.formId, {
+      // Construir el payload según el tipo de respondente
+      const submissionPayload: any = {
         formId: formId,
-        respondentType: 'USER',
-        userId: this.userId,
-        email: email || undefined,
-        code: null,
+        respondentType: hasUser ? 'USER' : 'ANONYMOUS',
         sourceIp: '127.0.0.1',
         responses: r.responses
-      }));
+      };
+
+      // Agregar campos adicionales solo si hay usuario
+      if (hasUser) {
+        submissionPayload.userId = this.userId;
+        submissionPayload.email = email || undefined;
+        submissionPayload.code = null;
+      }
+
+      const created = await firstValueFrom(this.submissionService.startSubmissionUser(this.formId, submissionPayload));
 
       const submissionId = created?.id || created?.submissionId;
       if (!submissionId) {

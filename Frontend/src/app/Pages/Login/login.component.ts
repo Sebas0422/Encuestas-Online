@@ -39,7 +39,17 @@ export class LoginComponent {
         this.email = '';
         this.password = '';
 
-        this.router.navigate(['/campaigns']);
+        // Verificar si hay una URL de retorno guardada
+        const returnUrl = localStorage.getItem('returnUrl');
+        if (returnUrl) {
+          // Limpiar la URL guardada
+          localStorage.removeItem('returnUrl');
+          // Redirigir a la URL guardada
+          this.router.navigateByUrl(returnUrl);
+        } else {
+          // Redirigir a campaigns por defecto
+          this.router.navigate(['/campaigns']);
+        }
       },
       error: (error) => {
         console.error('Error al iniciar sesión:', error);

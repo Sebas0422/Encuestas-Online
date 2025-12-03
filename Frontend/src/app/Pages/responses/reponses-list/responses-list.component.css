@@ -163,11 +163,12 @@
 /* Chart Container */
 .chart-container {
     position: relative;
-    height: 400px;
-    margin-bottom: 20px;
-    padding: 20px;
-    background: #fafafa;
-    border-radius: 8px;
+    height: 500px;
+    margin-bottom: 30px;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -176,6 +177,10 @@
 .chart-container canvas {
     max-height: 100%;
     max-width: 100%;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Table Container */

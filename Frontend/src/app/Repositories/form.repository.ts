@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {
     PaginatedForms, Forms, UpdateTitleRequest, UpdateDescriptionRequest, RescheduleRequest,
-    ToggleFlagRequest, SetPresentationRequest, UpdateThemeRequest
+    ToggleFlagRequest, SetPresentationRequest, UpdateThemeRequest, SetAccessModeRequest
 } from "../Models/form.model";
 import { PublishResponse } from "../Models/Publish.model";
 
@@ -15,7 +15,7 @@ import { PublishResponse } from "../Models/Publish.model";
 })
 export class FormRepository {
     private apiURL = 'http://localhost:8080/api/forms'
-   
+
 
     constructor(private http: HttpClient) {
 
@@ -47,7 +47,7 @@ export class FormRepository {
 
     publish(id: number, force: boolean = false): Observable<PublishResponse> {
         const url = `${this.apiURL}/${id}/public-link`;
-      
+
         if (force) {
             const params = new HttpParams().set('force', 'false');
             return this.http.post<PublishResponse>(url, {}, { params });
@@ -76,6 +76,11 @@ export class FormRepository {
     updateTheme(id: number, mode: string, primaryColor: string): Observable<Forms> {
         const body: UpdateThemeRequest = { mode, primaryColor };
         return this.http.patch<Forms>(`${this.apiURL}/${id}/theme`, body);
+    }
+
+    updateAccessMode(id: number, mode: string): Observable<Forms> {
+        const body: SetAccessModeRequest = { mode };
+        return this.http.patch<Forms>(`${this.apiURL}/${id}/access-mode`, body);
     }
 
     toggleAnonymous(id: number, enabled: boolean): Observable<Forms> {
@@ -108,7 +113,7 @@ export class FormRepository {
     }
 
 
-   
+
 
 
 } 

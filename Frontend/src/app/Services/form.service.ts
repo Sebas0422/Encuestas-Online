@@ -19,7 +19,7 @@ export class FormService {
     createForm(campaignId: number, form: Forms): Observable<Forms> {
         return this.repository.create(campaignId, form);
     }
-    
+
     publishForm(id: number, force: boolean = false): Observable<PublishResponse> {
         return this.repository.publish(id, force);
     }
@@ -47,6 +47,10 @@ export class FormService {
 
     updateTheme(id: number, mode: string, primaryColor: string): Observable<Forms> {
         return this.repository.updateTheme(id, mode, primaryColor);
+    }
+
+    updateAccessMode(id: number, mode: string): Observable<Forms> {
+        return this.repository.updateAccessMode(id, mode);
     }
 
     toggleAnonymous(id: number, enabled: boolean): Observable<Forms> {

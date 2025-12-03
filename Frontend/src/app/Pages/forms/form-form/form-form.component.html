@@ -41,7 +41,8 @@
 
                             <div class="col-md-6">
                                 <label class="form-label">Modo de Acceso</label>
-                                <select class="form-select" [(ngModel)]="formData.accessMode" name="accessMode">
+                                <select class="form-select" [(ngModel)]="formData.accessMode" name="accessMode"
+                                    (ngModelChange)="onAccessModeChange()">
                                     <option value="PUBLIC">Público</option>
                                     <option value="PRIVATE">Privado (Requiere Login)</option>
                                 </select>
@@ -75,8 +76,14 @@
                             <div class="col-md-6">
                                 <div class="form-check form-switch mb-2">
                                     <input class="form-check-input" type="checkbox" id="anonymous"
-                                        [(ngModel)]="formData.anonymousMode" name="anonymousMode">
-                                    <label class="form-check-label" for="anonymous">Respuestas Anónimas</label>
+                                        [(ngModel)]="formData.anonymousMode" name="anonymousMode"
+                                        [disabled]="isAnonymousModeDisabled()">
+                                    <label class="form-check-label" for="anonymous">
+                                        Respuestas Anónimas
+                                        <small *ngIf="isAnonymousModeDisabled()" class="text-muted d-block">
+                                            (No disponible en formularios privados)
+                                        </small>
+                                    </label>
                                 </div>
                                 <div class="form-check form-switch mb-2">
                                     <input class="form-check-input" type="checkbox" id="editSubmit"

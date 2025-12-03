@@ -1,8 +1,8 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ChartConfiguration, ChartType, Chart } from 'chart.js';
+import { ChartConfiguration, ChartType, Chart, registerables } from 'chart.js';
 import { forkJoin } from 'rxjs';
 import { FormService } from '../../../Services/form.service';
 import { QuestionService } from '../../../Services/question.service';
@@ -10,6 +10,9 @@ import { SectionService } from '../../../Services/section.service';
 import { ResponsesService } from '../../../Services/responses.service';
 import { Forms } from '../../../Models/form.model';
 import { QuestionResponse, QuestionType } from '../../../Models/question.model';
+
+// Register Chart.js components
+Chart.register(...registerables);
 
 type ChartTypeOption = 'pie' | 'doughnut' | 'table';
 
@@ -26,7 +29,7 @@ interface QuestionStats {
   templateUrl: './responses-list.component.html',
   styleUrls: ['./responses-list.component.css']
 })
-export class ResponsesListComponent implements OnInit {
+export class ResponsesListComponent implements OnInit, AfterViewInit, OnDestroy {
   formId!: number;
   form: Forms | null = null;
   questions: QuestionResponse[] = [];
@@ -40,16 +43,57 @@ export class ResponsesListComponent implements OnInit {
   QuestionType = QuestionType;
   @ViewChildren('chartCanvas') chartCanvases!: QueryList<ElementRef<HTMLCanvasElement>>;
   private charts: Chart[] = [];
+  private viewInitialized = false;
 
   // Para los gráficos
   chartOptions: ChartConfiguration['options'] = {
     responsive: true,
     maintainAspectRatio: true,
+    devicePixelRatio: 3,
+    animation: {
+      duration: 1000
+    },
     plugins: {
       legend: {
         display: true,
-        position: 'top'
+        position: 'top',
+        labels: {
+          font: {
+            size: 16,
+            weight: 'bold',
+            family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+          },
+          padding: 20,
+          usePointStyle: true,
+          pointStyle: 'circle'
+        }
+      },
+      tooltip: {
+        enabled: true,
+        backgroundColor: 'rgba(0, 0, 0, 0.85)',
+        titleFont: {
+          size: 16,
+          weight: 'bold'
+        },
+        bodyFont: {
+          size: 14
+        },
+        padding: 16,
+        cornerRadius: 8,
+        displayColors: true,
+        callbacks: {
+          label: (context: any) => {
+            const label = context.label || '';
+            const value = context.parsed || 0;
+            const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
+            const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : '0';
+            return `${label}: ${value} (${percentage}%)`;
+          }
+        }
       }
+    },
+    layout: {
+      padding: 30
     }
   };
 
@@ -58,7 +102,8 @@ export class ResponsesListComponent implements OnInit {
     private formService: FormService,
     private questionService: QuestionService,
     private sectionService: SectionService,
-    private responsesService: ResponsesService
+    private responsesService: ResponsesService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -66,6 +111,16 @@ export class ResponsesListComponent implements OnInit {
     if (id) {
       this.formId = +id;
       this.loadData();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    console.log('ngAfterViewInit called');
+    this.viewInitialized = true;
+    // Si ya tenemos datos, renderizar los gráficos después de un pequeño retraso
+    if (this.questionStats.length > 0) {
+      console.log('Data already loaded, rendering charts...');
+      setTimeout(() => this.renderCharts(), 200);
     }
   }
 
@@ -184,6 +239,7 @@ export class ResponsesListComponent implements OnInit {
 
 
   processStatsFromReport(report: any): void {
+    console.log('processStatsFromReport called with report:', report);
     this.questionStats = this.questions.map(q => {
       const questionReport = report.questions?.find((qr: any) => qr.questionId === q.id);
       const stats = this.calculateStatsFromReport(q, questionReport);
@@ -193,7 +249,18 @@ export class ResponsesListComponent implements OnInit {
         chartType: this.getDefaultChartType(q)
       };
     });
-    setTimeout(() => this.renderCharts(), 0);
+    console.log('questionStats processed:', this.questionStats);
+
+    // Forzar detección de cambios para que se creen los elementos canvas
+    this.cdr.detectChanges();
+
+    // Solo renderizar si la vista ya está inicializada
+    if (this.viewInitialized) {
+      console.log('View initialized, rendering charts with delay...');
+      setTimeout(() => this.renderCharts(), 200);
+    } else {
+      console.log('View not yet initialized, charts will render in ngAfterViewInit');
+    }
   }
 
   calculateStatsFromReport(question: QuestionResponse, questionReport: any = {}): any {
@@ -379,7 +446,11 @@ export class ResponsesListComponent implements OnInit {
   changeChartType(index: number, chartType: ChartTypeOption): void {
     if (this.questionStats[index]) {
       this.questionStats[index].chartType = chartType;
-      setTimeout(() => this.renderCharts(), 0);
+      // Forzar detección de cambios
+      this.cdr.detectChanges();
+      if (this.viewInitialized) {
+        setTimeout(() => this.renderCharts(), 200);
+      }
     }
   }
 
@@ -394,21 +465,39 @@ export class ResponsesListComponent implements OnInit {
           data: stat.data,
           backgroundColor: this.getColors(stat.data.length),
           borderColor: this.getColors(stat.data.length, true),
-          borderWidth: 1
-        }
+          borderWidth: 2,
+          hoverOffset: 10,
+          hoverBorderWidth: 3
+        } as any
       ]
     };
   }
 
   getColors(count: number, isBorder = false): string[] {
     const colors = [
-      '#3b82f6', '#ef4444', '#10b981', '#f59e0b',
-      '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'
+      '#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6',
+      '#ec4899', '#14b8a6', '#f97316', '#6366f1', '#06b6d4'
     ];
+
+    if (isBorder) {
+      return Array(count).fill(0).map((_, i) => colors[i % colors.length]);
+    }
+
+    // Agregar opacidad a los colores de fondo para mejor visualización
     return Array(count).fill(0).map((_, i) => {
-      if (isBorder) return colors[i % colors.length].replace('#', '#') + 'cc';
-      return colors[i % colors.length];
+      const color = colors[i % colors.length];
+      const rgb = this.hexToRgb(color);
+      return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.85)`;
     });
+  }
+
+  private hexToRgb(hex: string): { r: number, g: number, b: number } {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : { r: 0, g: 0, b: 0 };
   }
 
   getTotalResponses(): number {
@@ -417,30 +506,64 @@ export class ResponsesListComponent implements OnInit {
 
   getCompletionRate(): number {
     if (this.submissions.length === 0) return 0;
-    const completed = this.submissions.filter(s => s.status === 'SUBMITTED').length;
+
+    // Contar las enviadas (SUBMITTED) como completadas
+    const completed = this.submissions.filter(s =>
+      s.status === 'SUBMITTED' || s.status === 'submitted'
+    ).length;
+
+    // Si no hay ninguna completada, verificar si hay respuestas con answersCount
+    if (completed === 0) {
+      const withAnswers = this.submissions.filter(s => s.answersCount && s.answersCount > 0).length;
+      if (withAnswers > 0) {
+        return Math.round((withAnswers / this.submissions.length) * 100);
+      }
+    }
+
     return Math.round((completed / this.submissions.length) * 100);
   }
 
   private renderCharts(): void {
+    console.log('renderCharts called');
+    console.log('questionStats:', this.questionStats);
+    console.log('chartCanvases:', this.chartCanvases);
+
     this.charts.forEach(c => c.destroy());
     this.charts = [];
 
     const canvases = this.chartCanvases ? this.chartCanvases.toArray() : [];
+    console.log('Available canvases:', canvases.length);
     let canvasIndex = 0;
 
-    this.questionStats.forEach((qStat) => {
-      if (qStat.chartType === 'table') return;
+    this.questionStats.forEach((qStat, index) => {
+      console.log(`Processing question ${index}:`, qStat.question.prompt, 'chartType:', qStat.chartType);
+
+      if (qStat.chartType === 'table') {
+        console.log('Skipping table type');
+        return;
+      }
 
       const data = this.getChartData(qStat.stats);
-      if (!data) return;
+      console.log('Chart data:', data);
+      if (!data) {
+        console.log('No data for chart');
+        return;
+      }
 
       const canvasRef = canvases[canvasIndex];
+      console.log('Canvas ref:', canvasRef);
       canvasIndex++;
 
-      if (!canvasRef) return;
+      if (!canvasRef) {
+        console.log('No canvas reference found');
+        return;
+      }
 
       const ctx = canvasRef.nativeElement.getContext('2d');
-      if (!ctx) return;
+      if (!ctx) {
+        console.log('No context from canvas');
+        return;
+      }
 
       const config: ChartConfiguration = {
         type: qStat.chartType as ChartType,
@@ -449,6 +572,7 @@ export class ResponsesListComponent implements OnInit {
 
       } as ChartConfiguration;
 
+      console.log('Creating chart with config:', config);
       const chart = new Chart(ctx, config as any);
       this.charts.push(chart);
     });
