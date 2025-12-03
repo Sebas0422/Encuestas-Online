@@ -128,4 +128,8 @@ export class FormsListComponent implements OnInit {
   canDeleteForms(): boolean {
     return this.permissionService.canDeleteForms(this.userRole);
   }
+
+  canViewResponses(): boolean {
+    return this.userRole === MemberRole.CREATOR || this.userRole === MemberRole.ADMIN;
+  }
 }
