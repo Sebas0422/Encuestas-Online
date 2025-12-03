@@ -10,7 +10,7 @@ import { QuestionResponse, QuestionType, SelectionMode } from '../../../Models/q
 import { SectionResponse } from '../../../Models/section.model';
 import { SubmissionService } from "../../../Services/submission.service";
 import { ResponsesService } from '../../../Services/responses.service';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, forkJoin } from 'rxjs';
 
 
 
@@ -38,9 +38,13 @@ export class FormPreviewComponent implements OnInit {
   // Respuestas del usuario (simuladas)
   userAnswers: Map<number, any> = new Map();
 
-  // Estado de paginación
-  currentPage = 0;
+  // Estado de paginación por secciones
+  currentSectionIndex = 0;
   questionsPerPage: QuestionResponse[] = [];
+
+  // Preguntas agrupadas por sección
+  questionsBySectionId: Map<number | null, QuestionResponse[]> = new Map();
+  sectionOrder: (number | null)[] = []; 
 
   // Enums para el template
   QuestionType = QuestionType;
@@ -63,7 +67,6 @@ export class FormPreviewComponent implements OnInit {
 
   ngOnInit(): void {
     const token = this.route.snapshot.paramMap.get('token');
-
     if (token) {
       // Vista pública: cargar por token
       this.publicToken = token;
@@ -75,8 +78,7 @@ export class FormPreviewComponent implements OnInit {
             this.formId = form.id;
           }
           this.checkFormStatus();
-          this.loadQuestions();
-          this.updatePagination();
+          this.loadSectionsAndQuestions();
           this.loading = false;
         },
         error: (err) => {
@@ -92,7 +94,7 @@ export class FormPreviewComponent implements OnInit {
     if (id) {
       this.formId = +id;
       this.loadFormData();
-      this.loadQuestions();
+      this.loadAllQuestions();
     } else {
       this.errorMessage = 'ID de formulario no encontrado';
     }
@@ -114,7 +116,8 @@ export class FormPreviewComponent implements OnInit {
     });
   }
 
-  loadQuestions(): void {
+  loadAllQuestions(): void {
+    this.loading = true;
     this.questionService.getQuestionsByForm(this.formId).subscribe({
       next: (questions) => {
         this.questions = questions.sort((a, b) => a.position - b.position);
@@ -128,34 +131,139 @@ export class FormPreviewComponent implements OnInit {
   }
 
   updatePagination(): void {
-    if (!this.form) return;
+    // Método legacy - mantener por compatibilidad
+    this.questionsPerPage = this.questions;
+  }
 
-    if (this.form.paginated) {
-      // Mostrar una pregunta por página
-      this.questionsPerPage = this.questions.slice(this.currentPage, this.currentPage + 1);
-    } else {
-      // Mostrar todas las preguntas
-      this.questionsPerPage = this.questions;
+  loadSectionsAndQuestions(): void {
+    this.loading = true;
+
+    // Cargar secciones
+    this.sectionService.getSectionsByForm(this.formId).subscribe({
+      next: (sections) => {
+        this.sections = sections.sort((a, b) => a.position - b.position);
+
+        // Cargar todas las preguntas
+        this.questionService.getQuestionsByForm(this.formId, undefined).subscribe({
+          next: (questionsWithoutSection) => {
+            // Cargar preguntas de cada sección
+            const sectionQueries = this.sections.map(section =>
+              this.questionService.getQuestionsByForm(this.formId, section.id)
+            );
+
+            if (sectionQueries.length === 0) {
+              // Solo hay preguntas sin sección
+              this.questions = questionsWithoutSection.sort((a, b) => a.position - b.position);
+              this.groupQuestionsBySections();
+              this.loading = false;
+              return;
+            }
+
+            // Usar forkJoin para cargar todas las secciones en paralelo
+            forkJoin(sectionQueries).subscribe({
+              next: (sectionQuestionsArrays) => {
+                const allSectionQuestions = sectionQuestionsArrays.flat();
+                this.questions = [...questionsWithoutSection, ...allSectionQuestions]
+                  .sort((a, b) => a.position - b.position);
+                this.groupQuestionsBySections();
+                this.loading = false;
+              },
+              error: (err) => {
+                console.error('Error al cargar preguntas de secciones:', err);
+                this.questions = questionsWithoutSection.sort((a, b) => a.position - b.position);
+                this.groupQuestionsBySections();
+                this.loading = false;
+              }
+            });
+          },
+          error: (err) => {
+            console.error('Error al cargar preguntas:', err);
+            this.errorMessage = 'Error al cargar las preguntas';
+            this.loading = false;
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error al cargar secciones:', err);
+        this.errorMessage = 'Error al cargar las secciones';
+        this.loading = false;
+      }
+    });
+  }
+
+  groupQuestionsBySections(): void {
+    // Limpiar agrupación anterior
+    this.questionsBySectionId.clear();
+    this.sectionOrder = [];
+
+    // Agrupar preguntas por sectionId
+    this.questions.forEach(q => {
+      const sectionId = q.sectionId;
+      if (!this.questionsBySectionId.has(sectionId!)) {
+        this.questionsBySectionId.set(sectionId!, []);
+      }
+      this.questionsBySectionId.get(sectionId!)!.push(q);
+    });
+
+    if (this.questionsBySectionId.has(null)) {
+      this.sectionOrder.push(null);
+    }
+    this.sections.forEach(section => {
+      if (this.questionsBySectionId.has(section.id)) {
+        this.sectionOrder.push(section.id);
+      }
+    });
+
+
+    this.updateCurrentSectionQuestions();
+  }
+
+  updateCurrentSectionQuestions(): void {
+    if (this.sectionOrder.length === 0) {
+      this.questionsPerPage = [];
+      return;
+    }
+
+    const currentSectionId = this.sectionOrder[this.currentSectionIndex];
+    this.questionsPerPage = this.questionsBySectionId.get(currentSectionId) || [];
+  }
+
+
+
+  nextSection(): void {
+    if (this.currentSectionIndex < this.sectionOrder.length - 1) {
+      this.currentSectionIndex++;
+      this.updateCurrentSectionQuestions();
     }
   }
 
-  nextPage(): void {
-    if (this.currentPage < this.questions.length - 1) {
-      this.currentPage++;
-      this.updatePagination();
+  previousSection(): void {
+    if (this.currentSectionIndex > 0) {
+      this.currentSectionIndex--;
+      this.updateCurrentSectionQuestions();
     }
   }
 
-  previousPage(): void {
-    if (this.currentPage > 0) {
-      this.currentPage--;
-      this.updatePagination();
+  isLastSection(): boolean {
+    return this.currentSectionIndex === this.sectionOrder.length - 1;
+  }
+
+  isFirstSection(): boolean {
+    return this.currentSectionIndex === 0;
+  }
+
+  getCurrentSectionTitle(): string {
+    const currentSectionId = this.sectionOrder[this.currentSectionIndex];
+    if (currentSectionId === null) {
+      return 'Preguntas Generales';
     }
+    const section = this.sections.find(s => s.id === currentSectionId);
+    return section?.title || 'Sección';
   }
 
   getProgress(): number {
-    if (!this.form || !this.form.progressBar || this.questions.length === 0) return 0;
-    return Math.round(((this.currentPage + 1) / this.questions.length) * 100);
+    if (!this.form || !this.form.progressBar || this.sectionOrder.length === 0) return 0;
+    return Math.round(((this.currentSectionIndex + 1) / this.sectionOrder.length) * 100);
   }
 
   // Manejo de respuestas
@@ -229,7 +337,7 @@ export class FormPreviewComponent implements OnInit {
     const r = {
       responses: responsesPayload
     };
-    
+
     const formId = this.form.id;
     if (!this.formId) {
       alert('ID de formulario no encontrado.');

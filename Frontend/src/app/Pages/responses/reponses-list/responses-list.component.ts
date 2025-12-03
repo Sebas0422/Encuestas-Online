@@ -6,6 +6,7 @@ import { ChartConfiguration, ChartType, Chart } from 'chart.js';
 import { forkJoin } from 'rxjs';
 import { FormService } from '../../../Services/form.service';
 import { QuestionService } from '../../../Services/question.service';
+import { SectionService } from '../../../Services/section.service';
 import { ResponsesService } from '../../../Services/responses.service';
 import { Forms } from '../../../Models/form.model';
 import { QuestionResponse, QuestionType } from '../../../Models/question.model';
@@ -56,6 +57,7 @@ export class ResponsesListComponent implements OnInit {
     private route: ActivatedRoute,
     private formService: FormService,
     private questionService: QuestionService,
+    private sectionService: SectionService,
     private responsesService: ResponsesService
   ) { }
 
@@ -83,15 +85,61 @@ export class ResponsesListComponent implements OnInit {
   }
 
   loadQuestions(): void {
-    this.questionService.getQuestionsByForm(this.formId).subscribe({
-      next: (questions) => {
-        this.questions = questions.sort((a, b) => a.position - b.position);
-        this.loadSubmissions();
+    // Primero cargar las secciones
+    this.sectionService.getSectionsByForm(this.formId).subscribe({
+      next: (sections) => {
+        // Cargar preguntas sin sección
+        this.questionService.getQuestionsByForm(this.formId, undefined).subscribe({
+          next: (questionsWithoutSection) => {
+            // Cargar preguntas de cada sección
+            const sectionQueries = sections.map(section =>
+              this.questionService.getQuestionsByForm(this.formId, section.id)
+            );
+
+            if (sectionQueries.length === 0) {
+              // Solo hay preguntas sin sección
+              this.questions = questionsWithoutSection.sort((a, b) => a.position - b.position);
+              this.loadSubmissions();
+              return;
+            }
+
+            // Usar forkJoin para cargar todas las secciones en paralelo
+            forkJoin(sectionQueries).subscribe({
+              next: (sectionQuestionsArrays) => {
+                const allSectionQuestions = sectionQuestionsArrays.flat();
+                this.questions = [...questionsWithoutSection, ...allSectionQuestions]
+                  .sort((a, b) => a.position - b.position);
+                console.log('📊 Total de preguntas cargadas para estadísticas:', this.questions.length);
+                this.loadSubmissions();
+              },
+              error: (err) => {
+                console.error('Error al cargar preguntas de secciones:', err);
+                this.questions = questionsWithoutSection.sort((a, b) => a.position - b.position);
+                this.loadSubmissions();
+              }
+            });
+          },
+          error: (err) => {
+            console.error('Error al cargar preguntas:', err);
+            this.errorMessage = 'Error al cargar las preguntas';
+            this.loading = false;
+          }
+        });
       },
       error: (err) => {
-        console.error('Error al cargar preguntas:', err);
-        this.errorMessage = 'Error al cargar las preguntas';
-        this.loading = false;
+        console.error('Error al cargar secciones:', err);
+        // Si falla cargar secciones, intentar cargar solo preguntas sin sección
+        this.questionService.getQuestionsByForm(this.formId, undefined).subscribe({
+          next: (questions) => {
+            this.questions = questions.sort((a, b) => a.position - b.position);
+            this.loadSubmissions();
+          },
+          error: (err2) => {
+            console.error('Error al cargar preguntas (fallback):', err2);
+            this.errorMessage = 'Error al cargar las preguntas';
+            this.loading = false;
+          }
+        });
       }
     });
   }
@@ -398,7 +446,7 @@ export class ResponsesListComponent implements OnInit {
         type: qStat.chartType as ChartType,
         data: data,
         options: this.chartOptions,
-      
+
       } as ChartConfiguration;
 
       const chart = new Chart(ctx, config as any);

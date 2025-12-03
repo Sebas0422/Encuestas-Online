@@ -38,19 +38,7 @@ export class ResponsesRepository {
         const url = `${this.apiUrl}/forms/${formId}/submissions`;
         return this.http.get<any>(url);
     }
-
-    // Obtener respuestas detalladas de una pregunta específica
-    getResponsesByQuestion(formId: number, questionId: number): Observable<any> {
-        const url = `${this.apiUrl}/forms/${formId}/questions/${questionId}/responses`;
-        return this.http.get<any>(url);
-    }
-
-    // Obtener estadísticas de un formulario
-    getFormStatistics(formId: number): Observable<any> {
-        const url = `${this.apiUrl}/forms/${formId}/statistics`;
-        return this.http.get<any>(url);
-    }
-
+    
     // Obtener reporte agregado de un formulario (con opción de incluir DRAFT)
     getFormReport(formId: number, includeDrafts: boolean = true): Observable<any> {
         const url = `${this.apiUrl}/reports/forms/${formId}?includeDrafts=${includeDrafts}`;

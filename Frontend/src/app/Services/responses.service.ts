@@ -24,14 +24,6 @@ export class ResponsesService {
         return this.repository.getSubmissionsByForm(formId);
     }
 
-    getResponsesByQuestion(formId: number, questionId: number): Observable<any> {
-        return this.repository.getResponsesByQuestion(formId, questionId);
-    }
-
-    getFormStatistics(formId: number): Observable<any> {
-        return this.repository.getFormStatistics(formId);
-    }
-
     getFormReport(formId: number, includeDrafts: boolean = true): Observable<any> {
         return this.repository.getFormReport(formId, includeDrafts);
     }

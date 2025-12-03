@@ -40,6 +40,9 @@ export class SectionRepository {
       .append('page', page.toString())
       .append('size', size.toString());
 
+    console.log('🌐 SectionRepository.getSectionsByForm - URL:', url);
+    console.log('📝 Parámetros:', { page, size });
+
     return this.http.get<PaginatedSections>(url, { params });
   }
 

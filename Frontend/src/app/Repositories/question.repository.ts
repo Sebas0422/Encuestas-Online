@@ -114,10 +114,14 @@ export class QuestionRepository {
       params = params.append('search', search);
     }
 
+    console.log('🌐 QuestionRepository.getQuestionsByForm - URL:', url);
+    console.log('📝 Parámetros HTTP:', { page, size, sectionId, type, search });
+    console.log('🔗 URL completa:', url + '?' + params.toString());
+
     return this.http.get<PaginatedQuestions>(url, { params });
   }
 
-  
+
 
   // ============================================
   // UPDATE - Actualizar preguntas
