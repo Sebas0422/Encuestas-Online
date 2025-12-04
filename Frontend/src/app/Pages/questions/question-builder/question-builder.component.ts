@@ -6,6 +6,8 @@ import { QuestionService } from '../../../Services/question.service';
 import { SectionService } from '../../../Services/section.service';
 import { FormService } from '../../../Services/form.service';
 import { PermissionService } from '../../../Services/permission.service';
+import { forkJoin, of } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import {
   QuestionResponse,
   QuestionType,
@@ -16,6 +18,7 @@ import {
 import { SectionResponse } from '../../../Models/section.model';
 import { Forms } from '../../../Models/form.model';
 import { MemberRole } from '../../../Models/member.model';
+import { PublishResponse } from '../../../Models/Publish.model';
 
 @Component({
   selector: 'app-question-builder',
@@ -57,6 +60,13 @@ export class QuestionBuilderComponent implements OnInit {
   QuestionType = QuestionType;
   SelectionMode = SelectionMode;
   TextMode = TextMode;
+
+  // Publish
+  showPublishModal = false;
+  formPublishedLink: string = '';
+
+
+
 
   constructor(
     private route: ActivatedRoute,
@@ -107,29 +117,85 @@ export class QuestionBuilderComponent implements OnInit {
     });
   }
 
+
+
   loadSections(): void {
+    console.log('🔍 Cargando secciones para formId:', this.formId);
     this.sectionService.getSectionsByForm(this.formId).subscribe({
       next: (sections) => {
+        console.log('✅ Secciones recibidas:', sections);
+        console.log('📊 Cantidad de secciones:', sections.length);
         this.sections = sections;
       },
       error: (err) => {
-        console.error('Error al cargar secciones:', err);
+        console.error('❌ Error al cargar secciones:', err);
       }
     });
   }
 
   loadQuestions(): void {
     this.loading = true;
-    this.questionService.getQuestionsByForm(
-      this.formId,
-      this.selectedSectionId || undefined
-    ).subscribe({
+    console.log('🔍 Cargando preguntas - formId:', this.formId, 'selectedSectionId:', this.selectedSectionId);
+
+    if (this.selectedSectionId === null) {
+      this.loadAllQuestions();
+    } else {
+      this.loadQuestionsBySection(this.selectedSectionId);
+    }
+  }
+
+  private loadAllQuestions(): void {
+    this.questionService.getQuestionsByForm(this.formId, undefined).subscribe({
+      next: (questionsWithoutSection) => {
+        console.log('✅ Preguntas sin sección:', questionsWithoutSection);
+
+        const sectionQueries = this.sections.map(section =>
+          this.questionService.getQuestionsByForm(this.formId, section.id)
+        );
+
+        if (sectionQueries.length === 0) {
+          this.questions = questionsWithoutSection.sort((a, b) => a.position - b.position);
+          this.loading = false;
+          console.log('📊 Total de preguntas:', this.questions.length);
+          return;
+        }
+
+        forkJoin(sectionQueries).subscribe({
+          next: (sectionQuestionsArrays) => {
+            const allSectionQuestions = sectionQuestionsArrays.flat();
+            console.log('✅ Preguntas de secciones:', allSectionQuestions);
+
+            this.questions = [...questionsWithoutSection, ...allSectionQuestions]
+              .sort((a, b) => a.position - b.position);
+
+            console.log('📊 Total de preguntas (sin sección + secciones):', this.questions.length);
+            this.loading = false;
+          },
+          error: (err) => {
+            console.error('❌ Error al cargar preguntas de secciones:', err);
+            this.questions = questionsWithoutSection.sort((a, b) => a.position - b.position);
+            this.loading = false;
+          }
+        });
+      },
+      error: (err) => {
+        console.error('❌ Error al cargar preguntas:', err);
+        this.errorMessage = 'Error al cargar las preguntas';
+        this.loading = false;
+      }
+    });
+  }
+
+  private loadQuestionsBySection(sectionId: number): void {
+    this.questionService.getQuestionsByForm(this.formId, sectionId).subscribe({
       next: (questions) => {
+        console.log('✅ Preguntas recibidas:', questions);
+        console.log('📊 Cantidad de preguntas:', questions.length);
         this.questions = questions.sort((a, b) => a.position - b.position);
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error al cargar preguntas:', err);
+        console.error('❌ Error al cargar preguntas:', err);
         this.errorMessage = 'Error al cargar las preguntas';
         this.loading = false;
       }
@@ -158,6 +224,57 @@ export class QuestionBuilderComponent implements OnInit {
         }
       });
     }
+  }
+
+  public openModalPublish(): void {
+    if (!this.canManageQuestions()) {
+      this.errorMessage = 'No tienes permisos para publicar el formulario';
+      return;
+    }
+    this.showPublishModal = true;
+
+  }
+
+  public publishForm(): void {
+    if (!this.form) {
+      this.errorMessage = 'Formulario no cargado';
+      return;
+    }
+
+    this.loading = true;
+    this.formService.publishForm(this.formId, false).pipe(
+
+    ).subscribe({
+
+      next: (response: PublishResponse) => {
+        const url = `${window.location.origin}/public/forms/${response.code}`;
+        this.formPublishedLink = url;
+        this.showSuccess('Formulario publicado exitosamente');
+        this.loading = false;
+        this.loadFormData();
+      },
+
+      error: (err) => {
+        this.errorMessage = 'Error al publicar el formulario';
+        console.error(err);
+      }
+    });
+  }
+
+  loadResponses(): void {
+    // Implement the logic to load responses here
+  }
+
+  closeModalPublish(): void {
+    this.showPublishModal = false;
+  }
+
+  copyToClipboard(text: string): void {
+    navigator.clipboard.writeText(text).then(() => {
+      this.showSuccess('Enlace copiado al portapapeles');
+    }).catch(() => {
+      this.errorMessage = 'Error al copiar el enlace';
+    });
   }
 
   deleteSection(section: SectionResponse): void {
@@ -359,6 +476,10 @@ export class QuestionBuilderComponent implements OnInit {
         this.loading = false;
         console.error(err);
       });
+  }
+
+  formReady(): void {
+    this.openNewQuestionModal(QuestionType.CHOICE);
   }
 
   // ============================================

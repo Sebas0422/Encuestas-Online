@@ -30,9 +30,14 @@ export class SectionService {
     page?: number,
     size?: number
   ): Observable<SectionResponse[]> {
+    console.log('🔧 SectionService.getSectionsByForm - formId:', formId, 'page:', page, 'size:', size);
     return this.repository
       .getSectionsByForm(formId, page, size)
-      .pipe(map((response: PaginatedSections) => response.items));
+      .pipe(map((response: PaginatedSections) => {
+        console.log('📦 Respuesta paginada completa:', response);
+        console.log('📋 Items extraídos:', response.items);
+        return response.items;
+      }));
   }
 
   getSectionsByFormPaginated(

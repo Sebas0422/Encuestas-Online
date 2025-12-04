@@ -69,10 +69,7 @@
   background-color: #3d3d3d;
 }
 
-.progress-bar {
-  border-radius: 10px;
-  transition: width 0.3s ease;
-}
+
 
 .form-body {
   padding: 0 20px;
@@ -236,4 +233,58 @@
   .form-header {
     padding: 40px 15px 30px;
   }
+}
+
+/* Success modal (centered, overlay like Google Forms) */
+.modal {
+  display: none; 
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  font-family: inherit;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(2px);
+}
+
+.modal-content {
+  position: relative;
+  max-width: 560px;
+  margin: 0 auto;
+  top: 15%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  z-index: 2100;
+  overflow: hidden;
+}
+
+.modal-body {
+  padding: 40px 36px;
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 4.5rem;
+  display: block;
+  margin: 0 auto 12px auto;
+}
+
+.modal-body h3 {
+  margin: 6px 0 6px 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.modal-body .muted {
+  color: #6c757d;
+}
+
+/* Prevent body scroll when modal open by adding .modal-open on body */
+body.modal-open {
+  overflow: hidden;
 }

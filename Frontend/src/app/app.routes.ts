@@ -9,7 +9,7 @@ import { FormsListComponent } from './Pages/forms/forms-list/forms-list.componen
 import { FormFormComponent } from './Pages/forms/form-form/form-form.component';
 import { FormPreviewComponent } from './Pages/forms/form-preview/form-preview.component';
 import { QuestionBuilderComponent } from './Pages/questions/question-builder/question-builder.component';
-
+import {  ResponsesListComponent } from './Pages/responses/reponses-list/responses-list.component'
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -57,6 +57,16 @@ export const routes: Routes = [
   {
     path: 'forms/:formId/preview',
     component: FormPreviewComponent,
+    canActivate: [authGuard]
+  }
+  ,
+  {
+    path: 'public/forms/:token',
+    component: FormPreviewComponent
+  },
+  {
+    path: 'forms/:formId/responses',
+    component: ResponsesListComponent,
     canActivate: [authGuard]
   }
 ];

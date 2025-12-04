@@ -25,6 +25,7 @@ public class PublicFormsController {
                 "openAt", e.getOpenAt(),
                 "closeAt", e.getCloseAt(),
                 "accessMode", e.getAccessMode(),
+                "anonymousMode", e.isAnonymousMode(),
                 "status", e.getStatus()
         ));
     }

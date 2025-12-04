@@ -129,9 +129,14 @@ export class QuestionService {
     page?: number,
     size?: number
   ): Observable<QuestionResponse[]> {
+    console.log('🔧 QuestionService.getQuestionsByForm - Parámetros:', { formId, sectionId, type, search, page, size });
     return this.repository
       .getQuestionsByForm(formId, sectionId, type, search, page, size)
-      .pipe(map((response: PaginatedQuestions) => response.items));
+      .pipe(map((response: PaginatedQuestions) => {
+        console.log('📦 Respuesta paginada de preguntas:', response);
+        console.log('📋 Items de preguntas extraídos:', response.items);
+        return response.items;
+      }));
   }
 
   getQuestionsByFormPaginated(

@@ -188,6 +188,11 @@ export class FormFormComponent implements OnInit {
       requests.push(this.formService.updateTheme(id, current.themeMode, current.themePrimary));
     }
 
+    // D2) Modo de acceso (PUBLIC, PRIVATE, RESTRICTED)
+    if (current.accessMode !== original.accessMode) {
+      requests.push(this.formService.updateAccessMode(id, current.accessMode));
+    }
+
     // E) Flags sueltos (Anónimo, AutoGuardado, Edición)
     if (current.anonymousMode !== original.anonymousMode) {
       requests.push(this.formService.toggleAnonymous(id, current.anonymousMode));
@@ -258,5 +263,23 @@ export class FormFormComponent implements OnInit {
 
   cancel(): void {
     this.goBack();
+  }
+
+  /**
+   * Detecta si el modo anónimo debe estar deshabilitado
+   * Solo está disponible para formularios PUBLIC
+   */
+  isAnonymousModeDisabled(): boolean {
+    return this.formData.accessMode !== 'PUBLIC';
+  }
+
+  /**
+   * Se ejecuta cuando cambia el modo de acceso
+   * Si el formulario es PRIVATE o RESTRICTED, fuerza anonymousMode a false
+   */
+  onAccessModeChange(): void {
+    if (this.formData.accessMode !== 'PUBLIC') {
+      this.formData.anonymousMode = false;
+    }
   }
 }

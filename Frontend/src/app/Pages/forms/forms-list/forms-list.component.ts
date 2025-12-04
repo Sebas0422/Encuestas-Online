@@ -117,6 +117,10 @@ export class FormsListComponent implements OnInit {
     this.router.navigate(['/forms', formId, 'preview']);
   }
 
+  navigateToResponses(formId: number): void {
+    this.router.navigate(['/forms', formId, 'responses']);
+  }
+
   canManageForms(): boolean {
     return this.permissionService.canManageForms(this.userRole);
   }
