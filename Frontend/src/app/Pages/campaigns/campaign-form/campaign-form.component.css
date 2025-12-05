@@ -8,14 +8,12 @@
 }
 
 .btn-nur-primary {
-  background-color: #004a99;
-  border-color: #004a99;
+  background: linear-gradient(135deg, #3152e7 0%, #220ed8 100%);  border-color: #004a99;
   color: white;
 }
 
 .btn-nur-primary:hover {
-  background-color: #003a7a;
-  border-color: #003a7a;
+  background: linear-gradient(135deg, #3152e7 0%, #220ed8 100%);  border-color: #003a7a;
   color: white;
 }
 
@@ -23,7 +21,7 @@
   background-color: #6c757d;
   border-color: #6c757d;
 }
-
+  
 .campaign-form-card {
   border: none;
   border-radius: 12px;

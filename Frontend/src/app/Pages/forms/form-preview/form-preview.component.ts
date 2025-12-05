@@ -209,7 +209,6 @@ export class FormPreviewComponent implements OnInit {
       }
     });
 
-
     this.updateCurrentSectionQuestions();
   }
 
