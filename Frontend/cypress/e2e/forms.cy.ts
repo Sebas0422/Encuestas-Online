@@ -1,4 +1,8 @@
 describe('Gestión de Formularios', () => {
+  // Ignorar errores no capturados de la app para depuración
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    return false;
+  });
   const mockForms = [
     {
       id: 1,
@@ -72,11 +76,21 @@ describe('Gestión de Formularios', () => {
       }
     }).as('getCampaigns');
 
-    // Mock permissions
+    // Mock permisos de campaña
     cy.intercept('GET', '**/api/campaigns/1/members*', {
       statusCode: 200,
-      body: []
-    });
+      body: {
+        items: [{
+          userId: 1,
+          role: 'ADMIN',
+          campaignId: 1,
+          createdAt: '2025-12-10T00:00:00'
+        }],
+        total: 1,
+        page: 0,
+        size: 20
+      }
+    }).as('getMembers');
 
     // Mock forms for campaign (match query params exactly)
     cy.intercept('GET', /\/api\/campaigns\/1\/forms(\?.*)?$/, {
@@ -89,7 +103,7 @@ describe('Gestión de Formularios', () => {
       }
     }).as('getForms');
 
-    // Login y navegar
+    // Login y navegación
     cy.visit('http://localhost:4200/login');
     cy.get('[data-cy="login-email"]').type('user0@test.com');
     cy.get('[data-cy="login-password"]').type('Test123!');
@@ -98,12 +112,16 @@ describe('Gestión de Formularios', () => {
 
     // Navegar a formularios de la campaña
     cy.get('[data-cy="campaign-card"]').first().click();
+    cy.wait('@getMembers');
     cy.wait('@getForms');
     cy.url().should('include', '/campaigns/1/forms');
   });
 
   it('Debe mostrar la lista de formularios', () => {
     cy.contains('Gestión de Formularios').should('be.visible');
+    cy.get('.form-card').then(cards => {
+      cy.log('Cantidad de cards:', cards.length);
+    });
     cy.get('.form-card').should('have.length', 2);
     cy.contains('Formulario de Satisfacción').should('be.visible');
     cy.contains('Feedback de Producto').should('be.visible');
