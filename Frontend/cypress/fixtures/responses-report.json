@@ -1,0 +1,47 @@
+{
+  "formId": 1,
+  "totalSubmissions": 15,
+  "completedCount": 12,
+  "draftCount": 3,
+  "questions": [
+    {
+      "questionId": 1,
+      "questionText": "¿Cómo calificarías nuestro servicio?",
+      "questionType": "CHOICE",
+      "answeredCount": 12,
+      "omittedCount": 0,
+      "options": [
+        { "optionId": 1, "label": "Excelente", "count": 5 },
+        { "optionId": 2, "label": "Bueno", "count": 4 },
+        { "optionId": 3, "label": "Regular", "count": 2 },
+        { "optionId": 4, "label": "Malo", "count": 1 }
+      ]
+    },
+    {
+      "questionId": 2,
+      "questionText": "¿Recomendarías nuestro servicio?",
+      "questionType": "TRUE_FALSE",
+      "answeredCount": 12,
+      "omittedCount": 0,
+      "trueCount": 9,
+      "falseCount": 3
+    },
+    {
+      "questionId": 3,
+      "questionText": "Comentarios adicionales",
+      "questionType": "TEXT",
+      "answeredCount": 8,
+      "omittedCount": 4,
+      "responses": [
+        "Excelente servicio, muy satisfecho",
+        "Podrían mejorar los tiempos de respuesta",
+        "Todo perfecto, gracias",
+        "Muy buena atención al cliente",
+        "Nada que agregar",
+        "Me gustó mucho la experiencia",
+        "Seguiré usando el servicio",
+        "Recomendado 100%"
+      ]
+    }
+  ]
+}

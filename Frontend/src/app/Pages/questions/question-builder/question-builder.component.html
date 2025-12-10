@@ -18,7 +18,7 @@
         <button *ngIf="canManageQuestions()" class="btn btn-primary" (click)="createSection()">
           <i class="bi bi-plus-circle"></i> Nueva Sección
         </button>
-        <button *ngIf="canManageQuestions()" class="btn btn-nur-primary" (click)="openModalPublish()"
+        <button *ngIf="canManageQuestions()" class="btn btn-nur-primary" data-cy="publish-form-btn" (click)="openModalPublish()"
           style="background-color: rgb(47, 255, 57);">
           <i class="bi bi-check2-circle"></i> Publicar Formulario
         </button>
@@ -425,7 +425,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="closeModalPublish()">Cancelar</button>
-        <button type="button" class="btn btn-success" (click)="publishForm()" [disabled]="loading">
+        <button type="button" class="btn btn-success" data-cy="confirm-publish-btn" (click)="publishForm()" [disabled]="loading">
           <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
           Publicar
         </button>

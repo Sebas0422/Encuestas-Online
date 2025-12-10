@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "formId": 1,
+    "sectionId": null,
+    "position": 1,
+    "type": "CHOICE",
+    "prompt": "¿Cómo calificarías nuestro servicio?",
+    "helpText": "Selecciona la opción que mejor describa tu experiencia",
+    "required": true,
+    "shuffleOptions": false,
+    "selectionMode": "SINGLE",
+    "options": [
+      { "id": 1, "label": "Excelente", "correct": false },
+      { "id": 2, "label": "Bueno", "correct": false },
+      { "id": 3, "label": "Regular", "correct": false },
+      { "id": 4, "label": "Malo", "correct": false }
+    ],
+    "createdAt": "2025-01-15T00:00:00",
+    "updatedAt": "2025-01-15T00:00:00"
+  },
+  {
+    "id": 2,
+    "formId": 1,
+    "sectionId": null,
+    "position": 2,
+    "type": "TRUE_FALSE",
+    "prompt": "¿Recomendarías nuestro servicio?",
+    "helpText": null,
+    "required": true,
+    "shuffleOptions": false,
+    "options": [
+      { "id": 5, "label": "Sí", "correct": false },
+      { "id": 6, "label": "No", "correct": false }
+    ],
+    "createdAt": "2025-01-15T00:00:00",
+    "updatedAt": "2025-01-15T00:00:00"
+  },
+  {
+    "id": 3,
+    "formId": 1,
+    "sectionId": null,
+    "position": 3,
+    "type": "TEXT",
+    "prompt": "Comentarios adicionales",
+    "helpText": "Comparte tus comentarios o sugerencias",
+    "required": false,
+    "shuffleOptions": false,
+    "textMode": "LONG",
+    "placeholder": "Escribe aquí tus comentarios...",
+    "createdAt": "2025-01-15T00:00:00",
+    "updatedAt": "2025-01-15T00:00:00"
+  }
+]

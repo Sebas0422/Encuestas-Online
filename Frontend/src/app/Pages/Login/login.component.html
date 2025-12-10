@@ -8,6 +8,7 @@
             <input type="text"
                    id="email"
                    name="email"
+                   data-cy="login-email"
                    [(ngModel)]="email"
                    class="form-control form-control-lg"
                    placeholder="Ingrese su email"
@@ -17,12 +18,14 @@
             <input type="password"
                    id="password"
                    name="password"
+                   data-cy="login-password"
                    [(ngModel)]="password"
                    class="form-control form-control-lg"
                    placeholder="Ingrese su contraseña"
                    required>
           </div>
           <button type="submit"
+                  data-cy="login-submit"
                   class="btn btn-primary w-100 btn-lg mb-3"
                   [disabled]="!loginForm.valid">
             Acceder
@@ -32,10 +35,10 @@
             <a href="#" class="form-text">¿Olvidó su contraseña?</a>
           </div>
           <div class="text-center mb-3">
-            <a href="/register" class="form-text">¿No tiene cuenta?</a>
+            <a href="/register" data-cy="register-link" class="form-text">¿No tiene cuenta?</a>
           </div>
 
-          <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+          <div *ngIf="errorMessage" data-cy="login-error" class="alert alert-danger mt-3">
             {{ errorMessage }}
           </div>
         </form>

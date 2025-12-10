@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "campaignId": 1,
+    "title": "Encuesta de Satisfacción General",
+    "description": "Formulario para medir la satisfacción del cliente",
+    "accessMode": "PUBLIC",
+    "anonymousMode": true,
+    "status": "PUBLISHED",
+    "createdAt": "2025-01-15T00:00:00",
+    "updatedAt": "2025-01-15T00:00:00"
+  },
+  {
+    "id": 2,
+    "campaignId": 1,
+    "title": "Feedback de Servicio",
+    "description": "Evaluación del servicio al cliente",
+    "accessMode": "PUBLIC",
+    "anonymousMode": false,
+    "status": "DRAFT",
+    "createdAt": "2025-01-20T00:00:00",
+    "updatedAt": "2025-01-20T00:00:00"
+  }
+]

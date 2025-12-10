@@ -8,7 +8,7 @@
             <h2 class="text-nur-blue mb-1">Gestión de Campañas</h2>
             <p class="text-muted mb-0">Administra todas las campañas de encuestas</p>
           </div>
-          <button class="btn btn-nur-primary btn-lg" (click)="navigateToCreate()">
+          <button class="btn btn-nur-primary btn-lg" data-cy="create-campaign-btn" (click)="navigateToCreate()">
             <i class="bi bi-plus-circle me-2"></i>
             Nueva Campaña
           </button>
@@ -40,7 +40,7 @@
     <!-- Campaigns grid -->
     <div class="row" *ngIf="!loading && campaigns.length > 0">
       <div class="col-12 col-md-6 col-lg-4 mb-4" *ngFor="let campaign of campaigns">
-        <div class="card campaign-card h-100">
+        <div class="card campaign-card h-100" data-cy="campaign-card">
           <div class="card-body" (click)="navigateToForms(campaign.id!)" 
           style="cursor: pointer; transition: 0.3s;"
           onmouseover="this.style.backgroundColor='#f8f9fa'" 
@@ -72,11 +72,11 @@
                 <i class="bi bi-people me-1"></i>
                 Miembros
               </button>
-              <button class="btn btn-outline-nur btn-sm" (click)="navigateToEdit(campaign.id!)" *ngIf="canEdit(campaign.id)">
+              <button class="btn btn-outline-nur btn-sm" data-cy="edit-campaign-btn" (click)="navigateToEdit(campaign.id!)" *ngIf="canEdit(campaign.id)">
                 <i class="bi bi-pencil me-1"></i>
                 Editar
               </button>
-              <button class="btn btn-outline-danger btn-sm" (click)="deleteCampaign(campaign.id!, campaign.name)" *ngIf="canDelete(campaign.id)">
+              <button class="btn btn-outline-danger btn-sm" data-cy="delete-campaign-btn" (click)="deleteCampaign(campaign.id!, campaign.name)" *ngIf="canDelete(campaign.id)">
                 <i class="bi bi-trash me-1"></i>
                 Eliminar
               </button>

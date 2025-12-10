@@ -24,13 +24,13 @@
                                 <label class="form-label">Título del Formulario <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" [(ngModel)]="formData.title" name="title"
-                                    required placeholder="Ej: Encuesta de Satisfacción">
+                                    data-cy="form-title" required placeholder="Ej: Encuesta de Satisfacción">
                             </div>
 
                             <div class="col-12">
                                 <label class="form-label">Descripción</label>
                                 <textarea class="form-control" [(ngModel)]="formData.description" name="description"
-                                    rows="3" placeholder="Describe el propósito de este formulario..."></textarea>
+                                    data-cy="form-description" rows="3" placeholder="Describe el propósito de este formulario..."></textarea>
                             </div>
 
                             <div class="col-md-6">
@@ -42,7 +42,7 @@
                             <div class="col-md-6">
                                 <label class="form-label">Modo de Acceso</label>
                                 <select class="form-select" [(ngModel)]="formData.accessMode" name="accessMode"
-                                    (ngModelChange)="onAccessModeChange()">
+                                    data-cy="form-accessMode" (ngModelChange)="onAccessModeChange()">
                                     <option value="PUBLIC">Público</option>
                                     <option value="PRIVATE">Privado (Requiere Login)</option>
                                 </select>
@@ -77,7 +77,7 @@
                                 <div class="form-check form-switch mb-2">
                                     <input class="form-check-input" type="checkbox" id="anonymous"
                                         [(ngModel)]="formData.anonymousMode" name="anonymousMode"
-                                        [disabled]="isAnonymousModeDisabled()">
+                                        data-cy="form-anonymousMode" [disabled]="isAnonymousModeDisabled()">
                                     <label class="form-check-label" for="anonymous">
                                         Respuestas Anónimas
                                         <small *ngIf="isAnonymousModeDisabled()" class="text-muted d-block">
@@ -123,7 +123,7 @@
                             <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
                                 Cancelar
                             </button>
-                            <button type="submit" class="btn btn-primary" [disabled]="loading || !form.valid">
+                            <button type="submit" class="btn btn-primary" data-cy="form-submit" [disabled]="loading || !form.valid">
                                 <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status"
                                     aria-hidden="true"></span>
                                 {{ loading ? 'Guardando...' : (isEditMode ? 'Actualizar Formulario':'Crear Formulario') }}

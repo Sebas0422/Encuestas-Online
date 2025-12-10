@@ -8,7 +8,7 @@
                         <h2 class="text-nur-blue mb-1">Gestión de Formularios</h2>
                         <p class="text-muted mb-0">Administra todas las formularios de encuestas</p>
                     </div>
-                    <button *ngIf="canManageForms()" class="btn btn-nur-primary btn-lg" (click)="navigateToCreate()">
+                    <button *ngIf="canManageForms()" class="btn btn-nur-primary btn-lg" data-cy="create-form-btn" (click)="navigateToCreate()">
                         <i class="bi bi-plus-circle me-2"></i>
                         Nuevo Formulario
                     </button>
