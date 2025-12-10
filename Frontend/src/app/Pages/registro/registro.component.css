@@ -28,8 +28,9 @@
 
 /* Título de la caja */
 .card-title {
-  color: #004a99;
+  border-color: #004a99;
   font-weight: 300;
+  color: #004a99;
 }
 
 /* Botón principal */
@@ -44,11 +45,14 @@
 }
 
 /* Estilo de links */
-.form-text, .form-text a {
+.form-text,
+.form-text a {
   color: #004a99;
   text-decoration: none;
 }
-.form-text:hover, .form-text a:hover {
+
+.form-text:hover,
+.form-text a:hover {
   text-decoration: underline;
 }
 

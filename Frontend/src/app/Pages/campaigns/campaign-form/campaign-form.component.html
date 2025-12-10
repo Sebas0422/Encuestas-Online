@@ -49,6 +49,7 @@
                   class="form-control form-control-lg"
                   id="name"
                   name="name"
+                  data-cy="campaign-name"
                   [(ngModel)]="campaign.name"
                   placeholder="Ej: Campaña de Verano 2026"
                   required
@@ -70,6 +71,7 @@
                   class="form-control"
                   id="description"
                   name="description"
+                  data-cy="campaign-description"
                   rows="4"
                   [(ngModel)]="campaign.description"
                   placeholder="Describe el objetivo y alcance de esta campaña..."
@@ -94,6 +96,7 @@
                     class="form-control"
                     id="startDate"
                     name="startDate"
+                    data-cy="campaign-startDate"
                     [(ngModel)]="campaign.startDate"
                     required
                     #startDate="ngModel"
@@ -114,6 +117,7 @@
                     class="form-control"
                     id="endDate"
                     name="endDate"
+                    data-cy="campaign-endDate"
                     [(ngModel)]="campaign.endDate"
                     required
                     #endDate="ngModel"
@@ -136,6 +140,7 @@
                 </button>
                 <button
                   type="submit"
+                  data-cy="campaign-submit"
                   class="btn btn-nur-primary btn-lg"
                   [disabled]="loading || campaignForm.invalid">
                   <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>

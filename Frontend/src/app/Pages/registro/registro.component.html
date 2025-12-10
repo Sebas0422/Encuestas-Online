@@ -8,6 +8,7 @@
             <input type="text"
                    id="fullName"
                    name="fullName"
+                   data-cy="register-fullName"
                    [(ngModel)]="fullName"
                    class="form-control form-control-lg"
                    placeholder="Nombre Completo"
@@ -18,6 +19,7 @@
             <input type="email"
                    id="email"
                    name="email"
+                   data-cy="register-email"
                    [(ngModel)]="email"
                    class="form-control form-control-lg"
                    placeholder="Correo Electrónico"
@@ -29,6 +31,7 @@
             <input type="password"
                    id="password"
                    name="password"
+                   data-cy="register-password"
                    [(ngModel)]="password"
                    class="form-control form-control-lg"
                    placeholder="Contraseña"
@@ -37,6 +40,7 @@
           </div>
 
           <button type="submit"
+                  data-cy="register-submit"
                   class="btn btn-primary w-100 btn-lg mb-3"
                   [disabled]="!registerForm.valid">
             Registrarse
@@ -50,7 +54,7 @@
 
         <hr class="my-4">
         <div class="text-center">
-          <a href="/login" class="form-text">¿Ya tienes cuenta? Inicia sesión</a>
+          <a href="/login" data-cy="login-link" class="form-text">¿Ya tienes cuenta? Inicia sesión</a>
         </div>
       </div>
     </div>

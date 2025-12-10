@@ -5,15 +5,16 @@ import { CampaignListComponent } from './Pages/campaigns/campaign-list/campaign-
 import { CampaignFormComponent } from './Pages/campaigns/campaign-form/campaign-form.component';
 import { CampaignMembersComponent } from './Pages/campaigns/campaign-members/campaign-members.component';
 import { authGuard } from './Guards/auth.guard';
+import { guestGuard } from './Guards/guest.guard';
 import { FormsListComponent } from './Pages/forms/forms-list/forms-list.component';
 import { FormFormComponent } from './Pages/forms/form-form/form-form.component';
 import { FormPreviewComponent } from './Pages/forms/form-preview/form-preview.component';
 import { QuestionBuilderComponent } from './Pages/questions/question-builder/question-builder.component';
-import {  ResponsesListComponent } from './Pages/responses/reponses-list/responses-list.component'
+import { ResponsesListComponent } from './Pages/responses/reponses-list/responses-list.component'
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: '', redirectTo: '/campaigns', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent, canActivate: [guestGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [guestGuard] },
   {
     path: 'campaigns',
     component: CampaignListComponent,
